@@ -1,3 +1,3 @@
 class ExerciseTemplate < ActiveRecord::Base
-  belongs_to :workout_template
+  has_and_belongs_to_many :workout_templates
 end
