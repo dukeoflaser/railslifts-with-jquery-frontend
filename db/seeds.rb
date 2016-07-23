@@ -30,9 +30,14 @@ Program.create(owner_id: 1, name: "StrongLifts 5x5", description: "Strength Trai
 Program.create(owner_id: 1, name: "Starting Strength", description: "Strength Training")
 Program.create(owner_id: 2, name: "Buns of Steel", description: "Where Baking and Welding Meet")
 
-
 WorkoutTemplate.create(owner_id: 1, name: "Workout A", description: "1st Workout for Stronglifts")
 WorkoutTemplate.create(owner_id: 1, name: "Workout B", description: "2nd Workout for Stronglifts")
 
 ExerciseTemplate.create(name: "Squats", reps: "5 5 5", starting_weight: 45, rest: 180)
 ExerciseTemplate.create(name: "Deadlifts", reps: "5 5 5", starting_weight: 95, rest: 180)
+
+Workout.create(user_id: 1, name: "Workout A")
+Workout.create(user_id: 1, name: "Workout B")
+
+Exercise.create(name: "Squats", reps: "5 5 5", starting_weight: 45, rest: 180)
+Exercise.create(name: "Deadlifts", reps: "5 5 5", starting_weight: 95, rest: 180)
