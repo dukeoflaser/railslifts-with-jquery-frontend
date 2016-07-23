@@ -11,7 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160723025748) do
+ActiveRecord::Schema.define(version: 20160723030013) do
+
+  create_table "exercise_templates", force: :cascade do |t|
+    t.string   "name"
+    t.string   "reps"
+    t.string   "starting_weight"
+    t.integer  "rest"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
 
   create_table "programs", force: :cascade do |t|
     t.integer  "owner_id"
