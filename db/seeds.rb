@@ -29,3 +29,7 @@ user4.save!
 Program.create(owner_id: 1, name: "StrongLifts 5x5", description: "Strength Training")
 Program.create(owner_id: 1, name: "Starting Strength", description: "Strength Training")
 Program.create(owner_id: 2, name: "Buns of Steel", description: "Where Baking and Welding Meet")
+
+
+WorkoutTemplate.create(owner_id: 1, name: "Workout A", description: "1st Workout for Stronglifts")
+WorkoutTemplate.create(owner_id: 1, name: "Workout B", description: "2nd Workout for Stronglifts")
