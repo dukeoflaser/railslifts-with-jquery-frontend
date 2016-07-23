@@ -47,12 +47,13 @@
       #Name, Purpose, has_many
     #workout_templates
       #owner_id, has_many exercise templates
+      ###Need to add name and description
     #exercise_template
       #Name, Description, YouTube Link (Validate YouTube Link)  
     #workouts
-      #user_id, has_many exercise
+      #user_id, name, date, has_many exercise
 
     #exercise
       #name (must correspond with exercise_template name), reps, weight, rest
 
-      rails g model exercise_template name:string reps:string starting_weight:string rest:integer --no-test-framework --no-assets --no-jbuilder
+      rails g model exercise name:string reps:string starting_weight:string rest:integer --no-test-framework --no-assets --no-jbuilder
