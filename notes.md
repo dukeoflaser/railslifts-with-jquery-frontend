@@ -44,10 +44,15 @@
     #users
       #Name, Email, Age, Weight, Height, Password
     #programs
-      #Name, Purpose, Workouts (Array of Workout Templates ids)
+      #Name, Purpose, has_many
     #workout_templates
-
+      #owner_id, has_many exercise templates
+    #exercise_template
+      #Name, Description, YouTube Link (Validate YouTube Link)  
     #workouts
-      #user_id, workdone ( :exercise => {:movement => <BenchPress>, :sets => [5, 5, 5], :weight => 170, :rest 180})
-    #movements
-      #Name, Description, YouTube Link (Validate YouTube Link)
+      #user_id, has_many exercise
+
+    #exercise
+      #name (must correspond with exercise_template name), reps, weight, rest
+
+      rails g model exercise_template name:string reps:string starting_weight:string rest:integer --no-test-framework --no-assets --no-jbuilder
