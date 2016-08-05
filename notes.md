@@ -5,7 +5,7 @@
   => Log In
 
 # After Log In
-  - User 'Profile'
+  - User 'Profile' -> #show page?
 
     =>Link To Program Index (/programs)
       -Displays All Programs
