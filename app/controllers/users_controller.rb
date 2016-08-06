@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   def show
+    redirect_to new_user_session_path if current_user.nil?
   end
 
   def edit
@@ -10,8 +11,4 @@ class UsersController < ApplicationController
 
   def destroy
   end
-
-  def next_workout
-  end
-
 end
