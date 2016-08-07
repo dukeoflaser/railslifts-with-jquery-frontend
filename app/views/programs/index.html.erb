@@ -2,12 +2,12 @@
 <p>Find me in app/views/programs/index.html.erb</p>
 
 <p>Link to individual programs.</p>
-<% Program.all.each do |program| %>
+<% @programs.each do |program| %>
   <%= link_to program.name, program_path(program) %>
   <br>
 <% end %>
-<p>Link to users programs /my_programs</p>
-<%= link_to 'View My Programs', my_programs_path %>
+<p>Link to programs</p>
+<%= link_to @current_programs_text, @current_programs_link %>
 <p>Link to New Program</p>
 <%= link_to 'Create New Program', new_program_path %>
 <p>Nav back to user profile.</p>
