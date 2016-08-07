@@ -7,12 +7,14 @@ Rails.application.routes.draw do
   end
 
   resources :programs
+  resources :workouts, only: [:show, :new, :create]
 
   root to: "home#index"
 
   get '/next_workout', to: 'workouts#new', as: 'next_workout'
   get '/profile', to: 'users#show', as: 'profile'
   get '/my_programs', to: 'programs#index', as: 'my_programs'
+  get '/workout_history', to: 'workouts#index', as: 'workout_history'
 
 
 end
