@@ -6,11 +6,11 @@ Rails.application.routes.draw do
     resources :programs
   end
 
-  resources :programs, only:[:index, :show]
+  resources :programs
 
   root to: "home#index"
 
-  get 'users/:id/next_workout', to: 'workouts#new', as: 'next_workout'
+  get '/next_workout', to: 'workouts#new', as: 'next_workout'
   get '/profile', to: 'users#show', as: 'profile'
   get '/my_programs', to: 'programs#index', as: 'my_programs'
 
