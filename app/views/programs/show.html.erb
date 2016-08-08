@@ -9,6 +9,7 @@
   <%= workout_template.description %><br>
   <% workout_template.exercise_templates.each do |exercise_template| %>
     Exercise Name: <%= exercise_template.name %><br>
+    Sets: <%= exercise_template.sets %><br>
     Reps: <%= exercise_template.reps %><br>
     Starting Weight: <%= exercise_template.starting_weight %> lbs<br>
     Rest Period: <%= exercise_template.rest %> seconds<br>
