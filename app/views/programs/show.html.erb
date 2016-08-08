@@ -17,5 +17,5 @@
   <br>
 <% end %>
 
-<p>If user created, have edit/delete link</p>
-<p>Nav back to user profile.</p>
+<%= link_to 'Edit Program', edit_program_path(@program) if current_user.id == @program.owner_id %>
+<%= link_to "Delete Program", program_path(@program), method: :delete, data: {confirm: "Are you sure? This can not be undone"} if current_user.id == @program.owner_id %>
