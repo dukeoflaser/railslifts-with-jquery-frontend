@@ -12,6 +12,7 @@ class ProgramsController < ApplicationController
   end
 
   def show
+    @program = Program.find(params[:id])
   end
 
   def new
