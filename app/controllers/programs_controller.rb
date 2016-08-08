@@ -1,6 +1,6 @@
 class ProgramsController < ApplicationController
   def index
-    if request.fullpath == "/my_programs"
+    if request.fullpath == my_programs_path
       @programs = current_user.programs
       @current_programs_link = programs_path
       @current_programs_text = 'View All Programs'
