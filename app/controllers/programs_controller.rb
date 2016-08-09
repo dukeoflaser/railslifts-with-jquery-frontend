@@ -35,6 +35,9 @@ class ProgramsController < ApplicationController
   end
 
   def destroy
+    @program = Program.find(params[:id])
+    @program.delete
+    redirect_to my_programs_path
   end
 
   def program_params
