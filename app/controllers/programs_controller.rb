@@ -16,9 +16,16 @@ class ProgramsController < ApplicationController
   end
 
   def new
+    @program = Program.new
   end
 
-  def created
+  def create
+    @program = Program.new(program_params)
+    @program.owner_id = current_user.id
+    @program.workout_templates << WorkoutTemplate.find(params[:program][:workout_templates])
+    @program.save
+
+    redirect_to program_path(@program)
   end
 
   def edit
@@ -28,6 +35,10 @@ class ProgramsController < ApplicationController
   end
 
   def destroy
+  end
+
+  def program_params
+    params.require(:program).permit(:name, :description)
   end
 
 end

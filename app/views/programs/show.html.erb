@@ -2,6 +2,7 @@
 <p>Find me in app/views/programs/show.html.erb</p>
 
 <h1><%= @program.name %></h1>
+<h3><%= @program.description %></h3>
 <p>By <%= @program.owner_name %></p>
 
 <% @program.workout_templates.each do |workout_template| %>
@@ -16,6 +17,6 @@
   <% end %>
   <br>
 <% end %>
-
+<p>Add a 'copy to my programs' button.</p>
 <%= link_to 'Edit Program', edit_program_path(@program) if current_user.id == @program.owner_id %>
 <%= link_to "Delete Program", program_path(@program), method: :delete, data: {confirm: "Are you sure? This can not be undone"} if current_user.id == @program.owner_id %>
