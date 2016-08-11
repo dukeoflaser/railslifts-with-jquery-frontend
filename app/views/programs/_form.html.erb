@@ -17,7 +17,7 @@
 
       <% if !params.nil? && params.key?(:program) && params[:program].key?(:workout_templates_attributes) %>
         <% params[:program][:workout_templates_attributes].each do |k, v| %>
-          <%= f.fields_for :workout_templates do |ff| %>
+          <%= f.fields_for @program.workout_templates.build do |ff| %>
             <%= ff.collection_select(:id, WorkoutTemplate.all, :id, :name, {:selected => v['id'] }) %><br>
           <% end %>
         <% end %>
@@ -31,6 +31,9 @@
 
 
     <%= f.submit 'Add Workout', name: 'add_workout' %>
+    <% if @program.workout_templates.size > 0 %>
+      <%= f.submit 'Remove Workout', name: 'remove_workout' %>
+    <% end %>
     <%= f.submit %>
   </div>
 <% end %>

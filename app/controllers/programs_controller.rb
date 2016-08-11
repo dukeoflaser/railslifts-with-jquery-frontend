@@ -25,6 +25,10 @@ class ProgramsController < ApplicationController
     if params[:add_workout]
       @program.workout_templates.build
       render 'new'
+    elsif params[:remove_workout]
+      last_workout = params[:program][:workout_templates_attributes].keys.last
+      params[:program][:workout_templates_attributes].delete(last_workout)
+      render 'new'
     else
       @program.owner_id = current_user.id
       @program.workout_templates << WorkoutTemplate.find(params[:program][:workout_templates])
