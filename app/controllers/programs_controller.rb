@@ -21,11 +21,16 @@ class ProgramsController < ApplicationController
 
   def create
     @program = Program.new(program_params)
-    @program.owner_id = current_user.id
-    @program.workout_templates << WorkoutTemplate.find(params[:program][:workout_templates])
-    @program.save
 
-    redirect_to program_path(@program)
+    if params[:add_workout]
+      @program.workout_templates.build
+      render 'new'
+    else
+      @program.owner_id = current_user.id
+      @program.workout_templates << WorkoutTemplate.find(params[:program][:workout_templates])
+      @program.save
+      redirect_to program_path(@program)
+    end
   end
 
   def edit

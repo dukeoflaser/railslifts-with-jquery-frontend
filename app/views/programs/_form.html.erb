@@ -14,7 +14,23 @@
   <div class="actions">
     Name: <%= f.text_field :name %><br>
     Description: <%= f.text_field :description %><br>
-    Add Workout: <%= f.collection_select(:workout_templates, WorkoutTemplate.all, :id, :name) %><br>
+
+      <% if !params.nil? && params.key?(:program) && params[:program].key?(:workout_templates_attributes) %>
+        <% params[:program][:workout_templates_attributes].each do |k, v| %>
+          <%= f.fields_for :workout_templates do |ff| %>
+            <%= ff.collection_select(:id, WorkoutTemplate.all, :id, :name, {:selected => v['id'] }) %><br>
+          <% end %>
+        <% end %>
+      <% end %>
+
+      <%= f.fields_for :workout_templates do |ff| %>
+        <%= ff.collection_select(:id, WorkoutTemplate.all, :id, :name) %><br>
+      <% end %>
+
+
+
+
+    <%= f.submit 'Add Workout', name: 'add_workout' %>
     <%= f.submit %>
   </div>
 <% end %>
