@@ -21,6 +21,8 @@ class ProgramsController < ApplicationController
 
   def create
     @program = Program.new(program_params)
+    @templates = params[:program][:workout_templates_attributes]
+
     if params[:add_workout]
       @program.workout_templates.build
       # binding.pry

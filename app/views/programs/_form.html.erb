@@ -15,29 +15,20 @@
     Name: <%= f.text_field :name %><br>
     Description: <%= f.text_field :description %><br>
 
-      <% if !params.nil? && params.key?(:program) && params[:program].key?(:workout_templates_attributes) %>
-        <% params[:program][:workout_templates_attributes].each do |k, v| %>
-          <%= f.fields_for :workout_templates do |ff| %>
-            <%= ff.collection_select(:id, WorkoutTemplate.all, :id, :name, {:selected => v['id'] }) %><br>
-          <% end %>
-        <% end %>
-      <% end %>
-
-      <% unless params.key?(:remove_workout) %>
-        <%= f.fields_for :workout_templates do |ff| %>
-          <%= ff.collection_select(:id, WorkoutTemplate.all, :id, :name) %><br>
-        <% end %>
-      <% end %>
-
-
-
-
-    <%= f.submit 'Add Workout', name: 'add_workout' %>
-    <% if @program.workout_templates.size > 0 %>
-      <% if params[:program][:workout_templates_attributes].nil? || !params[:program][:workout_templates_attributes].empty? %>
-        <%= f.submit 'Remove Workout', name: 'remove_workout' %>
+    <% if params.dig(:program,:workout_templates_attributes) %>
+      <% @templates.each do |k, v| %>
+        <%= workout_template_selection(f, v) %><br>
       <% end %>
     <% end %>
+
+    <% unless params.key?(:remove_workout) %>
+      <%= f.fields_for :workout_templates do |ff| %>
+        <%= workout_template_selection(f) %><br>
+      <% end %>
+    <% end %>
+
+    <%= f.submit 'Add Workout', name: 'add_workout' %>
+    <%= remove_workout_button(f) %>
     <%= f.submit %>
   </div>
 <% end %>
