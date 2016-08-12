@@ -21,13 +21,16 @@ class ProgramsController < ApplicationController
 
   def create
     @program = Program.new(program_params)
-
     if params[:add_workout]
       @program.workout_templates.build
+      # binding.pry
       render 'new'
     elsif params[:remove_workout]
+      @program.workout_templates.build
+      @program.workout_templates.last.delete
       last_workout = params[:program][:workout_templates_attributes].keys.last
       params[:program][:workout_templates_attributes].delete(last_workout)
+      # binding.pry
       render 'new'
     else
       @program.owner_id = current_user.id
