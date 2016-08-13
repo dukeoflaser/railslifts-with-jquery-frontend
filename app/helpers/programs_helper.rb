@@ -7,7 +7,7 @@ module ProgramsHelper
   end
 
   def remove_workout_button(f)
-    if @program.workout_templates.size > 0
+    if @program.workout_templates.any?
       if @templates.nil? || !@templates.empty?
         f.submit 'Remove Workout', name: 'remove_workout'
       end
