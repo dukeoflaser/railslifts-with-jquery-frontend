@@ -18,10 +18,14 @@ class WorkoutTemplatesController < ApplicationController
 
   def new
     @workout_template = WorkoutTemplate.new
+    @workout_template.exercise_templates.build
   end
 
   def create
     @workout_template = WorkoutTemplate.create(workout_template_params)
+    @workout_template.exercise_templates_attributes=exercise_template_params
+    @workout_template.save
+
     redirect_to workout_template_path(@workout_template)
   end
 
@@ -47,5 +51,9 @@ class WorkoutTemplatesController < ApplicationController
 
   def workout_template_params
     params.require(:workout_template).permit(:name, :description)
+  end
+
+  def exercise_template_params
+    params.require(:workout_template).require(:exercise_templates_attributes)
   end
 end

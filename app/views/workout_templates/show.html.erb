@@ -3,5 +3,11 @@
 <h2><%= @workout_template.name %></h2>
 <p><%= @workout_template.description %></p>
 
+<% @workout_template.exercise_templates.each do |t| %>
+
+  <%= render partial: "exercise_templates/display_exercise_template",
+             collection: @workout_template.exercise_templates,
+             locals: {exercise_template: t} %>
+<% end %>
 <%= link_to 'Edit', edit_workout_template_path(@workout_template) %> |
 <%= link_to 'Back', workout_templates_path %>
