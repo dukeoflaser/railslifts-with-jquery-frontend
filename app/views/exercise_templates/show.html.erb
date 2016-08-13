@@ -1,4 +1,9 @@
 <p id="notice"><%= notice %></p>
-
+<h1>Exercise Template#show</h1>
+<h2><%= @exercise_template.name %></h2>
+<p><%= @exercise_template.sets %></p>
+<p><%= @exercise_template.reps %></p>
+<p><%= @exercise_template.starting_weight %> lbs.</p>
+<p><%= @exercise_template.rest %> sec.</p>
 <%= link_to 'Edit', edit_exercise_template_path(@exercise_template) %> |
 <%= link_to 'Back', exercise_templates_path %>

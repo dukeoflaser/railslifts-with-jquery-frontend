@@ -12,4 +12,37 @@ class ExerciseTemplatesController < ApplicationController
     end
   end
 
+  def show
+    @exercise_template = ExerciseTemplate.find(params[:id])
+  end
+
+  def new
+    @exercise_template = ExerciseTemplate.new
+  end
+
+  def create
+    @exercise_template = ExerciseTemplate.create(exercise_template_params)
+    redirect_to exercise_template_path(@exercise_template)
+  end
+
+  def edit
+    @exercise_template = ExerciseTemplate.find(params[:id])
+  end
+
+  def update
+    @exercise_template = ExerciseTemplate.find(params[:id])
+    @exercise_template.update(exercise_template_params)
+    redirect_to exercise_template_path(@exercise_template)
+  end
+
+  def destroy
+    @exercise_template = ExerciseTemplate.find(params[:id])
+    @exercise_template.delete
+    redirect_to exercise_templates_path
+  end
+
+  def exercise_template_params
+    params.require(:exercise_template).permit(:name, :reps, :starting_weight, :rest)
+  end
+
 end
