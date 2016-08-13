@@ -12,6 +12,8 @@
   <% end %>
 
   <div class="actions">
-    <%= f.submit %>
+    Name: <%= f.text_field :name %><br>
+    Description: <%= f.text_area :description %><br>
+    <%= f.submit 'Create Workout' %>
   </div>
 <% end %>

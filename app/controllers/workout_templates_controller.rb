@@ -12,4 +12,40 @@ class WorkoutTemplatesController < ApplicationController
     end
   end
 
+  def show
+    @workout_template = WorkoutTemplate.find(params[:id])
+  end
+
+  def new
+    @workout_template = WorkoutTemplate.new
+  end
+
+  def create
+    @workout_template = WorkoutTemplate.create(workout_template_params)
+    redirect_to workout_template_path(@workout_template)
+  end
+
+  def edit
+    @workout_template = WorkoutTemplate.find(params[:id])
+  end
+
+  def update
+    @workout_template = WorkoutTemplate.find(params[:id])
+    @workout_template.update(workout_template_params)
+    redirect_to workout_template_path(@workout_template)
+  end
+
+  def destroy
+    @workout_template = WorkoutTemplate.find(params[:id])
+    @workout_template.delete
+    redirect_to workout_templates_path
+  end
+
+
+
+
+
+  def workout_template_params
+    params.require(:workout_template).permit(:name, :description)
+  end
 end
