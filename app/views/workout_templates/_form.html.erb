@@ -27,14 +27,17 @@
       <% end %>
     <% end %>
 
-    <%= f.fields_for :exercise_templates do |ff| %>
-      Exercise Name: <%= ff.text_field :name %><br>
-      Sets/Reps: <%= ff.text_field :reps, :placeholder => "Ex. 5 5 5" %><br>
-      Starting Weight (lbs): <%= ff.number_field :starting_weight %><br>
-      Rest Period (seconds): <%= ff.number_field :rest %><br>
+    <% unless params.key?(:remove_exercise) %>
+      <%= f.fields_for :exercise_templates do |ff| %>
+        Exercise Name: <%= ff.text_field :name %><br>
+        Sets/Reps: <%= ff.text_field :reps, :placeholder => "Ex. 5 5 5" %><br>
+        Starting Weight (lbs): <%= ff.number_field :starting_weight %><br>
+        Rest Period (seconds): <%= ff.number_field :rest %><br>
+      <% end %>
     <% end %>
 
     <%= f.submit 'Add a New Exercise', name: 'add_new_exercise' %>
+    <%= remove_exercise_button(f) %>
     <%= f.submit 'Create Workout' %>
   </div>
 <% end %>

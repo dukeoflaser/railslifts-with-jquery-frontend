@@ -27,6 +27,13 @@ class WorkoutTemplatesController < ApplicationController
 
     if params[:add_new_exercise]
       @workout_template.exercise_templates.build
+    elsif params[:remove_exercise]
+      # binding.pry
+      @workout_template.exercise_templates.build
+      @workout_template.exercise_templates.last.delete
+      # binding.pry
+      last_exercise = @templates.keys.last
+      @templates.delete(last_exercise)
     else
       @workout_template.exercise_templates_attributes=exercise_template_params
       @workout_template.update(owner_id: current_user.id)
