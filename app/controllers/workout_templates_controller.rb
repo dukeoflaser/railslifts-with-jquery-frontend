@@ -18,15 +18,22 @@ class WorkoutTemplatesController < ApplicationController
 
   def new
     @workout_template = WorkoutTemplate.new
-    @workout_template.exercise_templates.build
+
   end
 
   def create
-    @workout_template = WorkoutTemplate.create(workout_template_params)
-    @workout_template.exercise_templates_attributes=exercise_template_params
-    @workout_template.update(owner_id: current_user.id)
+    @workout_template = WorkoutTemplate.new(workout_template_params)
+    @templates = params[:workout_template][:exercise_templates_attributes]
 
-    redirect_to workout_template_path(@workout_template)
+    if params[:add_new_exercise]
+      @workout_template.exercise_templates.build
+    else
+      @workout_template.exercise_templates_attributes=exercise_template_params
+      @workout_template.update(owner_id: current_user.id)
+      redirect_to workout_template_path(@workout_template)
+    end
+
+    render 'new'
   end
 
   def edit

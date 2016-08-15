@@ -14,12 +14,27 @@
   <div class="actions">
     Name: <%= f.text_field :name %><br>
     Description: <%= f.text_area :description %><br>
+
+
+    <% if params.dig(:workout_template, :exercise_templates_attributes) %>
+      <% @templates.each do |k, v| %>
+        <%= f.fields_for :exercise_templates do |ff| %>
+          Exercise Name: <%= ff.text_field :name, :value => v[:name] %><br>
+          Sets/Reps: <%= ff.text_field :reps, :value => v[:reps] %><br>
+          Starting Weight (lbs): <%= ff.number_field :starting_weight, :value => v[:starting_weight] %><br>
+          Rest Period (seconds): <%= ff.number_field :rest, :value => v[:rest] %><br>
+        <% end %>
+      <% end %>
+    <% end %>
+
     <%= f.fields_for :exercise_templates do |ff| %>
       Exercise Name: <%= ff.text_field :name %><br>
       Sets/Reps: <%= ff.text_field :reps, :placeholder => "Ex. 5 5 5" %><br>
       Starting Weight (lbs): <%= ff.number_field :starting_weight %><br>
       Rest Period (seconds): <%= ff.number_field :rest %><br>
     <% end %>
+
+    <%= f.submit 'Add a New Exercise', name: 'add_new_exercise' %>
     <%= f.submit 'Create Workout' %>
   </div>
 <% end %>
