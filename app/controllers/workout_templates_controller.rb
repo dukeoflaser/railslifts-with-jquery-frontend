@@ -25,13 +25,11 @@ class WorkoutTemplatesController < ApplicationController
     @workout_template = WorkoutTemplate.new(workout_template_params)
     @templates = params[:workout_template][:exercise_templates_attributes]
 
-    if params[:add_new_exercise]
+    if params[:add_new_exercise] || params[:add_existing_exercise]
       @workout_template.exercise_templates.build
     elsif params[:remove_exercise]
-      # binding.pry
       @workout_template.exercise_templates.build
       @workout_template.exercise_templates.last.delete
-      # binding.pry
       last_exercise = @templates.keys.last
       @templates.delete(last_exercise)
     else
