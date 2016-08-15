@@ -2,7 +2,7 @@ class WorkoutTemplatesController < ApplicationController
 
   def index
     if request.fullpath == my_workout_templates_path
-      @workout_templates = current_user.workout_templates
+      @workout_templates = WorkoutTemplate.where('owner_id = ?', current_user.id)
       @current_workout_templates_link = workout_templates_path
       @current_workout_templates_text = 'View All Available Workout Templates'
     else
@@ -24,7 +24,7 @@ class WorkoutTemplatesController < ApplicationController
   def create
     @workout_template = WorkoutTemplate.create(workout_template_params)
     @workout_template.exercise_templates_attributes=exercise_template_params
-    @workout_template.save
+    @workout_template.update(owner_id: current_user.id)
 
     redirect_to workout_template_path(@workout_template)
   end
