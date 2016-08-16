@@ -17,6 +17,9 @@
 
     <% if params.dig(:workout_template, :exercise_templates_attributes) %>
       <% @templates.each do |k, v| %>
+        <% if v[:id] %>
+        <% v = id_to_attributes(v) %>
+        <% end %>
         <%= f.fields_for :exercise_templates do |ff| %>
           Exercise Name: <%= ff.text_field :name, :value => v[:name] %><br>
           Sets/Reps: <%= ff.text_field :reps, :value => v[:reps] %><br>
