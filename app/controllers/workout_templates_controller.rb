@@ -1,4 +1,5 @@
 class WorkoutTemplatesController < ApplicationController
+  before_filter :modify_params, :only => [:create, :update]
 
   def index
     if request.fullpath == my_workout_templates_path
@@ -23,22 +24,28 @@ class WorkoutTemplatesController < ApplicationController
 
   def create
     @workout_template = WorkoutTemplate.new(workout_template_params)
-    @templates = params[:workout_template][:exercise_templates_attributes]
 
-    if params[:add_new_exercise] || params[:add_existing_exercise]
+    if params[:workout_template][:exercise_templates_attributes]
+      @templates = exercise_template_params
+    end
+
+
+    if params[:add_new_exercise] ||
+      params[:add_existing_exercise]
       @workout_template.exercise_templates.build
+      render 'new'
     elsif params[:remove_exercise]
       @workout_template.exercise_templates.build
       @workout_template.exercise_templates.last.delete
       last_exercise = @templates.keys.last
       @templates.delete(last_exercise)
+      render 'new'
     else
       @workout_template.exercise_templates_attributes=exercise_template_params
       @workout_template.update(owner_id: current_user.id)
       redirect_to workout_template_path(@workout_template)
     end
 
-    render 'new'
   end
 
   def edit
@@ -66,6 +73,28 @@ class WorkoutTemplatesController < ApplicationController
   end
 
   def exercise_template_params
-    params.require(:workout_template).require(:exercise_templates_attributes)
+    params.require(:workout_template).require(:exercise_templates_attributes).permit!
   end
+
+  def id_to_attributes(v)
+    attributes = {}
+    template = ExerciseTemplate.find(v[:id])
+    attributes[:name] = template.name
+    attributes[:reps] = template.reps
+    attributes[:starting_weight] = template.starting_weight
+    attributes[:rest] = template.rest
+    attributes
+  end
+
+  def modify_params
+    atts = params[:workout_template][:exercise_templates_attributes]
+
+    unless atts.nil?
+      params[:workout_template][:exercise_templates_attributes].each do |k, v|
+        v = id_to_attributes(v) if v[:id]
+        params[:workout_template][:exercise_templates_attributes][k] = v
+      end
+    end
+  end
+
 end
