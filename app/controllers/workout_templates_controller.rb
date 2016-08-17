@@ -30,8 +30,7 @@ class WorkoutTemplatesController < ApplicationController
     end
 
 
-    if params[:add_new_exercise] ||
-      params[:add_existing_exercise]
+    if params[:add_new_exercise] || params[:select_existing_exercise] || params[:add_exercise]
       @workout_template.exercise_templates.build
       render 'new'
     elsif params[:remove_exercise]
@@ -40,6 +39,9 @@ class WorkoutTemplatesController < ApplicationController
       last_exercise = @templates.keys.last
       @templates.delete(last_exercise)
       render 'new'
+    elsif params[:add_exercise]
+      @workout_template.exercise_template.build
+
     else
       @workout_template.exercise_templates_attributes=exercise_template_params
       @workout_template.update(owner_id: current_user.id)

@@ -17,9 +17,6 @@
 
     <% if params.dig(:workout_template, :exercise_templates_attributes) %>
       <% @templates.each do |k, v| %>
-        <%# if v[:id] %>
-          <%# v = id_to_attributes(v) %>
-        <%# end %>
         <%= f.fields_for :exercise_templates do |ff| %>
           Exercise Name: <%= ff.text_field :name, :value => v[:name] %><br>
           Sets/Reps: <%= ff.text_field :reps, :value => v[:reps] %><br>
@@ -38,15 +35,21 @@
       <% end %>
     <% end %>
 
-    <% if params.key?(:add_existing_exercise) %>
+    <% if params.key?(:select_existing_exercise) %>
       <%= f.fields_for :exercise_templates do |ff| %>
         <%= ff.collection_select(:id, ExerciseTemplate.all, :id, :name) %><br>
+        <%= ff.submit 'Add Exercise', name: 'add_exercise' %>
       <% end %>
     <% end %>
 
-    <%= f.submit 'Add New Exercise', name: 'add_new_exercise' %><br>
-    <%= f.submit 'Add Existing Exercise', name: 'add_existing_exercise' %><br>
+    <% unless params.key?(:select_existing_exercise)%>
+      <%= f.submit 'Add New Exercise', name: 'add_new_exercise' %><br>
+      <%= f.submit 'Select Existing Exercise', name: 'select_existing_exercise' %><br>
+    <% end %>
+
     <%= remove_exercise_button(f) %><br>
-    <%= f.submit 'Create Workout' %><br>
+
+    <%= f.submit 'Create Workout' unless params.key?(:select_existing_exercise) %><br>
+
   </div>
 <% end %>
