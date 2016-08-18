@@ -14,7 +14,6 @@
   <div class="actions">
     Name: <%= f.text_field :name %><br>
     Description: <%= f.text_area :description %><br>
-
     <% if params.dig(:workout_template, :exercise_templates_attributes) %>
       <% @templates.each do |k, v| %>
         <%= f.fields_for :exercise_templates do |ff| %>

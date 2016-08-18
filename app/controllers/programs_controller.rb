@@ -23,21 +23,24 @@ class ProgramsController < ApplicationController
     @program = Program.new(program_params)
     @templates = params[:program][:workout_templates_attributes]
 
-    if params[:add_workout]
+    if params[:select_workout] || params[:add_workout]
       @program.workout_templates.build
+      render 'new'
     elsif params[:remove_workout]
       @program.workout_templates.build
       @program.workout_templates.last.delete
       last_workout = @templates.keys.last
       @templates.delete(last_workout)
+      render 'new'
     else
       @program.owner_id = current_user.id
-      @program.workout_templates << WorkoutTemplate.find(params[:program][:workout_templates])
+      params[:program][:workout_templates_attributes].each do |k, v|
+        @program.workout_templates << WorkoutTemplate.find(v[:id])
+      end
       @program.save
       redirect_to program_path(@program)
     end
 
-    render 'new'
   end
 
   def edit

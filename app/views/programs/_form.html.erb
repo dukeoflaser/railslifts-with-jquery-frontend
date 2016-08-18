@@ -21,14 +21,15 @@
       <% end %>
     <% end %>
 
-    <% unless params.key?(:remove_workout) %>
+    <% if params.key?(:select_workout) %>
       <%= f.fields_for :workout_templates do |ff| %>
         <%= workout_template_selection(f) %><br>
+        <%= ff.submit 'Add This Workout', name: 'add_workout' %>
       <% end %>
     <% end %>
 
-    <%= f.submit 'Add Workout', name: 'add_workout' %>
+    <%= f.submit 'Add A Workout', name: 'select_workout' unless params.key?(:select_workout)%>
     <%= remove_workout_button(f) %>
-    <%= f.submit %>
+    <%= f.submit 'Create Program' if params.key?(:add_workout) %>
   </div>
 <% end %>
