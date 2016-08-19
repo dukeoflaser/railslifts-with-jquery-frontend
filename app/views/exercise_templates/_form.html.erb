@@ -12,10 +12,10 @@
   <% end %>
 
   <div class="actions">
-    Exercise Name: <%= f.text_field :name %><br>
-    Sets/Reps: <%= f.text_field :reps, :placeholder => "Ex. 5 5 5" %><br>
-    Starting Weight (lbs): <%= f.number_field :starting_weight %><br>
-    Rest Period (seconds): <%= f.number_field :rest %><br>
+    Exercise Name: <%= f.text_field :name, :placeholder => "Bench Press" %><br>
+    Sets/Reps: <%= f.text_field :reps, :placeholder => "8 8 8" %><br>
+    Starting Weight (lbs): <%= f.number_field :starting_weight, :placeholder => "0" %><br>
+    Rest Period (seconds): <%= f.number_field :rest, :placeholder => "180" %><br>
     <%= f.submit %>
   </div>
 <% end %>

@@ -24,7 +24,12 @@ class ExerciseTemplatesController < ApplicationController
     @exercise_template = ExerciseTemplate.create(exercise_template_params)
     @exercise_template.update(owner_id: current_user.id)
 
-    redirect_to exercise_template_path(@exercise_template)
+    if @exercise_template.valid?
+      redirect_to exercise_template_path(@exercise_template)
+    else
+      render 'new'
+    end
+
   end
 
   def edit
