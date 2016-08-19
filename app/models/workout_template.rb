@@ -4,4 +4,7 @@ class WorkoutTemplate < ActiveRecord::Base
   has_and_belongs_to_many :exercise_templates
 
   accepts_nested_attributes_for :exercise_templates
+
+  validates :name, presence: true, uniqueness: true
+  validates :description, presence: true
 end

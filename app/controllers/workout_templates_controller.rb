@@ -45,7 +45,11 @@ class WorkoutTemplatesController < ApplicationController
     else
       @workout_template.exercise_templates_attributes=exercise_template_params
       @workout_template.update(owner_id: current_user.id)
-      redirect_to workout_template_path(@workout_template)
+      if @workout_template.valid?
+        redirect_to workout_template_path(@workout_template)
+      else
+        render 'new'
+      end    
     end
 
   end
