@@ -6,6 +6,9 @@ class Program < ActiveRecord::Base
 
   accepts_nested_attributes_for :workout_templates
 
+  validates :name, presence: true, uniqueness: true
+  validates :description, presence: true
+
   def owner_name
     @owner = User.find_by(id: self.owner_id)
     @owner.name

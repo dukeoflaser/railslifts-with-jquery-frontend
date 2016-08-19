@@ -34,11 +34,18 @@ class ProgramsController < ApplicationController
       render 'new'
     else
       @program.owner_id = current_user.id
+
       params[:program][:workout_templates_attributes].each do |k, v|
         @program.workout_templates << WorkoutTemplate.find(v[:id])
       end
+
       @program.save
-      redirect_to program_path(@program)
+
+      if @program.valid?
+        redirect_to program_path(@program)
+      else
+        render 'new'
+      end  
     end
 
   end
