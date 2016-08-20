@@ -12,25 +12,36 @@
   <% end %>
 
   <div class="actions">
-    Name: <%= f.text_field :name %><br>
-    Description: <%= f.text_area :description %><br>
+    <%= f.label :name, 'Workout Name' %><br>
+    <%= f.text_field :name %><br>
+    <%= f.label :description, 'Description' %><br>
+    <%= f.text_area :description %><br>
+
     <% if params.dig(:workout_template, :exercise_templates_attributes) %>
       <% @templates.each do |k, v| %>
         <%= f.fields_for :exercise_templates do |ff| %>
-          Exercise Name: <%= ff.text_field :name, :value => v[:name] %><br>
-          Sets/Reps: <%= ff.text_field :reps, :value => v[:reps] %><br>
-          Starting Weight (lbs): <%= ff.number_field :starting_weight, :value => v[:starting_weight] %><br>
-          Rest Period (seconds): <%= ff.number_field :rest, :value => v[:rest] %><br>
+          <% f.label :name, 'Exercise Name' %>
+          <%= ff.text_field :name, :value => v[:name] %><br>
+          <% f.label :reps, 'Sets/Reps' %>
+          <%= ff.text_field :reps, :value => v[:reps] %><br>
+          <% f.label :starting_weight, 'Starting Weight (lbs)' %>
+          <%= ff.number_field :starting_weight, :value => v[:starting_weight] %><br>
+          <% f.label :rest, 'Rest Period (seconds)' %>
+          <%= ff.number_field :rest, :value => v[:rest] %><br>
         <% end %>
       <% end %>
     <% end %>
 
     <% if params[:add_new_exercise] %>
       <%= f.fields_for :exercise_templates do |ff| %>
-        Exercise Name: <%= ff.text_field :name %><br>
-        Sets/Reps: <%= ff.text_field :reps, :placeholder => "Ex. 5 5 5" %><br>
-        Starting Weight (lbs): <%= ff.number_field :starting_weight %><br>
-        Rest Period (seconds): <%= ff.number_field :rest %><br>
+      <%= f.label :name, 'Exercise Name' %><br>
+        <%= ff.text_field :name %><br>
+        <%= f.label :reps, 'Sets/Reps' %><br>
+        <%= ff.text_field :reps, :placeholder => "Ex. 5 5 5" %><br>
+        <%= f.label :starting_weight, 'Starting Weight (lbs)' %><br>
+        <%= ff.number_field :starting_weight %><br>
+        <%= f.label :rest, 'Rest Period (seconds)' %><br>
+        <%= ff.number_field :rest %><br>
       <% end %>
     <% end %>
 

@@ -12,8 +12,10 @@
   <% end %>
 
   <div class="actions">
-    Name: <%= f.text_field :name %><br>
-    Description: <%= f.text_field :description %><br>
+    <%= f.label :name, 'Name' %><br>
+    <%= f.text_field :name %><br>
+    <%= f.label :description, 'Description' %><br>
+    <%= f.text_area :description %><br>
 
     <% if params.dig(:program,:workout_templates_attributes) %>
       <% @templates.each do |k, v| %>
