@@ -33,19 +33,19 @@ class ProgramsController < ApplicationController
       @templates.delete(last_workout)
       render 'new'
     else
-      @program.owner_id = current_user.id
-
-      params[:program][:workout_templates_attributes].each do |k, v|
-        @program.workout_templates << WorkoutTemplate.find(v[:id])
-      end
-
-      @program.save
-
       if @program.valid?
+        @program.owner_id = current_user.id
+
+        params[:program][:workout_templates_attributes].each do |k, v|
+            @program.workout_templates << WorkoutTemplate.find(v[:id])
+        end
+
+        @program.save
         redirect_to program_path(@program)
       else
+        @program.workout_templates.build
         render 'new'
-      end  
+      end
     end
 
   end

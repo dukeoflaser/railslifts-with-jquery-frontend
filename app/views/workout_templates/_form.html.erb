@@ -20,13 +20,13 @@
     <% if params.dig(:workout_template, :exercise_templates_attributes) %>
       <% @templates.each do |k, v| %>
         <%= f.fields_for :exercise_templates do |ff| %>
-          <% f.label :name, 'Exercise Name' %>
+          <%= ff.label :name, 'Exercise Name' %><br>
           <%= ff.text_field :name, :value => v[:name] %><br>
-          <% f.label :reps, 'Sets/Reps' %>
+          <%= ff.label :reps, 'Sets/Reps' %><br>
           <%= ff.text_field :reps, :value => v[:reps] %><br>
-          <% f.label :starting_weight, 'Starting Weight (lbs)' %>
+          <%= ff.label :starting_weight, 'Starting Weight (lbs)' %><br>
           <%= ff.number_field :starting_weight, :value => v[:starting_weight] %><br>
-          <% f.label :rest, 'Rest Period (seconds)' %>
+          <%= ff.label :rest, 'Rest Period (seconds)' %><br>
           <%= ff.number_field :rest, :value => v[:rest] %><br>
         <% end %>
       <% end %>
@@ -34,13 +34,13 @@
 
     <% if params[:add_new_exercise] %>
       <%= f.fields_for :exercise_templates do |ff| %>
-      <%= f.label :name, 'Exercise Name' %><br>
+      <%= ff.label :name, 'Exercise Name' %><br>
         <%= ff.text_field :name %><br>
-        <%= f.label :reps, 'Sets/Reps' %><br>
+        <%= ff.label :reps, 'Sets/Reps' %><br>
         <%= ff.text_field :reps, :placeholder => "Ex. 5 5 5" %><br>
-        <%= f.label :starting_weight, 'Starting Weight (lbs)' %><br>
+        <%= ff.label :starting_weight, 'Starting Weight (lbs)' %><br>
         <%= ff.number_field :starting_weight %><br>
-        <%= f.label :rest, 'Rest Period (seconds)' %><br>
+        <%= ff.label :rest, 'Rest Period (seconds)' %><br>
         <%= ff.number_field :rest %><br>
       <% end %>
     <% end %>
@@ -59,7 +59,9 @@
 
     <%= remove_exercise_button(f) %><br>
 
-    <%= f.submit 'Create Workout' if params[:add_new_exercise] || params[:add_exercise] %><br>
+    <% if params[:add_new_exercise] || params[:add_exercise] || params[:create_workout] %>
+      <%= f.submit 'Create Workout', name: 'create_workout' %>
+    <% end %>
 
   </div>
 <% end %>

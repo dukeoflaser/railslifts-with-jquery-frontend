@@ -32,6 +32,6 @@
 
     <%= f.submit 'Add A Workout', name: 'select_workout' unless params.key?(:select_workout)%>
     <%= remove_workout_button(f) %>
-    <%= f.submit 'Create Program' if params.key?(:add_workout) %>
+    <%= f.submit 'Create Program', name: 'create_program' if params[:add_workout] || params[:create_program] %>
   </div>
 <% end %>
