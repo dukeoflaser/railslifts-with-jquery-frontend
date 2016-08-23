@@ -39,12 +39,17 @@ class WorkoutTemplatesController < ApplicationController
       last_exercise = @templates.keys.last
       @templates.delete(last_exercise)
       render 'new'
-    else
+    elsif params[:create_workout]
       if @workout_template.valid?
-        @workout_template.exercise_templates_attributes=exercise_template_params
         @workout_template.owner_id = current_user.id
         @workout_template.save
 
+        params[:workout_template][:exercise_templates_attributes].each do |k, v|
+          @workout_template.exercise_templates << ExerciseTemplate.find_or_create_by(name: v[:name])
+        end
+
+
+        # binding.pry
         redirect_to workout_template_path(@workout_template)
       else
         @workout_template.exercise_templates.build
