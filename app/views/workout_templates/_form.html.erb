@@ -47,7 +47,7 @@
 
     <% if params[:select_existing_exercise] %>
       <%= f.fields_for :exercise_templates do |ff| %>
-        <%= ff.collection_select(:id, ExerciseTemplate.all, :id, :name) %><br>
+        <%= ff.collection_select(:id, ExerciseTemplate.default_exercise_templates, :id, :name) %><br>
         <%= ff.submit 'Add Exercise', name: 'add_exercise' %>
       <% end %>
     <% end %>

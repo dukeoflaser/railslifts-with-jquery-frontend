@@ -1,10 +1,28 @@
 class ExerciseTemplate < ActiveRecord::Base
+
+  def self.default_exercise_templates
+    ExerciseTemplate.where({'default' => true})
+  end
+
   has_and_belongs_to_many :workout_templates
-  validates :name, presence: true, uniqueness: { case_sensitive: false }
+  validates :name, presence: true
   validates :reps, presence: true
   validate :reps_format
   validates :starting_weight, presence: true
   validates :rest, presence: true
+
+  def self.create_default(name)
+    default_template = ExerciseTemplate.create({
+      name: name,
+      reps: "5 5 5",
+      starting_weight: 0,
+      rest: 90,
+      default: true
+    })
+
+    default_template
+  end
+
 
   def reps_format
     unless correct_format?(reps)

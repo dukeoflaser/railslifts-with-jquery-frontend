@@ -3,14 +3,22 @@ class WorkoutTemplate < ActiveRecord::Base
   has_and_belongs_to_many :programs
   has_and_belongs_to_many :exercise_templates
 
-  accepts_nested_attributes_for :exercise_templates, allow_destroy: true, reject_if: :invalid_exercise_template
+  accepts_nested_attributes_for :exercise_templates
 
   validates :name, presence: true, uniqueness: true
   validates :description, presence: true
 
-  def invalid_exercise_template
-    binding.pry
-    true
+  def exercise_templates_attributes=(attributes)
+    attributes.each do |k, v|
+      # if ExerciseTemplate.new(v).valid?
+        unless ExerciseTemplate.exists?(name: v[:name])
+          ExerciseTemplate.create_default(v[:name])
+        end
+
+        self.exercise_templates << ExerciseTemplate.create(v)
+      # end
+
+    end
   end
 
 end
