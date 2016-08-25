@@ -59,8 +59,8 @@
 
     <%= remove_exercise_button(f) %><br>
 
-    <% if params[:add_new_exercise] || params[:add_exercise] || params[:create_workout] %>
-      <%= f.submit 'Create Workout', name: 'create_workout' %>
+    <% if [:add_new_exercise, :add_exercise, :create_workout, :remove_exercise].any? {|k| params.key?(k)} %>
+      <%= f.submit 'Create Workout', name: 'create_workout' unless @templates.try(:empty?) %>
     <% end %>
 
   </div>
