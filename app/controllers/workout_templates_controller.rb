@@ -47,6 +47,8 @@ class WorkoutTemplatesController < ApplicationController
         @workout_template.save
         redirect_to workout_template_path(@workout_template)
       else
+        @workout_template.exercise_templates.clear
+        @workout_template.exercise_templates.build
         render 'new'
       end
     end

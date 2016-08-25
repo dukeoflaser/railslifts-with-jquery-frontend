@@ -10,13 +10,11 @@ class WorkoutTemplate < ActiveRecord::Base
 
   def exercise_templates_attributes=(attributes)
     attributes.each do |k, v|
-      # if ExerciseTemplate.new(v).valid?
         unless ExerciseTemplate.exists?(name: v[:name])
           ExerciseTemplate.create_default(v[:name])
         end
 
         self.exercise_templates << ExerciseTemplate.create(v)
-      # end
 
     end
   end
