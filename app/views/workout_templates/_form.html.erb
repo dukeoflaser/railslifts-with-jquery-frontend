@@ -17,7 +17,7 @@
     <%= f.label :description, 'Description' %><br>
     <%= f.text_area :description %><br>
 
-    <% if params.dig(:workout_template, :exercise_templates_attributes) %>
+    <% unless @templates.blank? %>
       <% @templates.each do |k, v| %>
         <%= f.fields_for :exercise_templates do |ff| %>
           <%= ff.label :name, 'Exercise Name' %><br>
@@ -59,8 +59,13 @@
 
     <%= remove_exercise_button(f) %><br>
 
-    <% if [:add_new_exercise, :add_exercise, :create_workout, :remove_exercise].any? {|k| params.key?(k)} %>
-      <%= f.submit 'Create Workout', name: 'create_workout' unless @templates.try(:empty?) %>
+
+    <% if @workout_template.persisted? %>
+        <%= f.submit 'Update Workout', name: 'update_workout' unless @templates.try(:empty?) %>
+    <% else %>
+      <% if [:add_new_exercise, :add_exercise, :create_workout, :remove_exercise].any? {|k| params.key?(k)} %>
+        <%= f.submit 'Create Workout', name: 'create_workout' unless @templates.try(:empty?) %>
+      <% end %>
     <% end %>
 
   </div>

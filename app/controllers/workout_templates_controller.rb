@@ -19,7 +19,6 @@ class WorkoutTemplatesController < ApplicationController
 
   def new
     @workout_template = WorkoutTemplate.new
-
   end
 
   def create
@@ -28,7 +27,6 @@ class WorkoutTemplatesController < ApplicationController
     if params[:workout_template][:exercise_templates_attributes]
       @templates = exercise_template_params
     end
-
 
     if params[:add_new_exercise] || params[:select_existing_exercise] || params[:add_exercise]
       @workout_template.exercise_templates.build
@@ -56,12 +54,39 @@ class WorkoutTemplatesController < ApplicationController
 
   def edit
     @workout_template = WorkoutTemplate.find(params[:id])
+    @templates = get_exercise_template_attributes
   end
 
   def update
     @workout_template = WorkoutTemplate.find(params[:id])
-    @workout_template.update(workout_template_params)
-    redirect_to workout_template_path(@workout_template)
+
+    if params[:workout_template][:exercise_templates_attributes]
+      @templates = exercise_template_params
+    end
+
+
+    if params[:add_new_exercise] || params[:select_existing_exercise] || params[:add_exercise]
+      @workout_template.exercise_templates.build
+      render 'edit'
+    elsif params[:remove_exercise]
+      @workout_template.exercise_templates.build
+      @workout_template.exercise_templates.last.delete
+      last_exercise = @templates.keys.last
+      @templates.delete(last_exercise)
+      render 'edit'
+    elsif params[:update_workout]
+      @workout_template.owner_id = current_user.id
+      @workout_template.exercise_templates_attributes=(exercise_template_params)
+
+      if @workout_template.valid?
+        @workout_template.save
+        redirect_to workout_template_path(@workout_template)
+      else
+        @workout_template.exercise_templates.clear
+        @workout_template.exercise_templates.build
+        render 'edit'
+      end
+    end
   end
 
   def destroy
@@ -101,6 +126,21 @@ class WorkoutTemplatesController < ApplicationController
         params[:workout_template][:exercise_templates_attributes][k] = v
       end
     end
+  end
+
+  def get_exercise_template_attributes
+    key = 0
+    templates = {}
+    @workout_template.exercise_templates.each do |et|
+      templates[key] = {name: et.name,
+                            reps: et.reps,
+                            starting_weight: et.starting_weight,
+                            rest: et.rest
+      }
+      key += 1
+    end
+
+    templates
   end
 
 end
