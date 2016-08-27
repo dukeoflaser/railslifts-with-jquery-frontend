@@ -55,6 +55,8 @@ class WorkoutTemplatesController < ApplicationController
   def edit
     @workout_template = WorkoutTemplate.find(params[:id])
     @templates = get_exercise_template_attributes
+    @workout_template.exercise_templates.clear
+    @workout_template.exercise_templates.build
   end
 
   def update
@@ -66,11 +68,13 @@ class WorkoutTemplatesController < ApplicationController
 
 
     if params[:add_new_exercise] || params[:select_existing_exercise] || params[:add_exercise]
+      @workout_template.exercise_templates.clear
       @workout_template.exercise_templates.build
       render 'edit'
     elsif params[:remove_exercise]
+      @workout_template.exercise_templates.clear
       @workout_template.exercise_templates.build
-      @workout_template.exercise_templates.last.delete
+      # @workout_template.exercise_templates.last.delete
       last_exercise = @templates.keys.last
       @templates.delete(last_exercise)
       render 'edit'
@@ -78,7 +82,7 @@ class WorkoutTemplatesController < ApplicationController
       @workout_template.owner_id = current_user.id
       @workout_template.exercise_templates_attributes=(exercise_template_params)
 
-      if @workout_template.valid?
+      unless @workout_template.errors.any? || !@workout_template.valid?
         @workout_template.save
         redirect_to workout_template_path(@workout_template)
       else
