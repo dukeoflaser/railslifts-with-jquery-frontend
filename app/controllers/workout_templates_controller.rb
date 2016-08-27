@@ -61,6 +61,7 @@ class WorkoutTemplatesController < ApplicationController
 
   def update
     @workout_template = WorkoutTemplate.find(params[:id])
+    @workout_template.update(workout_template_params)
 
     if params[:workout_template][:exercise_templates_attributes]
       @templates = exercise_template_params
@@ -74,7 +75,6 @@ class WorkoutTemplatesController < ApplicationController
     elsif params[:remove_exercise]
       @workout_template.exercise_templates.clear
       @workout_template.exercise_templates.build
-      # @workout_template.exercise_templates.last.delete
       last_exercise = @templates.keys.last
       @templates.delete(last_exercise)
       render 'edit'
