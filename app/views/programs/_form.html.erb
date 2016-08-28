@@ -17,7 +17,7 @@
     <%= f.label :description, 'Description' %><br>
     <%= f.text_area :description %><br>
 
-    <% if params.dig(:program,:workout_templates_attributes) %>
+    <% unless @templates.blank? %>
       <% @templates.each do |k, v| %>
         <%= workout_template_selection(f, v) %><br>
       <% end %>
@@ -30,8 +30,13 @@
       <% end %>
     <% end %>
 
+
     <%= f.submit 'Add A Workout', name: 'select_workout' unless params.key?(:select_workout)%>
     <%= remove_workout_button(f) %>
-    <%= f.submit 'Create Program', name: 'create_program' if params[:add_workout] || params[:create_program] %>
+    <% if @program.persisted? %>
+      <%= f.submit 'Update Program', name: 'create_program' unless @templates.blank? %>
+    <% else %>
+      <%= f.submit 'Create Program', name: 'create_program' if params[:add_workout] || params[:create_program] %>
+    <% end %>
   </div>
 <% end %>
