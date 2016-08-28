@@ -41,6 +41,8 @@ class ProgramsController < ApplicationController
         end
 
         @program.save
+        current_user.programs << @program
+
         redirect_to program_path(@program)
       else
         @program.workout_templates.build
