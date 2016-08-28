@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   resources :programs
   resources :workouts, only: [:show, :new, :create]
   resources :workout_templates
-  resources :exercise_templates
+  resources :exercise_templates, only: [:new, :create, :edit, :update]
 
   root to: "home#index"
 
