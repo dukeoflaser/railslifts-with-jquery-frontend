@@ -54,6 +54,10 @@ class ProgramsController < ApplicationController
 
   def edit
     @program = Program.find(params[:id])
+
+    unless @program.owner_id == current_user.id
+      redirect_to program_path(@program)
+    end
     @templates = get_workout_template_attributes
     @program.workout_templates.clear
     @program.workout_templates.build
