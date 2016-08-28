@@ -9,16 +9,20 @@
     </tr>
   </thead>
 
-  <tbody>
-    <% @workout_templates.each do |workout_template| %>
-      <tr>
-        <td><%= workout_template.name %></td>
-        <td><%= link_to 'Show', workout_template %></td>
-        <td><%= link_to 'Edit', edit_workout_template_path(workout_template) %></td>
-        <td><%= link_to 'Destroy', workout_template, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
+
+    <tbody>
+      <% @workout_templates.each do |workout_template| %>
+        <tr>
+          <td><%= workout_template.name %></td>
+          <td><%= link_to 'Show', workout_template %></td>
+          <% if request.fullpath == my_workout_templates_path %>
+            <td><%= link_to 'Edit', edit_workout_template_path(workout_template) %></td>
+            <td><%= link_to 'Destroy', workout_template, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <% end %>
+        </tr>
+
+    </tbody>
+  <% end %>
 </table>
 
 <br>

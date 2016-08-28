@@ -5,5 +5,5 @@
 
 <%= render @workout_template.exercise_templates %>
 
-<%= link_to 'Edit', edit_workout_template_path(@workout_template) %> |
+<%= link_to 'Edit', edit_workout_template_path(@workout_template) if current_user.id == @workout_template.owner_id %>
 <%= link_to 'Back', workout_templates_path %>

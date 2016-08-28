@@ -54,6 +54,10 @@ class WorkoutTemplatesController < ApplicationController
 
   def edit
     @workout_template = WorkoutTemplate.find(params[:id])
+
+    unless @workout_template.owner_id == current_user.id
+      redirect_to workout_template_path(@workout_template)
+    end
     @templates = get_exercise_template_attributes
     @workout_template.exercise_templates.clear
     @workout_template.exercise_templates.build
