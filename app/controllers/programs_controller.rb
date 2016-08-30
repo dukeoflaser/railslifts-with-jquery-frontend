@@ -106,6 +106,14 @@ class ProgramsController < ApplicationController
     redirect_to my_programs_path
   end
 
+  def select
+    @program = Program.find(params[:id])
+    current_user.programs << @program
+    current_user.current_program = @program
+
+    redirect_to user_next_workout_path(current_user)
+  end
+
   def program_params
     params.require(:program).permit(:name, :description)
   end

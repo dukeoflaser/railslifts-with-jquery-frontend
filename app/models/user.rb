@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  attr_accessor :current_program
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   has_many :programs

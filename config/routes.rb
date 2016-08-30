@@ -4,6 +4,8 @@ Rails.application.routes.draw do
 
   resources :users, only:[:edit] do
     resources :programs
+    get '/workout_history', to: 'workouts#index', as: 'workout_history'
+    get '/next_workout', to: 'workouts#new', as: 'next_workout'
   end
 
   resources :programs
@@ -13,12 +15,12 @@ Rails.application.routes.draw do
 
   root to: "home#index"
 
-  get '/next_workout', to: 'workouts#new', as: 'next_workout'
   get '/profile', to: 'users#show', as: 'profile'
   get '/my_programs', to: 'programs#index', as: 'my_programs'
   get '/my_workout_templates', to: 'workout_templates#index', as: 'my_workout_templates'
   get '/my_exercise_templates', to: 'exercise_templates#index', as: 'my_exercise_templates'
-  get '/workout_history', to: 'workouts#index', as: 'workout_history'
+
+  post '/programs/:id', to: 'programs#select'
 
 
 end
