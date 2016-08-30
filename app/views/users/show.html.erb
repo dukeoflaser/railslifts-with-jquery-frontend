@@ -7,10 +7,9 @@
 <p>Link To User Programs (/user/:id/programs)</p>
 <%= link_to 'View My Programs', my_programs_path %>
 <p>Link to next workout. /users/:id/next-workout (Pre-calculated form to create a new workout.)</p>
-<%= link_to 'Next Workout', next_workout_path %>
+<%= link_to 'Next Workout', user_next_workout_path(current_user) %>
 <p>Display last workout.</p>
 <p>Link to Workout History.</p>
-<%= link_to 'Workout History', workout_history_path %>
+<%= link_to 'Workout History', user_workout_history_path(current_user) %>
 <p>Link to delete account.</p>
 <p>Link to edit account.</p>
-
