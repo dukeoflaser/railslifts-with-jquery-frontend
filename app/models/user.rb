@@ -1,8 +1,8 @@
 class User < ActiveRecord::Base
-  attr_accessor :current_program
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   has_many :programs
+  belongs_to :current_program, class_name: 'Program'
   has_many :workout_templates
   has_many :exercise_templates, through: :workout_templates
   has_many :workouts
@@ -20,6 +20,12 @@ class User < ActiveRecord::Base
        user.name = auth.info.name
      end
    end
+
+   def next_workout
+     workout_templates = current_program.try(:workout_templates)
+    #  binding.pry
+   end
+
 
 
 end
