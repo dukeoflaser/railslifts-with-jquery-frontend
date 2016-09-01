@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160830032311) do
+ActiveRecord::Schema.define(version: 20160901042733) do
 
   create_table "exercise_templates", force: :cascade do |t|
     t.string   "name"
@@ -84,6 +84,7 @@ ActiveRecord::Schema.define(version: 20160830032311) do
     t.string   "uid"
     t.string   "name"
     t.integer  "current_program_id"
+    t.integer  "workout_cycle_index",    default: 0
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true

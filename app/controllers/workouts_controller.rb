@@ -14,10 +14,10 @@ class WorkoutsController < ApplicationController
       redirect_to user_next_workout_path(current_user)
     end
 
-    @workout = Workout.new
+    @workout = current_user.next_workout
   end
 
-  def created
+  def create
   end
 
 end

@@ -23,7 +23,17 @@ class User < ActiveRecord::Base
 
    def next_workout
      workout_templates = current_program.try(:workout_templates)
-    #  binding.pry
+     workout_templates[self.workout_cycle_index]
+   end
+
+   def update_workout_cycle_index
+     unless current_program.workout_templates[self.workout_cycle_index + 1].nil?
+       self.workout_cycle_index += 1
+     else
+       self.workout_cycle_index = 0
+     end
+
+    self.save
    end
 
 

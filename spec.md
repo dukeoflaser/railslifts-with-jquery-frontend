@@ -13,8 +13,8 @@ Specs:
 - [x] Include login (how e.g. Devise)
 - [x] Include logout (how e.g. Devise)
 - [x] Include third party signup/login (how e.g. Devise/OmniAuth)
-- [ ] Include nested resource show or index (URL e.g. programs/2/workouts)*This is the history portion*
-- [ ] Include nested resource "new" form (URL e.g. programs/1/workouts/new)*This would be the next workout*
+- [x] Include nested resource show or index (URL e.g. programs/2/workouts)*This is the history portion*
+- [x] Include nested resource "new" form (URL e.g. programs/1/workouts/new)*This would be the next workout*
 - [x] Include form display of validation errors (form URL e.g. /recipes/new)
 
 Confirm:

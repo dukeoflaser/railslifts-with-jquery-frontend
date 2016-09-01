@@ -108,9 +108,13 @@ class ProgramsController < ApplicationController
 
   def select
     @program = Program.find(params[:id])
-    current_user.programs << @program
-    current_user.current_program = @program
 
+    unless current_user.current_program == @program
+      current_user.programs << @program
+      current_user.workout_cycle_index = 0
+      @program.current_users << current_user
+    end
+    
     redirect_to user_next_workout_path(current_user)
   end
 
