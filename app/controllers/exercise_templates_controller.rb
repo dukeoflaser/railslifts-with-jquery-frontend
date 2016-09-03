@@ -49,7 +49,7 @@ class ExerciseTemplatesController < ApplicationController
   end
 
   def exercise_template_params
-    params.require(:exercise_template).permit(:name, :reps, :starting_weight, :rest)
+    params.require(:exercise_template).permit(:name, :reps, :weight, :rest)
   end
 
 end

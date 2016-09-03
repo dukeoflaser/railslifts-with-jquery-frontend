@@ -1,3 +1,5 @@
+<h2><%= @workout_template.name %></h2>
+<p><%= @workout_template.description %></p>
 <%= form_for(@workout) do |f| %>
   <% if @workout.errors.any? %>
     <div id="error_explanation">
@@ -12,10 +14,19 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :new %><br>
-    <%= f.text_field :new %>
+    <%= f.hidden_field :name, :value => @workout_template.name %>
+    <%= f.fields_for(:exercises) do |ff| %>
+      <h3><%= ff.object.name %></h3>
+      <%= ff.hidden_field :name, :value => ff.object.name %>
+      <%= ff.label :reps, 'Reps' %><br>
+      <%= ff.text_field :reps, :value => ff.object.reps %><br>
+      <%= ff.label :weight, 'Weight' %><br>
+      <%= ff.text_field :weight, :value => ff.object.weight %><br>
+      <%= ff.label :rest, 'Rest Period' %><br>
+      <%= ff.text_field :rest, :value => ff.object.rest %><br>
+    <% end %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit 'Submit Workout' %>
   </div>
 <% end %>

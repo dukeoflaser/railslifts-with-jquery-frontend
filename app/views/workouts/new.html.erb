@@ -2,6 +2,6 @@
 <% if current_user.current_program.nil? %>
   <p>You need to select a program first.</p>
 <% else %>
-  <% render 'form' %>
+  <%= render 'form' %>
 <% end %>
 <p>Find me in app/views/workouts/new.html.erb</p>

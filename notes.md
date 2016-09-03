@@ -56,4 +56,4 @@
     #exercise
       #name (must correspond with exercise_template name), reps, weight, rest
 
-      rails g model exercise name:string reps:string starting_weight:string rest:integer --no-test-framework --no-assets --no-jbuilder
+      rails g model exercise name:string reps:string weight:string rest:integer --no-test-framework --no-assets --no-jbuilder

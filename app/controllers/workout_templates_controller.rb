@@ -120,7 +120,7 @@ class WorkoutTemplatesController < ApplicationController
     template = ExerciseTemplate.find(v[:id])
     attributes[:name] = template.name
     attributes[:reps] = template.reps
-    attributes[:starting_weight] = template.starting_weight
+    attributes[:weight] = template.weight
     attributes[:rest] = template.rest
     attributes
   end
@@ -142,7 +142,7 @@ class WorkoutTemplatesController < ApplicationController
     @workout_template.exercise_templates.each do |et|
       templates[key] = {name: et.name,
                             reps: et.reps,
-                            starting_weight: et.starting_weight,
+                            weight: et.weight,
                             rest: et.rest
       }
       key += 1

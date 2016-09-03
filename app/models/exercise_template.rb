@@ -8,14 +8,14 @@ class ExerciseTemplate < ActiveRecord::Base
   validates :name, presence: true
   validates :reps, presence: true
   validate :reps_format
-  validates :starting_weight, presence: true
+  validates :weight, presence: true
   validates :rest, presence: true
 
   def self.create_default(name)
     default_template = ExerciseTemplate.create({
       name: name,
       reps: "5 5 5",
-      starting_weight: 0,
+      weight: 0,
       rest: 90,
       default: true
     })
