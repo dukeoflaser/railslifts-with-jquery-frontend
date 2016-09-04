@@ -11,4 +11,9 @@ class UsersController < ApplicationController
 
   def destroy
   end
+
+  def leaderboard
+    @leaderboard = User.leaderboard
+    render 'leaderboard'
+  end
 end

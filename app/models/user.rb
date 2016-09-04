@@ -36,6 +36,14 @@ class User < ActiveRecord::Base
     self.save
    end
 
+   def self.leaderboard
+     most_to_least_workouts = all.sort_by do |user|
+       user.workouts.count
+     end
+
+     most_to_least_workouts.reverse
+   end
+
 
 
 end
