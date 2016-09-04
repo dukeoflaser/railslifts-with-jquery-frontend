@@ -8,4 +8,8 @@ class Exercise < ActiveRecord::Base
   validates :weight, presence: true
   validates :rest, presence: true
 
+  def sets
+    self.reps.split(' ').length
+  end
+
 end

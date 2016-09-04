@@ -4,9 +4,12 @@ class WorkoutsController < ApplicationController
     unless params[:user_id].to_i == current_user.id
       redirect_to user_workout_history_path(current_user)
     end
+
+    @workouts = current_user.workouts
   end
 
   def show
+    @workout = Workout.find(params[:id])
   end
 
   def new
