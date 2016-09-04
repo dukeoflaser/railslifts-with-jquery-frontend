@@ -23,7 +23,7 @@ class WorkoutsController < ApplicationController
       workouts = current_user.workouts.select do |w|
         w.name == @workout_template.name
       end
-      
+
       collection = workouts.last.exercises
     else
       collection = @workout_template.exercise_templates
@@ -43,11 +43,18 @@ class WorkoutsController < ApplicationController
   end
 
   def create
-    @workout = Workout.create(workout_params)
-    @workout.update(user: current_user)
-    current_user.update_workout_cycle_index
 
-    redirect_to root_path
+    @workout = Workout.create(workout_params)
+
+    if @workout.valid?
+      @workout.update(user: current_user)
+      current_user.update_workout_cycle_index
+
+      redirect_to root_path
+    else
+      @workout_template = current_user.next_workout
+      render 'new'
+    end
   end
 
   def workout_params
