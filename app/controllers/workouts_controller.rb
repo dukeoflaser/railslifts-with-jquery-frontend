@@ -18,12 +18,18 @@ class WorkoutsController < ApplicationController
     @workout_template = current_user.next_workout
 
     unless current_user.workout_templates.where(id: @workout_template.id).blank?
-      workouts = current_user.workouts.find_by(name: @workout_template.name)
-      collection = workouts.exercises
+      # workout = current_user.workouts.find_by(name: @workout_template.name)
+
+      workouts = current_user.workouts.select do |w|
+        w.name == @workout_template.name
+      end
+      
+      collection = workouts.last.exercises
     else
       collection = @workout_template.exercise_templates
       current_user.workout_templates << @workout_template
     end
+
 
       collection.each do |x|
         @workout.exercises.build(
@@ -32,20 +38,7 @@ class WorkoutsController < ApplicationController
           weight: x.weight,
           rest: x.rest
         )
-    end
-
-
-
-    current_user.exercises.each do |e|
-      @workout.exercises.build(
-        name: e.name,
-        reps: e.reps,
-        weight: e.weight,
-        rest: e.rest
-      )
-    end
-
-
+      end
 
   end
 
@@ -53,14 +46,14 @@ class WorkoutsController < ApplicationController
     @workout = Workout.create(workout_params)
     @workout.update(user: current_user)
     current_user.update_workout_cycle_index
-    binding.pry
+
     redirect_to root_path
   end
 
   def workout_params
     params.require(:workout).permit(
     :name,
-    exercise_attributes: [
+    exercises_attributes: [
       :name,
       :reps,
       :weight,
@@ -68,9 +61,5 @@ class WorkoutsController < ApplicationController
       ]
     )
   end
-
-  # def exercise_params
-  #   params.require(:workout).require(:exercise_attributes).permit!
-  # end
 
 end
