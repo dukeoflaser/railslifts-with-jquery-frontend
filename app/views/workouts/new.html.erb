@@ -1,5 +1,5 @@
 <h1>Workouts#new</h1>
-<% if current_user.current_program.nil? %>
+<% if @workout_template.nil? %>
   <p>You need to select a program first.</p>
 <% else %>
   <%= render 'form' %>
