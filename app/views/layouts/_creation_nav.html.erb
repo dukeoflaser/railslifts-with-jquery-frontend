@@ -1,0 +1,6 @@
+<% unless request.fullpath == new_program_path %>
+  <%= link_to 'Create New Program', new_program_path %>
+<% end %>
+<% unless request.fullpath == new_workout_template_path %>
+  <%= link_to 'Create New Workout Template', new_workout_template_path %>
+<% end %>  
