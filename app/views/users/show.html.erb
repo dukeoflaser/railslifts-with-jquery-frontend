@@ -9,7 +9,28 @@
 <p>Link to next workout. /users/:id/next-workout (Pre-calculated form to create a new workout.)</p>
 <%= link_to 'Next Workout', user_next_workout_path(current_user) %>
 <p>Display last workout.</p>
+<h2><%= @last_workout.name %></h2>
+<h3><%= @last_workout.created_at.strftime("%d %b. %Y")%></h3>
+<table>
+  <tr>
+    <th>Exercise</th>
+    <th>Sets</th>
+    <th>Reps</th>
+    <th>Weight</th>
+    <th>Rest</th>
+  </tr>
+  <% @last_workout.exercises.each do |exercise| %>
+    <tr>
+      <td><%= exercise.name %></td>
+      <td><%= exercise.sets %></td>
+      <td><%= exercise.reps %></td>
+      <td><%= exercise.weight %></td>
+      <td><%= exercise.rest %></td>
+    </tr>
+  <% end %>
+</table>
 <p>Link to Workout History.</p>
 <%= link_to 'Workout History', user_workout_history_path(current_user) %>
 <p>Link to delete account.</p>
 <p>Link to edit account.</p>
+<%= link_to 'Edit User', edit_user_registration_path(current_user) %>

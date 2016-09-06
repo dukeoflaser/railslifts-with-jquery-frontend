@@ -22,16 +22,18 @@ class WorkoutsController < ApplicationController
     unless current_user.current_program.nil?
       @workout_template = current_user.next_workout
 
-    unless current_user.workouts.where(name: @workout_template.name).blank?
 
-      workouts = current_user.workouts.select do |w|
-        w.name == @workout_template.name
+
+      unless current_user.workouts.where(name: @workout_template.name).blank?
+
+        workouts = current_user.workouts.select do |w|
+          w.name == @workout_template.name
+        end
+
+        collection = workouts.last.exercises
+      else
+        collection = @workout_template.exercise_templates
       end
-
-      collection = workouts.last.exercises
-    else
-      collection = @workout_template.exercise_templates
-    end
 
 
       collection.each do |x|
@@ -42,6 +44,8 @@ class WorkoutsController < ApplicationController
           rest: x.rest
         )
       end
+
+      
     else
       @workout_template = nil
     end

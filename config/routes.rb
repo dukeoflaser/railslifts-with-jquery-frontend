@@ -2,7 +2,7 @@ Rails.application.routes.draw do
 
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
 
-  resources :users, only:[:edit] do
+  resources :users do
     resources :programs
     get '/workout_history', to: 'workouts#index', as: 'workout_history'
     get '/next_workout', to: 'workouts#new', as: 'next_workout'
