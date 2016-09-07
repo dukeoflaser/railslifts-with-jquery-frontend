@@ -29,10 +29,9 @@ class ProgramsController < ApplicationController
 
   def edit
     @program = Program.find(params[:id])
-
     redirect_to program_path(@program) if @program.owner_id != current_user.id
 
-    @templates = get_workout_template_attributes
+    @templates = get_workout_template_ids
     @program.workout_templates.clear.build
   end
 
@@ -62,7 +61,7 @@ class ProgramsController < ApplicationController
     params[:program][:workout_templates_attributes]
   end
 
-  def get_workout_template_attributes
+  def get_workout_template_ids
     key = 0
     templates = {}
 

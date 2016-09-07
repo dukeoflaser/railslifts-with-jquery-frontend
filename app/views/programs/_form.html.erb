@@ -16,7 +16,6 @@
     <%= f.text_field :name %><br>
     <%= f.label :description, 'Description' %><br>
     <%= f.text_area :description %><br>
-
     <% unless @templates.blank? %>
       <% @templates.each do |k, v| %>
         <%= workout_template_selection(f, v) %><br>

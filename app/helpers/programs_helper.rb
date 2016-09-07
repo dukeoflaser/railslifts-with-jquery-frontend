@@ -1,8 +1,8 @@
 module ProgramsHelper
 
-  def workout_template_selection(f, v = {'id' => 1})
+  def workout_template_selection(f, v = {:id => 1})
     f.fields_for :workout_templates do |ff|
-      ff.collection_select(:id, WorkoutTemplate.all, :id, :name, {:selected => v['id']})
+      ff.collection_select(:id, WorkoutTemplate.all, :id, :name, {:selected => v[:id]})
     end
   end
 
