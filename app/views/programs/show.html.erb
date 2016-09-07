@@ -8,27 +8,11 @@
 <% @program.workout_templates.each do |workout_template| %>
   <%= workout_template.name %><br>
   <%= workout_template.description %><br>
-  <table>
-    <tr>
-      <th>
-        Exercise
-      </th>
-      <th>
-        Sets
-      </th>
-      <th>
-        Reps
-      </th>
-      <th>
-        Weight (lbs)
-      </th>
-      <th>
-        Rest (seconds)
-      </th>
-    </tr>
-    <%= render workout_template.exercise_templates %>
-  </table>
-
+  <%= render layout: 'layouts/exercise_table' do %>
+  <% workout_template.exercise_templates.each do |et|%>
+    <%= render partial: 'exercise_templates/exercise_template', locals: {exercise_template: et} %>
+  <% end %>
+  <% end %>
   <br>
 <% end %>
 <p>Add a 'copy to my programs' button.</p>
