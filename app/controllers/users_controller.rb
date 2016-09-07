@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   def show
     redirect_to new_user_session_path if current_user.nil?
     @last_workout = current_user.workouts.last
-    # binding.pry
+    @user = current_user
   end
 
   def edit
