@@ -44,6 +44,14 @@ class User < ActiveRecord::Base
      most_to_least_workouts.reverse
    end
 
+   def select_program(program)
+     if current_program != program
+       programs << program
+       workout_cycle_index = 0
+       program.current_users << self
+     end
+   end
+
 
 
 end

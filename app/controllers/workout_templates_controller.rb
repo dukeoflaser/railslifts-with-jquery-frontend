@@ -3,14 +3,22 @@ class WorkoutTemplatesController < ApplicationController
 
   def index
     if request.fullpath == my_workout_templates_path
-      @workout_templates = WorkoutTemplate.where('owner_id = ?', current_user.id)
-      @current_workout_templates_link = workout_templates_path
-      @current_workout_templates_text = 'View All Available Workout Templates'
+      values = [
+        WorkoutTemplate.where('owner_id = ?', current_user.id),
+        workout_templates_path,
+        'View All Available Workout Templates'
+      ]
     else
-      @workout_templates = WorkoutTemplate.all
-      @current_workout_templates_link = my_workout_templates_path
-      @current_workout_templates_text = 'View My Workout Templates'
+      values = [
+        WorkoutTemplate.all,
+        my_workout_templates_path,
+        'View My Workout Templates'
+      ]
     end
+
+    @collection = values[0]
+    @link = values[1]
+    @text = values[2]
   end
 
   def show

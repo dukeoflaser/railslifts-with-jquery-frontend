@@ -11,7 +11,7 @@
 
 
     <tbody>
-      <% @workout_templates.each do |workout_template| %>
+      <% @collection.each do |workout_template| %>
         <tr>
           <td><%= workout_template.name %></td>
           <td><%= link_to 'Show', workout_template %></td>
@@ -27,5 +27,5 @@
 
 <br>
 
-<%= link_to @current_workout_templates_text, @current_workout_templates_link %><br>
+<%= link_to @text, @link %><br>
 <%= render 'layouts/creation_nav' %>

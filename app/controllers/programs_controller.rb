@@ -1,14 +1,15 @@
 class ProgramsController < ApplicationController
+
   def index
     if request.fullpath == my_programs_path
-      @programs = current_user.programs
-      @current_programs_link = programs_path
-      @current_programs_text = 'View All Programs'
+      values = [current_user.programs, programs_path, 'View All Programs']
     else
-      @programs = Program.all
-      @current_programs_link = my_programs_path
-      @current_programs_text = 'View My Programs'
+      values = [Program.all, my_programs_path, 'View My Programs']
     end
+
+    @collection = values[0]
+    @link = values[1]
+    @text = values[2]
   end
 
   def show
@@ -21,83 +22,26 @@ class ProgramsController < ApplicationController
 
   def create
     @program = Program.new(program_params)
-    @templates = params[:program][:workout_templates_attributes]
+    @templates = template_params
 
-    if params[:select_workout] || params[:add_workout]
-      @program.workout_templates.build
-      render 'new'
-    elsif params[:remove_workout]
-      @program.workout_templates.build
-      @program.workout_templates.last.delete
-      last_workout = @templates.keys.last
-      @templates.delete(last_workout)
-      render 'new'
-    else
-      if @program.valid?
-        @program.owner_id = current_user.id
-
-        params[:program][:workout_templates_attributes].each do |k, v|
-            @program.workout_templates << WorkoutTemplate.find(v[:id])
-        end
-
-        @program.save
-        current_user.programs << @program
-
-        redirect_to program_path(@program)
-      else
-        @program.workout_templates.build
-        render 'new'
-      end
-    end
-
+    form_logic
   end
 
   def edit
     @program = Program.find(params[:id])
 
-    unless @program.owner_id == current_user.id
-      redirect_to program_path(@program)
-    end
+    redirect_to program_path(@program) if @program.owner_id != current_user.id
+
     @templates = get_workout_template_attributes
-    @program.workout_templates.clear
-    @program.workout_templates.build
+    @program.workout_templates.clear.build
   end
 
   def update
-
     @program = Program.find(params[:id])
     @program.update(program_params)
-    @templates = params[:program][:workout_templates_attributes]
+    @templates = template_params
 
-    if params[:select_workout] || params[:add_workout]
-      @program.workout_templates.build
-      render 'new'
-    elsif params[:remove_workout]
-      @program.workout_templates.build
-      @program.workout_templates.last.delete
-      last_workout = @templates.keys.last
-      @templates.delete(last_workout)
-      render 'new'
-    else
-      if @program.valid?
-        @program.owner_id = current_user.id
-
-        params[:program][:workout_templates_attributes].each do |k, v|
-            @program.workout_templates << WorkoutTemplate.find(v[:id])
-        end
-
-        @program.save
-        current_user.programs << @program
-
-        redirect_to program_path(@program)
-      else
-        @program.workout_templates.build
-        render 'new'
-      end
-    end
-
-
-
+    form_logic
   end
 
   def destroy
@@ -106,20 +50,16 @@ class ProgramsController < ApplicationController
     redirect_to my_programs_path
   end
 
-  def select
-    @program = Program.find(params[:id])
 
-    unless current_user.current_program == @program
-      current_user.programs << @program
-      current_user.workout_cycle_index = 0
-      @program.current_users << current_user
-    end
-    
-    redirect_to user_next_workout_path(current_user)
-  end
+
+
 
   def program_params
     params.require(:program).permit(:name, :description)
+  end
+
+  def template_params
+    params[:program][:workout_templates_attributes]
   end
 
   def get_workout_template_attributes
@@ -134,5 +74,44 @@ class ProgramsController < ApplicationController
     templates
   end
 
+  def select
+    @program = Program.find(params[:id])
+    current_user.select_program(@program)
+    redirect_to user_next_workout_path(current_user)
+  end
+
+  def remove_workout_template
+    @program.workout_templates.build
+    @program.workout_templates.last.delete
+    @templates.delete(@templates.keys.last)
+  end
+
+  def form_logic
+    if params[:select_workout] || params[:add_workout]
+      @program.workout_templates.build
+      render 'new'
+    elsif params[:remove_workout]
+      remove_workout_template
+      render 'new'
+    else
+      process_program
+    end
+  end
+
+  def process_program
+    if @program.valid?
+
+      template_params.each do |k, v|
+          @program.workout_templates << WorkoutTemplate.find(v[:id])
+      end
+      @program.update(owner_id: current_user.id)
+
+      current_user.programs << @program
+      redirect_to program_path(@program)
+    else
+      @program.workout_templates.build
+      render 'new'
+    end
+  end
 
 end

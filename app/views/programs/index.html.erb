@@ -1,9 +1,9 @@
 <h1>Programs#index</h1>
 <p>Find me in app/views/programs/index.html.erb</p>
-<%= link_to @current_programs_text, @current_programs_link %><br>
+<%= link_to @text, @link %><br>
 <br>
 
-<% @programs.each do |program| %>
+<% @collection.each do |program| %>
   <%= link_to program.name, program_path(program) %>
   <br>
 <% end %>
