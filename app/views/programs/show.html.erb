@@ -1,21 +1,19 @@
-<h1>Programs#show</h1>
-<p>Find me in app/views/programs/show.html.erb</p>
-
 <h1><%= @program.name %></h1>
-<h3><%= @program.description %></h3>
-<p>By <%= @program.owner_name %></p>
+<h4>By <%= @program.owner_name %></h4>
+<p><%= @program.description %></p>
+<hr>
 
 <% @program.workout_templates.each do |workout_template| %>
-  <%= workout_template.name %><br>
-  <%= workout_template.description %><br>
+  <h3><%= workout_template.name %></h3>
+  <%= workout_template.description %><br><br>
   <%= render layout: 'layouts/exercise_table' do %>
-  <% workout_template.exercise_templates.each do |et|%>
-    <%= render partial: 'exercise_templates/exercise_template', locals: {exercise_template: et} %>
+    <% workout_template.exercise_templates.each do |et|%>
+      <%= render partial: 'exercise_templates/exercise_template', locals: {exercise_template: et} %>
+    <% end %>
   <% end %>
-  <% end %>
-  <br>
+  <hr>
 <% end %>
-<p>Add a 'copy to my programs' button.</p>
-<%= button_to "Do This Program", action: "select" %>
+
+<%= button_to "Do This Program", action: "select" %><br>
 <%= link_to 'Edit Program', edit_program_path(@program) if current_user.id == @program.owner_id %>
 <%= link_to "Delete Program", program_path(@program), method: :delete, data: {confirm: "Are you sure? This can not be undone"} if current_user.id == @program.owner_id %>
