@@ -1,7 +1,9 @@
 <h1><%= @user.name %>'s Profile</h1>
 
 <%= link_to 'View All Programs', programs_path %>
-<%= link_to 'View My Programs', my_programs_path %>
+<%= link_to 'View My Programs', my_programs_path %><br>
+<%= link_to 'View All Workouts Templates', workout_templates_path %>
+<%= link_to 'View My Workout Templates', my_workout_templates_path %>
 
 <hr>
 <h2>Last Workout: <%= @last_workout.name %></h2>
