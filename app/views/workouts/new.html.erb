@@ -1,7 +1,6 @@
-<h1>Workouts#new</h1>
+<h1>Your Next Workout</h1>
 <% if @workout_template.nil? %>
-  <p>You need to select a program first.</p>
+  <p>You need to <%= link_to 'select a program', programs_path %>.</p>
 <% else %>
   <%= render 'form' %>
 <% end %>
-<p>Find me in app/views/workouts/new.html.erb</p>
