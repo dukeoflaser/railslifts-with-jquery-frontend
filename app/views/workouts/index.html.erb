@@ -1,6 +1,12 @@
 <p id="notice"><%= notice %></p>
 <%= link_to 'Next Workout', new_workout_path %><br>
 <h1>Workout History</h1>
+<% if @workouts.blank? %>
+  <hr>
+  <p> You haven't done any workouts yet. </p>
+  <p> Start by <%= link_to 'choosing a program', programs_path %>.</p>
+  <hr>
+<% end %>
 <% @workouts.reverse.each do |workout| %>
   <h3><%= workout.created_at.strftime("%d %b. %Y")%></h3>
   <h4><%= workout.name %></h4>
