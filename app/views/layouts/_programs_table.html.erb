@@ -1,0 +1,24 @@
+<table>
+  <thead>
+    <tr>
+      <th>
+        Program Name
+      </th>
+      <th>
+        Workout Count
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <% collection.each do |program| %>
+      <tr>
+        <td>
+          <%= link_to program.name, program_path(program) %>
+        </td>
+        <td>
+          <%= program.workout_count %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

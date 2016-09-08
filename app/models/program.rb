@@ -14,4 +14,8 @@ class Program < ActiveRecord::Base
     @owner = User.find_by(id: self.owner_id)
     @owner.name
   end
+
+  def workout_count
+    self.workout_templates.count
+  end
 end
