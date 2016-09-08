@@ -9,11 +9,13 @@
 <% unless @last_workout.blank? %>
   <h2>Last Workout: <%= @last_workout.name %></h2>
   <h3><%= @last_workout.created_at.strftime("%d %b. %Y")%></h3>
+
   <%= render layout: 'layouts/exercise_table' do %>
     <% @last_workout.exercises.each do |exercise| %>
       <%= render partial: 'exercise_templates/exercise_template', locals: { exercise_template: exercise } %>
     <% end %>
   <% end %>
+  
 <% else %>
   <h2>Last Workout:</h2>
   <p>Your most recent workout statistics will appear here.</p>
