@@ -3,6 +3,9 @@
 <table>
   <tr>
     <th>
+      Rank
+    </th>
+    <th>
       Name
     </th>
     <th>
@@ -12,17 +15,20 @@
       Workouts Performed
     </th>
   </tr>
-<% @leaderboard.each do |user| %>
-  <tr>
-    <td>
-      <%= user.name %>
-    </td>
-    <td>
-      <%= user.created_at.strftime("%d %b. %Y") %>
-    </td>
-    <td>
-      <%= user.workouts.count %>
-    </td>
-  </tr>
-<% end %>
+  <% @leaderboard.each do |user| %>
+    <tr>
+      <td>
+        <%= user.rank %>
+      </td>
+      <td>
+        <%= user.name %>
+      </td>
+      <td>
+        <%= user.created_at.strftime('%d %b. %Y') %>
+      </td>
+      <td>
+        <%= user.workouts.count %>
+      </td>
+    </tr>
+  <% end %>
 </table>

@@ -19,7 +19,7 @@ Rails.application.routes.draw do
   get '/my_programs', to: 'programs#index', as: 'my_programs'
   get '/my_workout_templates', to: 'workout_templates#index', as: 'my_workout_templates'
   get '/my_exercise_templates', to: 'exercise_templates#index', as: 'my_exercise_templates'
-  get '/users/leaderboard', to: 'users#leaderboard', as: 'leaderboard'
+  get '/leaderboard', to: 'users#leaderboard', as: 'leaderboard'
 
   post '/programs/:id', to: 'programs#select'
 

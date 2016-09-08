@@ -52,6 +52,9 @@ class User < ActiveRecord::Base
      end
    end
 
-
+   def rank
+     index = User.leaderboard.find_index(self)
+     index + 1
+   end
 
 end
