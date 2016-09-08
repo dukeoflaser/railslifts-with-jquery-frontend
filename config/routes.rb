@@ -2,7 +2,7 @@ Rails.application.routes.draw do
 
   devise_for :users, :controllers => {
     :omniauth_callbacks => "users/omniauth_callbacks",
-    :registrations => 'registrations' 
+    :registrations => 'registrations'
   }
 
   resources :users do
@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   end
 
   resources :programs
-  resources :workouts, only: [:new, :create]
+  resources :workouts, only: [:create]
   resources :workout_templates
   resources :exercise_templates, only: [:new, :create, :edit, :update]
 

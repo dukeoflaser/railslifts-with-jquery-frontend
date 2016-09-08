@@ -8,10 +8,6 @@ class WorkoutsController < ApplicationController
     @workouts = current_user.workouts
   end
 
-  def show
-    @workout = Workout.find(params[:id])
-  end
-
   def new
     unless params[:user_id].to_i == current_user.id
       redirect_to user_next_workout_path(current_user)
@@ -45,7 +41,7 @@ class WorkoutsController < ApplicationController
         )
       end
 
-      
+
     else
       @workout_template = nil
     end
