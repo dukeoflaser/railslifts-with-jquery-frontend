@@ -11,23 +11,11 @@
   <h3><%= workout.created_at.strftime("%d %b. %Y")%></h3>
   <h4><%= workout.name %></h4>
 
-  <table>
-    <tr>
-      <th>Exercise</th>
-      <th>Sets</th>
-      <th>Reps</th>
-      <th>Weight</th>
-      <th>Rest</th>
-    </tr>
+  <%= render layout: 'layouts/exercise_table' do %>
     <% workout.exercises.each do |exercise| %>
-      <tr>
-        <td><%= exercise.name %></td>
-        <td><%= exercise.sets %></td>
-        <td><%= exercise.reps %></td>
-        <td><%= exercise.weight %></td>
-        <td><%= exercise.rest %></td>
-      </tr>
+      <%= render partial: 'exercise_templates/exercise_template', locals: { exercise_template: exercise } %>
     <% end %>
-  </table>
+  <% end %>
+
   <hr>
 <% end %>

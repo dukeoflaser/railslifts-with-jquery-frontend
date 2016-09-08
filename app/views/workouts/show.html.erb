@@ -1,22 +1,10 @@
 <p id="notice"><%= notice %></p>
 <h3><%= @workout.name %></h3>
-<table>
-  <tr>
-    <th>Exercise</th>
-    <th>Sets</th>
-    <th>Reps</th>
-    <th>Weight</th>
-    <th>Rest</th>
-  </tr>
+
+<%= render layout: 'layouts/exercise_table' do %>
   <% @workout.exercises.each do |exercise| %>
-    <tr>
-      <td><%= exercise.name %></td>
-      <td><%= exercise.sets %></td>
-      <td><%= exercise.reps %></td>
-      <td><%= exercise.weight %></td>
-      <td><%= exercise.rest %></td>
-    </tr>
+    <%= render partial: 'exercise_templates/exercise_template', locals: { exercise_template: exercise } %>
   <% end %>
-</table>
+<% end %>
 
 <%= link_to 'Back', workouts_path %>
