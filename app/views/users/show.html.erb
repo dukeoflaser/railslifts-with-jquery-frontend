@@ -1,28 +1,28 @@
 <h1><%= @user.name %>'s Profile</h1>
 
-<%= link_to 'View All Programs', programs_path %>
+<%= link_to 'View All Programs', programs_path %> |
 <%= link_to 'View My Programs', my_programs_path %><br>
-<%= link_to 'View All Workouts Templates', workout_templates_path %>
+<%= link_to 'View All Workouts Templates', workout_templates_path %> |
 <%= link_to 'View My Workout Templates', my_workout_templates_path %>
 
 <hr>
 <% unless @last_workout.blank? %>
-  <h2>Last Workout: <%= @last_workout.name %></h2>
-  <h3><%= @last_workout.created_at.strftime("%d %b. %Y")%></h3>
+  <h4>Last Workout: <%= @last_workout.name %></h4>
+  <h2><small><%= @last_workout.created_at.strftime("%d %b. %Y")%></small></h2>
 
   <%= render layout: 'layouts/exercise_table' do %>
     <% @last_workout.exercises.each do |exercise| %>
       <%= render partial: 'exercise_templates/exercise_template', locals: { exercise_template: exercise } %>
     <% end %>
   <% end %>
-  
+
 <% else %>
-  <h2>Last Workout:</h2>
+  <h2><small>Last Workout:</small></h2>
   <p>Your most recent workout statistics will appear here.</p>
 <% end %>
 <hr>
-<h3>You are currently ranked number <%= @user.rank %> out of <%= @user_count %> users.</h3>
+<h4>You are currently ranked number <%= @user.rank %> out of <%= @user_count %> users.</h4>
 <%= link_to 'View LeaderBoard', leaderboard_path %>
 <hr>
-<%= link_to 'Next Workout', user_next_workout_path(current_user) %>
+<%= link_to 'Next Workout', user_next_workout_path(current_user) %> |
 <%= link_to 'Workout History', user_workout_history_path(current_user) %>
