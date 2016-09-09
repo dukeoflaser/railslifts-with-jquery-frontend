@@ -38,6 +38,7 @@ class WorkoutTemplatesController < ApplicationController
 
     if params[:add_new_exercise] || params[:select_existing_exercise] || params[:add_exercise]
       @workout_template.exercise_templates.build
+      @empty_values = {name: "", reps: "", weight: "", rest: ""}
       render 'new'
     elsif params[:remove_exercise]
       @workout_template.exercise_templates.build
@@ -83,6 +84,7 @@ class WorkoutTemplatesController < ApplicationController
     if params[:add_new_exercise] || params[:select_existing_exercise] || params[:add_exercise]
       @workout_template.exercise_templates.clear
       @workout_template.exercise_templates.build
+      @empty_values = {name: "", reps: "", weight: "", rest: ""}
       render 'edit'
     elsif params[:remove_exercise]
       @workout_template.exercise_templates.clear

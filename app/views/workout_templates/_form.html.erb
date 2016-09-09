@@ -12,37 +12,22 @@
   <% end %>
 
   <div class="actions">
-    <%= f.label :name, 'Workout Name' %><br>
-    <%= f.text_field :name %><br>
-    <%= f.label :description, 'Description' %><br>
-    <%= f.text_area :description %><br>
-
+    <div class="form-group">
+      <%= f.label :name, 'Workout Name' %><br />
+      <%= f.text_field :name %>
+    </div>
+    <div class="form-group">
+      <%= f.label :description, 'Description' %><br />
+      <%= f.text_area :description, cols: "23", rows: "5" %>
+    </div>
     <% unless @templates.blank? %>
       <% @templates.each do |k, v| %>
-        <%= f.fields_for :exercise_templates do |ff| %>
-          <%= ff.label :name, 'Exercise Name' %><br>
-          <%= ff.text_field :name, :value => v[:name] %><br>
-          <%= ff.label :reps, 'Sets/Reps' %><br>
-          <%= ff.text_field :reps, :value => v[:reps] %><br>
-          <%= ff.label :weight, 'Starting Weight (lbs)' %><br>
-          <%= ff.number_field :weight, :value => v[:weight] %><br>
-          <%= ff.label :rest, 'Rest Period (seconds)' %><br>
-          <%= ff.number_field :rest, :value => v[:rest] %><br>
-        <% end %>
+        <%= render partial: "fields", locals: {f: f, v: v } %>
       <% end %>
     <% end %>
 
     <% if params[:add_new_exercise] %>
-      <%= f.fields_for :exercise_templates do |ff| %>
-      <%= ff.label :name, 'Exercise Name' %><br>
-        <%= ff.text_field :name %><br>
-        <%= ff.label :reps, 'Sets/Reps' %><br>
-        <%= ff.text_field :reps, :placeholder => "Ex. 5 5 5" %><br>
-        <%= ff.label :weight, 'Starting Weight (lbs)' %><br>
-        <%= ff.number_field :weight %><br>
-        <%= ff.label :rest, 'Rest Period (seconds)' %><br>
-        <%= ff.number_field :rest %><br>
-      <% end %>
+      <%= render partial: "fields", locals: {f: f, v: @empty_values}%>
     <% end %>
 
     <% if params[:select_existing_exercise] %>
@@ -53,15 +38,19 @@
     <% end %>
 
     <% unless params[:select_existing_exercise]%>
-      <%= submit_tag 'Add New Exercise', name: 'add_new_exercise', class: "btn btn-primary btn-sm" %><br>
-      <%= submit_tag 'Select Existing Exercise', name: 'select_existing_exercise', class: "btn btn-primary btn-sm" %><br>
+      <div class="form-group">
+        <%= submit_tag 'Add New Exercise', name: 'add_new_exercise', class: "btn btn-primary btn-sm" %>
+        <%= submit_tag 'Select Existing Exercise', name: 'select_existing_exercise', class: "btn btn-primary btn-sm" %><br>
+      </div>
     <% end %>
 
     <%= remove_exercise_button(f) %><br>
 
 
     <% if @workout_template.persisted? %>
+      <div class="form-group">
         <%= submit_tag 'Update Workout', name: 'update_workout', class: "btn btn-primary btn-sm" unless @templates.try(:empty?) %>
+      </div>
     <% else %>
       <% if [:add_new_exercise, :add_exercise, :create_workout, :remove_exercise].any? {|k| params.key?(k)} %>
         <%= submit_tag 'Create Workout', name: 'create_workout', class: "btn btn-primary btn-sm" unless @templates.try(:empty?) %>

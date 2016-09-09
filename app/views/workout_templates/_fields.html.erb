@@ -1,0 +1,18 @@
+<%= f.fields_for :exercise_templates do |ff| %>
+  <div class="form-group">
+    <%= ff.label :name, 'Exercise Name' %><br>
+    <%= ff.text_field :name, :value => v[:name] %>
+  </div>
+  <div class="form-group">
+    <%= ff.label :reps, 'Sets/Reps' %><br>
+    <%= ff.text_field :reps, :value => v[:reps] %>
+  </div>
+  <div class="form-group">
+    <%= ff.label :weight, 'Starting Weight (lbs)' %><br>
+    <%= ff.number_field :weight, :value => v[:weight] %>
+  </div>
+  <div class="form-group">
+    <%= ff.label :rest, 'Rest Period (seconds)' %><br>
+    <%= ff.number_field :rest, :value => v[:rest] %>
+  </div>
+<% end %>

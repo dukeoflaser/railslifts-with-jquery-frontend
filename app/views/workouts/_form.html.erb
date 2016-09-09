@@ -13,20 +13,25 @@
     </div>
   <% end %>
 
-  <div class="field">
     <%= f.hidden_field :name, :value => @workout_template.name %>
     <%= f.fields_for(:exercises) do |ff| %>
       <h3><%= ff.object.name %></h3>
       <%= ff.hidden_field :name, :value => ff.object.name %>
-      <%= ff.label :reps, 'Reps' %><br>
-      <%= ff.text_field :reps, :value => ff.object.reps %><br>
-      <%= ff.label :weight, 'Weight' %><br>
-      <%= ff.text_field :weight, :value => ff.object.weight %><br>
-      <%= ff.label :rest, 'Rest Period' %><br>
-      <%= ff.text_field :rest, :value => ff.object.rest %><br>
+      <div class="field form-group">
+        <%= ff.label :reps, 'Reps' %><br>
+        <%= ff.text_field :reps, :value => ff.object.reps %><br>
+      </div>
+      <div class="field form-group">
+        <%= ff.label :weight, 'Weight' %><br>
+        <%= ff.text_field :weight, :value => ff.object.weight %><br>
+      </div>
+      <div class="field form-group">
+        <%= ff.label :rest, 'Rest Period' %><br>
+        <%= ff.text_field :rest, :value => ff.object.rest %><br>
+      </div>  
     <% end %>
-  </div>
-  <div class="actions">
+
+  <div class="actions form-group">
     <%= submit_tag 'Submit Workout', class: "btn btn-primary btn-sm" %>
   </div>
 <% end %>
