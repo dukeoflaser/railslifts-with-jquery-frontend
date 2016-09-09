@@ -14,6 +14,6 @@
   <hr>
 <% end %>
 
-<%= button_to "Do This Program", action: "select" %><br>
+<%= button_to "Do This Program", {action: "select"}, {class: "btn btn-success btn-lg"} %><br>
 <%= link_to 'Edit Program', edit_program_path(@program) if current_user.id == @program.owner_id %>
 <%= link_to "Delete Program", program_path(@program), method: :delete, data: {confirm: "Are you sure? This can not be undone"} if current_user.id == @program.owner_id %>

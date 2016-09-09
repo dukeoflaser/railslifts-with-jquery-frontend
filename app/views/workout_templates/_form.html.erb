@@ -48,23 +48,23 @@
     <% if params[:select_existing_exercise] %>
       <%= f.fields_for :exercise_templates do |ff| %>
         <%= ff.collection_select(:id, ExerciseTemplate.default_exercise_templates, :id, :name) %><br>
-        <%= ff.submit 'Add Exercise', name: 'add_exercise' %>
+        <%= submit_tag 'Add Exercise', name: 'add_exercise', class: "btn btn-primary btn-sm" %>
       <% end %>
     <% end %>
 
     <% unless params[:select_existing_exercise]%>
-      <%= f.submit 'Add New Exercise', name: 'add_new_exercise' %><br>
-      <%= f.submit 'Select Existing Exercise', name: 'select_existing_exercise' %><br>
+      <%= submit_tag 'Add New Exercise', name: 'add_new_exercise', class: "btn btn-primary btn-sm" %><br>
+      <%= submit_tag 'Select Existing Exercise', name: 'select_existing_exercise', class: "btn btn-primary btn-sm" %><br>
     <% end %>
 
     <%= remove_exercise_button(f) %><br>
 
 
     <% if @workout_template.persisted? %>
-        <%= f.submit 'Update Workout', name: 'update_workout' unless @templates.try(:empty?) %>
+        <%= submit_tag 'Update Workout', name: 'update_workout', class: "btn btn-primary btn-sm" unless @templates.try(:empty?) %>
     <% else %>
       <% if [:add_new_exercise, :add_exercise, :create_workout, :remove_exercise].any? {|k| params.key?(k)} %>
-        <%= f.submit 'Create Workout', name: 'create_workout' unless @templates.try(:empty?) %>
+        <%= submit_tag 'Create Workout', name: 'create_workout', class: "btn btn-primary btn-sm" unless @templates.try(:empty?) %>
       <% end %>
     <% end %>
 

@@ -9,7 +9,7 @@ module ProgramsHelper
   def remove_workout_button(f)
     if @program.workout_templates.any?
       if @templates.nil? || !@templates.empty?
-        f.submit 'Remove Workout', name: 'remove_workout'
+        submit_tag 'Remove Workout', name: 'remove_workout', class: "btn btn-primary btn-sm"
       end
     end
   end
