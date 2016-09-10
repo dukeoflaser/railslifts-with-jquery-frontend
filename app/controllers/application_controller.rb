@@ -5,11 +5,14 @@ class ApplicationController < ActionController::Base
   before_filter :login_nav_buttons
 
   def login_nav_buttons
-    if request.fullpath == root_path
+    url = request.fullpath
+
+    case url
+    when root_path
       @buttons = [4, 5]
-    elsif request.fullpath == new_user_session_path
+    when new_user_session_path
       @buttons = [4]
-    elsif request.fullpath == new_user_registration_path
+    when new_user_registration_path
       @buttons = [5]
     else
       @buttons = [1, 2, 3]
