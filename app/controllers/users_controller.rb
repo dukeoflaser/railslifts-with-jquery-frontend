@@ -6,16 +6,6 @@ class UsersController < ApplicationController
     @user_count = User.all.count
   end
 
-  def edit
-    @user = User.find(params[:id])
-  end
-
-  def update
-  end
-
-  def destroy
-  end
-
   def leaderboard
     @leaderboard = User.leaderboard
     render 'leaderboard'
