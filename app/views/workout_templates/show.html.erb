@@ -1,6 +1,11 @@
 <p id="notice"><%= notice %></p>
 <h1><%= @workout_template.name %></h1>
-<p><%= @workout_template.description %></p>
+<p>
+  <% if current_user.id == @workout_template.owner_id%>
+    <%= link_to 'Edit', edit_workout_template_path(@workout_template), class: "btn btn-danger btn-xs" %>
+  <% end %>
+  <%= @workout_template.description %>
+</p>
 
 <%= render layout: 'layouts/exercise_table' do %>
   <% @workout_template.exercise_templates.each do |et| %>
@@ -8,5 +13,4 @@
   <% end %>
 <% end %>
 
-<%= render 'layouts/creation_nav' %><br>
-<%= link_to 'Edit', edit_workout_template_path(@workout_template) if current_user.id == @workout_template.owner_id %>
+<%= render 'layouts/creation_nav' %>

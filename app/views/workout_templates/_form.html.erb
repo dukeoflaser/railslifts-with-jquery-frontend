@@ -61,9 +61,8 @@
       <% if [:add_new_exercise, :add_exercise, :create_workout, :remove_exercise].any? {|k| params.key?(k)} %>
         <div class="form-group">
           <%= submit_tag 'Create Workout', name: 'create_workout', class: "btn btn-primary btn-sm" unless @templates.try(:empty?) %>
-        </div>    
+        </div>
       <% end %>
     <% end %>
-
   </div>
 <% end %>

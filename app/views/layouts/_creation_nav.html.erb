@@ -1,7 +1,9 @@
 
-<% unless creating_new_'program' %>
-  <%= link_to 'Create New Program', new_program_path, class: "btn btn-default" %>
-<% end %>
-<% unless creating_new_'workout_template' %>
-  <%= link_to 'Create New Workout Template', new_workout_template_path, class: "btn btn-default" %>
-<% end %>
+<div class="form-group">
+  <% unless creating_new_'program' %>
+    <%= link_to 'Create New Program', new_program_path, class: "btn btn-default" %>
+  <% end %>
+  <% unless creating_new_'workout_template' %>
+    <%= link_to 'Create New Workout Template', new_workout_template_path, class: "btn btn-default" %>
+  <% end %>
+</div>

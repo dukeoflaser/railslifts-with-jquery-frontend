@@ -1,6 +1,8 @@
 <p id="notice"><%= notice %></p>
 <h1>List of Workout Templates</h1>
-
+<div class="form-group">
+  <%= link_to @text, @link %>
+</div>
 <% unless @collection.blank? %>
   <table class='table'>
       <% @collection.each do |workout_template| %>
@@ -17,7 +19,4 @@
   <% else %>
     <p>There are no templates to display.</p>
   <% end %>
-<br>
-
-<%= link_to @text, @link %><br>
 <%= render 'layouts/creation_nav' %>

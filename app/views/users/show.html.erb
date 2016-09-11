@@ -22,7 +22,8 @@
 <% end %>
 <hr>
 <h4>You are currently ranked number <%= @user.rank %> out of <%= @user_count %> users.</h4>
-<%= link_to 'View LeaderBoard', leaderboard_path %>
-<hr>
-<%= link_to 'Next Workout', user_next_workout_path(current_user) %> |
-<%= link_to 'Workout History', user_workout_history_path(current_user) %>
+<%= link_to 'View LeaderBoard', leaderboard_path %><hr>
+<div class="form-group">
+  <%= link_to 'Next Workout', user_next_workout_path(current_user), class: "btn btn-default" %>
+  <%= link_to 'Workout History', user_workout_history_path(current_user), class: "btn btn-default" %>
+</div>
