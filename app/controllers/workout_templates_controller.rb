@@ -61,7 +61,6 @@ class WorkoutTemplatesController < ApplicationController
 
 
   def workout_template_params
-    # binding.pry
     params.require(:workout_template).permit(
       :name,
       :description,
@@ -102,7 +101,7 @@ class WorkoutTemplatesController < ApplicationController
   def get_exercise_template_attributes
     key = 0
     templates = {}
-    
+
     @workout_template.exercise_templates.each do |et|
       templates[key] = {
         name: et.name,
