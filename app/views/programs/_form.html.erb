@@ -12,30 +12,44 @@
   <% end %>
 
   <div class="actions">
-    <%= f.label :name, 'Name' %><br>
-    <%= f.text_field :name %><br>
-    <%= f.label :description, 'Description' %><br>
-    <%= f.text_area :description %><br>
+    <div class="form-group">
+      <%= f.label :name, 'Name' %><br>
+      <%= f.text_field :name %><br>
+    </div>
+    <div class="form-group">
+      <%= f.label :description, 'Description' %><br>
+      <%= f.text_area :description, cols: 23, rows: 5 %><br>
+    </div>
+
     <% unless @templates.blank? %>
       <% @templates.each do |k, v| %>
-        <%= workout_template_selection(f, v) %><br>
+        <div class="form-group">
+          <%= workout_template_selection(f, v) %>
+        </div>
       <% end %>
     <% end %>
+
+    <br/>
 
     <% if params.key?(:select_workout) %>
       <%= f.fields_for :workout_templates do |ff| %>
-        <%= workout_template_selection(f) %><br>
-        <%= submit_tag 'Add This Workout', name: 'add_workout', class: "btn btn-primary btn-sm" %>
+        <div class="form-group">
+          <%= workout_template_selection(f) %>
+        </div>
+        <div class="form-group">
+          <%= submit_tag 'Add This Workout', name: 'add_workout', class: "btn btn-primary btn-sm" %>
+        </div>
       <% end %>
     <% end %>
 
-
-    <%= submit_tag 'Add A Workout', name: 'select_workout', class: "btn btn-primary btn-sm" unless params.key?(:select_workout)%>
-    <%= remove_workout_button(f) %>
-    <% if @program.persisted? %>
-      <%= submit_tag 'Update Program', name: 'create_program', class: "btn btn-primary btn-sm" unless @templates.blank? %>
-    <% else %>
-      <%= submit_tag 'Create Program', name: 'create_program', class: "btn btn-primary btn-sm" if params[:add_workout] || params[:create_program] %>
-    <% end %>
+    <div class="form-group">
+      <%= submit_tag 'Add A Workout', name: 'select_workout', class: "btn btn-primary btn-sm" unless params.key?(:select_workout)%>
+      <%= remove_workout_button(f) %>
+      <% if @program.persisted? %>
+        <%= submit_tag 'Update Program', name: 'create_program', class: "btn btn-primary btn-sm" unless @templates.blank? %>
+      <% else %>
+        <%= submit_tag 'Create Program', name: 'create_program', class: "btn btn-primary btn-sm" if params[:add_workout] || params[:create_program] %>
+      <% end %>
+    </div>
   </div>
 <% end %>

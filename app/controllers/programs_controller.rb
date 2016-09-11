@@ -2,14 +2,15 @@ class ProgramsController < ApplicationController
 
   def index
     if request.fullpath == my_programs_path
-      values = [current_user.programs, programs_path, 'View All Programs']
+      values = [current_user.programs, programs_path, 'View All Programs', 'My Programs']
     else
-      values = [Program.all, my_programs_path, 'View My Programs']
+      values = [Program.all, my_programs_path, 'View My Programs', 'Programs']
     end
 
     @collection = values[0]
     @link = values[1]
     @text = values[2]
+    @title = values[3]
   end
 
   def show

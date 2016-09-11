@@ -1,6 +1,6 @@
 <p id="notice"><%= notice %></p>
-<%= link_to 'Next Workout', new_workout_path %><br>
 <h1>Workout History</h1>
+<%= link_to 'Next Workout', user_next_workout_path %><br>
 <% if @workouts.blank? %>
   <hr>
   <p> You haven't done any workouts yet. </p>

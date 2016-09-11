@@ -32,8 +32,12 @@
 
     <% if params[:select_existing_exercise] %>
       <%= f.fields_for :exercise_templates do |ff| %>
-        <%= ff.collection_select(:id, ExerciseTemplate.default_exercise_templates, :id, :name) %><br>
-        <%= submit_tag 'Add Exercise', name: 'add_exercise', class: "btn btn-primary btn-sm" %>
+        <div class="form-group">
+          <%= ff.collection_select(:id, ExerciseTemplate.default_exercise_templates, :id, :name) %>
+        </div>
+        <div class="form-group">
+          <%= submit_tag 'Add Exercise', name: 'add_exercise', class: "btn btn-primary btn-sm" %>
+        </div>
       <% end %>
     <% end %>
 
@@ -44,7 +48,9 @@
       </div>
     <% end %>
 
-    <%= remove_exercise_button(f) %><br>
+    <div class="form-group">
+      <%= remove_exercise_button(f) %>
+    </div>
 
 
     <% if @workout_template.persisted? %>
@@ -53,7 +59,9 @@
       </div>
     <% else %>
       <% if [:add_new_exercise, :add_exercise, :create_workout, :remove_exercise].any? {|k| params.key?(k)} %>
-        <%= submit_tag 'Create Workout', name: 'create_workout', class: "btn btn-primary btn-sm" unless @templates.try(:empty?) %>
+        <div class="form-group">
+          <%= submit_tag 'Create Workout', name: 'create_workout', class: "btn btn-primary btn-sm" unless @templates.try(:empty?) %>
+        </div>    
       <% end %>
     <% end %>
 
