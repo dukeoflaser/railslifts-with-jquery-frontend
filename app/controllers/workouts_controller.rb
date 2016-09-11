@@ -1,36 +1,16 @@
 class WorkoutsController < ApplicationController
 
   def index
-    unless params[:user_id].to_i == current_user.id
-      redirect_to user_workout_history_path(current_user)
-    end
-
+    verify_current_user
     @workouts = current_user.workouts
   end
 
   def new
-    unless params[:user_id].to_i == current_user.id
-      redirect_to user_next_workout_path(current_user)
-    end
-
+    verify_current_user
     @workout = Workout.new
 
     unless current_user.current_program.nil?
       @workout_template = current_user.next_workout
-
-
-
-      unless current_user.workouts.where(name: @workout_template.name).blank?
-
-        workouts = current_user.workouts.select do |w|
-          w.name == @workout_template.name
-        end
-
-        collection = workouts.last.exercises
-      else
-        collection = @workout_template.exercise_templates
-      end
-
 
       collection.each do |x|
         @workout.exercises.build(
@@ -40,16 +20,12 @@ class WorkoutsController < ApplicationController
           rest: x.rest
         )
       end
-
-
     else
       @workout_template = nil
     end
-
   end
 
   def create
-
     @workout = Workout.create(workout_params)
 
     if @workout.valid?
@@ -65,14 +41,32 @@ class WorkoutsController < ApplicationController
 
   def workout_params
     params.require(:workout).permit(
-    :name,
-    exercises_attributes: [
       :name,
-      :reps,
-      :weight,
-      :rest
+      :exercises_attributes => [
+        :name,
+        :reps,
+        :weight,
+        :rest
       ]
     )
+  end
+
+  def verify_current_user
+    unless params[:user_id].to_i == current_user.id
+      redirect_to user_workout_history_path(current_user)
+    end
+  end
+
+  def collection
+    unless current_user.workouts.where(name: @workout_template.name).blank?
+      workouts = current_user.workouts.select do |w|
+        w.name == @workout_template.name
+      end
+
+      workouts.last.exercises
+    else
+      @workout_template.exercise_templates
+    end
   end
 
 end
