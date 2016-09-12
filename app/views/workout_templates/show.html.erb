@@ -2,7 +2,9 @@
 <h1><%= @workout_template.name %></h1>
 <p>
   <% if current_user.id == @workout_template.owner_id%>
-    <%= link_to 'Edit', edit_workout_template_path(@workout_template), class: "btn btn-danger btn-xs" %>
+    <%= link_to 'All', workout_templates_path, class: "btn btn-success btn-xs" %>
+    <%= link_to 'Edit', edit_workout_template_path(@workout_template), class: "btn btn-warning btn-xs" %>
+    <%= link_to 'Destroy', @workout_template, class: "btn btn-danger btn-xs", method: :delete, data: { confirm: 'Are you sure?' } %>
   <% end %>
   <%= @workout_template.description %>
 </p>
