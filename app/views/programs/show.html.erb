@@ -1,10 +1,16 @@
 <h1><%= @program.name %></h1>
 <h4>By <%= @program.owner_name %></h4>
-<p><%= @program.description %></p>
+<p>
+  <%= link_to 'All', programs_path, class: "btn btn-success btn-xs" %>
+  <%= link_to 'Edit Program', edit_program_path(@program), class: "btn btn-warning btn-xs" if current_user.id == @program.owner_id %>
+  <%= link_to "Delete Program", program_path(@program), class: "btn btn-danger btn-xs", method: :delete, data: {confirm: "Are you sure? This can not be undone"} if current_user.id == @program.owner_id %>
+  <%= @program.description %>
+</p>
 <hr>
 
 <% @program.workout_templates.each do |workout_template| %>
   <h3><%= workout_template.name %></h3>
+
   <%= workout_template.description %><br><br>
   <%= render layout: 'layouts/exercise_table' do %>
     <% workout_template.exercise_templates.each do |et|%>
@@ -15,5 +21,3 @@
 <% end %>
 
 <%= button_to "Do This Program", {action: "select"}, {class: "btn btn-success btn-lg"} %><br>
-<%= link_to 'Edit Program', edit_program_path(@program) if current_user.id == @program.owner_id %>
-<%= link_to "Delete Program", program_path(@program), method: :delete, data: {confirm: "Are you sure? This can not be undone"} if current_user.id == @program.owner_id %>
