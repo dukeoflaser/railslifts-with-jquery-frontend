@@ -31,7 +31,7 @@ class WorkoutTemplatesController < ApplicationController
 
   def create
     @workout_template = WorkoutTemplate.new(workout_template_params)
-
+    destroy_standins
     form_logic('new')
   end
 
@@ -42,11 +42,11 @@ class WorkoutTemplatesController < ApplicationController
       redirect_to workout_template_path(@wt)
     end
 
+    destroy_standins
     @workout_template = standin_for(@wt)
     @workout_template.exercise_templates << @wt.exercise_templates
 
     @templates = get_exercise_template_attributes
-    # binding.pry
     clear_and_build_exercise_templates
   end
 
