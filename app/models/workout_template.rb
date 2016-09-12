@@ -5,7 +5,8 @@ class WorkoutTemplate < ActiveRecord::Base
 
   accepts_nested_attributes_for :exercise_templates
 
-  validates :name, presence: true, uniqueness: true
+  validates :name, presence: true
+  validates :name, uniqueness: true, unless: :is_standin?
   validates :description, presence: true
 
   def exercise_templates_attributes=(attributes)
@@ -27,6 +28,10 @@ class WorkoutTemplate < ActiveRecord::Base
         end
 
     end
+  end
+
+  def is_standin?
+    !self.standin.nil?
   end
 
 end
