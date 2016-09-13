@@ -38,12 +38,12 @@ Program.create(owner_id: 1, name: "Buns of Steel", description: "Where Baking an
 WorkoutTemplate.create(owner_id: 1, name: "Workout A", description: "1st Workout for Buns of Steel")
 WorkoutTemplate.create(owner_id: 1, name: "Workout B", description: "2nd Workout for Buns of Steel")
 
-ExerciseTemplate.create(name: "Squats", reps: "5 5 5", weight: 45, rest: 180)
-ExerciseTemplate.create(name: "Deadlifts", reps: "5 5 5", weight: 95, rest: 180)
-ExerciseTemplate.create(name: "Bench Press", reps: "5 5 5", weight: 45, rest: 180)
-ExerciseTemplate.create(name: "Overhead Press", reps: "5 5 5", weight: 45, rest: 180)
-ExerciseTemplate.create(name: "Bent Over Rows", reps: "5 5 5", weight: 45, rest: 180)
-ExerciseTemplate.create(name: "Chin Ups", reps: "10 10 10", weight: 0, rest: 180)
+ExerciseTemplate.create_default("Squats")
+ExerciseTemplate.create_default("Deadlifts")
+ExerciseTemplate.create_default("Bench Press")
+ExerciseTemplate.create_default("Overhead Press")
+ExerciseTemplate.create_default("Bent Over Rows")
+ExerciseTemplate.create_default("Chin Ups")
 
 WorkoutTemplate.find(1).exercise_templates << ExerciseTemplate.find(1)
 WorkoutTemplate.find(1).exercise_templates << ExerciseTemplate.find(2)
