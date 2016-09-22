@@ -1,12 +1,12 @@
 user = User.new
-user.name = 'Nathaniel Paul Miller'
+user.name = 'Nathaniel Miller'
 user.email = 'nathaniel@example.com'
 user.password = 'valid_password'
 user.password_confirmation = 'valid_password'
 user.save!
 
 user2 = User.new
-user2.name = 'Tim Miller'
+user2.name = 'Tim Chamberlaine'
 user2.email = 'tim@example.com'
 user2.password = 'valid_password'
 user2.password_confirmation = 'valid_password'
