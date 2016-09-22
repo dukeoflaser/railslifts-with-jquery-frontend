@@ -3,11 +3,6 @@ A Rails Based Workout Creator and Tracker
 
 # Introduction
 
-RailsLifts is a simple Rails based app that allows users to sign into their personal user account and track the progress of their individual workouts. This is done by either creating or selecting a previously made pr# RailsLifts
-A Rails Based Workout Creator and Tracker
-
-# Introduction
-
 RailsLifts is a simple Rails based app that allows users to sign into their personal user account and track the progress of their individual workouts. This is done by either creating or selecting a previously made program, and then entering their personal workout information into the provided workout form. The 'Next Workout' form will display the user's previous stats for that particular workout, giving him/her a target to hit and surpass.
 
 If a user finds that specific exercises or workouts are missing, they are free to create their own. These then become available for use by other users.
