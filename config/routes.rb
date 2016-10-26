@@ -26,5 +26,7 @@ Rails.application.routes.draw do
 
   post '/programs/:id', to: 'programs#select'
 
+  get 'user-data/:id', to: 'users#data'
+
 
 end

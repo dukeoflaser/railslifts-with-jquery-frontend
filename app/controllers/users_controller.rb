@@ -10,4 +10,11 @@ class UsersController < ApplicationController
     @leaderboard = User.leaderboard
     render 'leaderboard'
   end
+
+  def data
+    @user = User.find(params[:id])
+    respond_to do |format|
+      format.json { render json: @user }
+    end
+  end
 end
