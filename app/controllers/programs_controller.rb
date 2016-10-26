@@ -15,6 +15,10 @@ class ProgramsController < ApplicationController
 
   def show
     @program = Program.find(params[:id])
+    respond_to do |format|
+      format.html { render :show }
+      format.json { render json: @program}
+    end
   end
 
   def new
