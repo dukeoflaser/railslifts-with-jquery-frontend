@@ -23,6 +23,10 @@ class WorkoutTemplatesController < ApplicationController
 
   def show
     @workout_template = WorkoutTemplate.find(params[:id])
+    respond_to do |format|
+      format.html { render :show }
+      format.json { render json: @workout_template}
+    end
   end
 
   def new
