@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   end
 
   resources :programs
-  resources :workouts, only: [:create]
+  resources :workouts, only: [:create, :show]
   resources :workout_templates
   resources :exercise_templates, only: [:new, :create, :edit, :update, :show]
 

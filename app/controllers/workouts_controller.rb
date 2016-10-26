@@ -5,6 +5,13 @@ class WorkoutsController < ApplicationController
     @workouts = current_user.workouts
   end
 
+  def show
+    @workout = Workout.find(params[:id])
+    respond_to do |format|
+      format.json { render json: @workout}
+    end
+  end
+
   def new
     verify_current_user
     @workout = Workout.new
