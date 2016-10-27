@@ -7,10 +7,16 @@ class ProgramsController < ApplicationController
       values = [Program.all, my_programs_path, 'View My Programs', 'Programs']
     end
 
+    @programs = values[0]
     @collection = values[0]
     @link = values[1]
     @text = values[2]
     @title = values[3]
+
+    respond_to do |format|
+      format.html { render :index }
+      format.json { render json: @programs }
+    end
   end
 
   def show
