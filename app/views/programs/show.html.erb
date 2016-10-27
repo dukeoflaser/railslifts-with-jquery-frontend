@@ -1,19 +1,20 @@
 <div data-id="<%=@program.id %>">
+  <p class="errorMessage"></p>
   <h1 class="programName"></h1>
   <h4 class="programOwner"></h4>
-  <p>
-    <%= link_to 'All', programs_path, class: "btn btn-success btn-xs" %>
-    <%= link_to 'Edit Program', edit_program_path(@program), class: "btn btn-warning btn-xs" if current_user.id == @program.owner_id %>
-    <%= link_to "Delete Program", program_path(@program), class: "btn btn-danger btn-xs", method: :delete, data: {confirm: "Are you sure? This can not be undone"} if current_user.id == @program.owner_id %>
-  </p>
+
+  <%= link_to 'All', programs_path, class: "errorHide btn btn-success btn-xs" %>
+  <%= link_to 'Edit Program', edit_program_path(@program), class: "errorHide btn btn-warning btn-xs" if current_user.id == @program.owner_id %>
+  <%= link_to "Delete Program", program_path(@program), class: "errorHide btn btn-danger btn-xs", method: :delete, data: {confirm: "Are you sure? This can not be undone"} if current_user.id == @program.owner_id %>
+
   <p class="programDescription"></p>
+
   <hr>
 
   <div class="workoutTemplates"></div>
 
-  <%= button_to "Do This Program", {action: "select"}, {class: "btn btn-success btn-lg"} %><br>
+  <%= button_to "Do This Program", {action: "select"}, {class: "errorHide btn btn-success btn-lg"} %><br>
 </div>
-
 
 <% content_for :js do %>
   <script>
