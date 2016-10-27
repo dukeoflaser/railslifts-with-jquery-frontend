@@ -1,4 +1,4 @@
-<h1><%= @program.name %></h1>
+<h1 data-id="<%=@program.id %>" class="programName"></h1>
 <h4>By <%= @program.owner_name %></h4>
 <p>
   <%= link_to 'All', programs_path, class: "btn btn-success btn-xs" %>
@@ -21,8 +21,9 @@
 <% end %>
 
 <%= button_to "Do This Program", {action: "select"}, {class: "btn btn-success btn-lg"} %><br>
+
 <% content_for :js do %>
   <script>
-    log('This is the Program#show page');
+    programsShow();
   </script>
 <% end %>
