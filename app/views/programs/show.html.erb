@@ -1,26 +1,19 @@
-<h1 data-id="<%=@program.id %>" class="programName"></h1>
-<h4>By <%= @program.owner_name %></h4>
-<p>
-  <%= link_to 'All', programs_path, class: "btn btn-success btn-xs" %>
-  <%= link_to 'Edit Program', edit_program_path(@program), class: "btn btn-warning btn-xs" if current_user.id == @program.owner_id %>
-  <%= link_to "Delete Program", program_path(@program), class: "btn btn-danger btn-xs", method: :delete, data: {confirm: "Are you sure? This can not be undone"} if current_user.id == @program.owner_id %>
-  <%= @program.description %>
-</p>
-<hr>
-
-<% @program.workout_templates.each do |workout_template| %>
-  <h3><%= workout_template.name %></h3>
-
-  <%= workout_template.description %><br><br>
-  <%= render layout: 'layouts/exercise_table' do %>
-    <% workout_template.exercise_templates.each do |et|%>
-      <%= render partial: 'exercise_templates/exercise_template', locals: {exercise_template: et} %>
-    <% end %>
-  <% end %>
+<div data-id="<%=@program.id %>">
+  <h1 class="programName"></h1>
+  <h4 class="programOwner"></h4>
+  <p>
+    <%= link_to 'All', programs_path, class: "btn btn-success btn-xs" %>
+    <%= link_to 'Edit Program', edit_program_path(@program), class: "btn btn-warning btn-xs" if current_user.id == @program.owner_id %>
+    <%= link_to "Delete Program", program_path(@program), class: "btn btn-danger btn-xs", method: :delete, data: {confirm: "Are you sure? This can not be undone"} if current_user.id == @program.owner_id %>
+  </p>
+  <p class="programDescription"></p>
   <hr>
-<% end %>
 
-<%= button_to "Do This Program", {action: "select"}, {class: "btn btn-success btn-lg"} %><br>
+  <div class="workoutTemplates"></div>
+
+  <%= button_to "Do This Program", {action: "select"}, {class: "btn btn-success btn-lg"} %><br>
+</div>
+
 
 <% content_for :js do %>
   <script>
