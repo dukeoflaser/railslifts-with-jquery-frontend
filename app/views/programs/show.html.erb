@@ -21,3 +21,8 @@
 <% end %>
 
 <%= button_to "Do This Program", {action: "select"}, {class: "btn btn-success btn-lg"} %><br>
+<% content_for :js do %>
+  <script>
+    log('This is the Program#show page');
+  </script>
+<% end %>
