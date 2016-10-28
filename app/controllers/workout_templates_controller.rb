@@ -15,17 +15,22 @@ class WorkoutTemplatesController < ApplicationController
         'View My Workout Templates'
       ]
     end
-
+    @workout_templates = WorkoutTemplate.all
     @collection = values[0]
     @link = values[1]
     @text = values[2]
+
+    respond_to do |format|
+      format.html { render :html }
+      format.json { render json: @workout_templates }
+    end
   end
 
   def show
     @workout_template = WorkoutTemplate.find(params[:id])
     respond_to do |format|
       format.html { render :show }
-      format.json { render json: @workout_template}
+      format.json { render json: @workout_template }
     end
   end
 
