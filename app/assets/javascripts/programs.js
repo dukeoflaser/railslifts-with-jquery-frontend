@@ -95,9 +95,28 @@ function renderError(){
 
 function programsNew(){
   $('.newProgram').click(function(event){
-    $('#newProgram').html('<p>New Program Form Goes Here.</p>');
+    renderForm();
     event.preventDefault();
   });
+
+  function renderForm(){
+    var form = '' +
+    '<form class="new_program" id="new_program">' +
+      '<div class="form-group">' +
+        '<label for="program_name">Name</label><br>' +
+        '<input type="text" name="program_name" id="program_name"><br>' +
+      '</div>' +
+      '<div class="form-group">' +
+        '<label for="program_description">Description</label><br>' +
+        '<textarea cols="23" rows="5" name="program_description" id="program_description"></textarea>' +
+      '</div>' +
+      '<div class="form-group">' +
+        '<input type="submit" name="select_workout" value="Add A Workout" class="btn btn-primary btn-sm">' +
+      '</div>' +
+    '</form>'
+
+    $('#newProgram').html(form);
+  }
 }
 
 function workoutTemplatesNew(){
