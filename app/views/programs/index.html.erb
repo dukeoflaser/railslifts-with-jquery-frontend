@@ -1,8 +1,10 @@
-<h1><%= @title %></h1>
-<%= link_to @text, @link %><br><br>
-<%= render partial: 'layouts/programs_table' %><br>
-<%= render 'layouts/creation_nav' %><br>
-
+<p class="errorMessage"></p>
+<div class="errorHide">
+  <h1><%= @title %></h1>
+  <%= link_to @text, @link %><br><br>
+  <%= render partial: 'layouts/programs_table' %><br>
+  <%= render 'layouts/creation_nav' %><br>
+</div>
 <% content_for :js do %>
   <script>
     programsIndex();

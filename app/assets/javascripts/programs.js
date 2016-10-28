@@ -49,17 +49,21 @@ function programsShow(){
     });
   }
 
-  function renderError(){
-    $('.errorMessage').text('Sadly, there was an error. The program is currently unavailable.');
-    $('.errorHide').hide();
-  }
-
   getProgramData();
 }
 
 function programsIndex(){
 
-  $.get('/programs.json', function(data){
+  function getProgramsData(){
+    $.get('/programs.json', function(data){
+      renderData(data);
+    }).fail(function(){
+      renderError();
+    });
+  }
+
+
+  function renderData(data){
     $('.programList').html('');
 
     if(data['programs'].length > 0){
@@ -71,5 +75,12 @@ function programsIndex(){
     } else {
       $('.programList').append('<tr><td>There are no programs to display.</td></tr>');
     }
-  });
+  }
+
+  getProgramsData();
+}
+
+function renderError(){
+  $('.errorMessage').text('Sadly, there was an error. The information you are looking for is currently unavailable.');
+  $('.errorHide').hide();
 }
