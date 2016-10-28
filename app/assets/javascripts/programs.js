@@ -95,27 +95,35 @@ function renderError(){
 
 function programsNew(){
   $('.newProgram').click(function(event){
-    renderForm();
     event.preventDefault();
+
+    renderForm();
+    dynamicFields();
   });
 
   function renderForm(){
     var form = '' +
     '<form class="new_program" id="new_program">' +
-      '<div class="form-group">' +
-        '<label for="program_name">Name</label><br>' +
-        '<input type="text" name="program_name" id="program_name"><br>' +
-      '</div>' +
-      '<div class="form-group">' +
-        '<label for="program_description">Description</label><br>' +
-        '<textarea cols="23" rows="5" name="program_description" id="program_description"></textarea>' +
-      '</div>' +
-      '<div class="form-group">' +
-        '<input type="submit" name="select_workout" value="Add A Workout" class="btn btn-primary btn-sm">' +
+       formElements.nameField +
+       formElements.descriptionField +
+      '<div class="dynamicZone">' +
+        formElements.addWorkout +
       '</div>' +
     '</form>'
 
     $('#newProgram').html(form);
+  }
+
+  function dynamicFields(){
+
+    $('.addWorkout').click(function(event){
+      event.preventDefault();
+      console.log('addWorkout was clicked.');
+      $('.dynamicZone').append(formElements.selectWorkout);
+      $('.dynamicZone').append(formElements.addThisWorkout);
+      $('.dynamicZone').append(formElements.removeWorkout);
+      $('.addWorkout').hide();
+    });
   }
 }
 
@@ -124,4 +132,41 @@ function workoutTemplatesNew(){
     $('#newWorkoutTemplate').html('<p>New Workout Template Goes Here.</p>');
     event.preventDefault();
   });
+}
+
+formElements = {
+  addWorkout: ''+
+    '<div class="form-group">' +
+      '<input type="submit" name="select_workout" value="Add A Workout" class="addWorkout btn btn-primary btn-sm">' +
+    '</div>',
+
+  addThisWorkout: '' +
+    '<div class="form-group">' +
+      '<input type="submit" name="add_workout" value="Add This Workout" class="btn btn-primary btn-sm">' +
+    '</div>',
+
+  removeWorkout: '' +
+    '<div class="form-group">' +
+      '<input type="submit" name="remove_workout" value="Remove Workout" class="btn btn-primary btn-sm">' +
+    '</div>',
+
+  nameField: '' +
+  '<div class="form-group">' +
+    '<label for="program_name">Name</label><br>' +
+    '<input type="text" name="program_name" id="program_name"><br>' +
+  '</div>',
+
+  descriptionField: '' +
+  '<div class="form-group">' +
+    '<label for="program_description">Description</label><br>' +
+    '<textarea cols="23" rows="5" name="program_description" id="program_description"></textarea>' +
+  '</div>',
+
+  selectWorkout: '' +
+    '<div class="form-group">' +
+      '<select name="program[workout_templates_attributes][1][id]" id="program_workout_templates_attributes_1_id">' +
+      '<option selected="selected" value="1">Workout A</option>' +
+      '<option value="2">Workout B</option>' +
+      '</select>' +
+    '</div>'
 }
