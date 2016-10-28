@@ -1,4 +1,10 @@
 <h1><%= @title %></h1>
 <%= link_to @text, @link %><br><br>
-<%= render partial: 'layouts/programs_table', locals: {collection: @collection} %><br>
+<%= render partial: 'layouts/programs_table' %><br>
 <%= render 'layouts/creation_nav' %><br>
+
+<% content_for :js do %>
+  <script>
+    programsIndex();
+  </script>
+<% end %>

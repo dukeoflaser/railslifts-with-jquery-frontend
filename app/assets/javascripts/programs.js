@@ -56,3 +56,20 @@ function programsShow(){
 
   getProgramData();
 }
+
+function programsIndex(){
+
+  $.get('/programs.json', function(data){
+    $('.programList').html('');
+
+    if(data['programs'].length > 0){
+      data['programs'].forEach(function(program, i){
+        $('.programList').append('<tr class="program' + i + '"></tr>');
+        $('tr.program' + i).append('<td><a href="/programs/' + program['id'] + '">' + program['name'] + '</a></td>');
+        $('tr.program' + i).append('<td>' + program['workout_templates'].length + '</td>');
+      });
+    } else {
+      $('.programList').append('<tr><td>There are no programs to display.</td></tr>');
+    }
+  });
+}

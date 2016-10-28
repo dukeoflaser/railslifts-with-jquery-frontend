@@ -1,4 +1,3 @@
-<% unless collection.blank? %>
 <table class='table'>
   <thead>
     <tr>
@@ -10,19 +9,5 @@
       </th>
     </tr>
   </thead>
-  <tbody>
-    <% collection.each do |program| %>
-      <tr>
-        <td>
-          <%= link_to program.name, program_path(program) %>
-        </td>
-        <td>
-          <%= program.workout_count %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
+  <tbody class="programList"></tbody>
 </table>
-<% else %>
-  <p>There are no programs to display.</p>
-<% end %>
