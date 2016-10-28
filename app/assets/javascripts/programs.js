@@ -57,6 +57,9 @@ function programsShow(){
 
 
 
+
+
+
 function programsIndex(){
 
   function getProgramsData(){
@@ -66,6 +69,8 @@ function programsIndex(){
       renderError();
     });
   }
+
+
 
 
   function renderData(data){
@@ -102,26 +107,29 @@ function programsNew(){
   });
 
   function renderForm(){
-    var form = '' +
+    var form = new renderedElements();
+    var renderedForm = '' +
     '<form class="new_program" id="new_program">' +
-       formElements.nameField +
-       formElements.descriptionField +
+       form.elements.nameField +
+       form.elements.descriptionField +
       '<div class="dynamicZone">' +
-        formElements.addWorkout +
+        form.elements.addWorkout +
       '</div>' +
     '</form>'
 
-    $('#newProgram').html(form);
+    $('#newProgram').html(renderedForm);
   }
 
   function dynamicFields(){
 
     $('.addWorkout').click(function(event){
       event.preventDefault();
-      console.log('addWorkout was clicked.');
-      $('.dynamicZone').append(formElements.selectWorkout);
-      $('.dynamicZone').append(formElements.addThisWorkout);
-      $('.dynamicZone').append(formElements.removeWorkout);
+
+      var form = new renderedElements();
+
+      $('.dynamicZone').append(form.elements.selectWorkout);
+      $('.dynamicZone').append(form.elements.addThisWorkout);
+      $('.dynamicZone').append(form.elements.removeWorkout);
       $('.addWorkout').hide();
     });
   }
@@ -134,39 +142,46 @@ function workoutTemplatesNew(){
   });
 }
 
-formElements = {
-  addWorkout: ''+
+function renderedElements(){
+
+
+  this.elements = {
+    addWorkout: ''+
+      '<div class="form-group">' +
+        '<input type="submit" name="select_workout" value="Add A Workout" class="addWorkout btn btn-primary btn-sm">' +
+      '</div>',
+
+    addThisWorkout: '' +
+      '<div class="form-group">' +
+        '<input type="submit" name="add_workout" value="Add This Workout" class="btn btn-primary btn-sm">' +
+      '</div>',
+
+    removeWorkout: '' +
+      '<div class="form-group">' +
+        '<input type="submit" name="remove_workout" value="Remove Workout" class="btn btn-primary btn-sm">' +
+      '</div>',
+
+    nameField: '' +
     '<div class="form-group">' +
-      '<input type="submit" name="select_workout" value="Add A Workout" class="addWorkout btn btn-primary btn-sm">' +
+      '<label for="program_name">Name</label><br>' +
+      '<input type="text" name="program_name" id="program_name"><br>' +
     '</div>',
 
-  addThisWorkout: '' +
+    descriptionField: '' +
     '<div class="form-group">' +
-      '<input type="submit" name="add_workout" value="Add This Workout" class="btn btn-primary btn-sm">' +
+      '<label for="program_description">Description</label><br>' +
+      '<textarea cols="23" rows="5" name="program_description" id="program_description"></textarea>' +
     '</div>',
 
-  removeWorkout: '' +
-    '<div class="form-group">' +
-      '<input type="submit" name="remove_workout" value="Remove Workout" class="btn btn-primary btn-sm">' +
-    '</div>',
+    selectWorkout: '' +
+      '<div class="form-group">' +
+        '<select name="program[workout_templates_attributes][1][id]" id="program_workout_templates_attributes_1_id">' +
+        '<option selected="selected" value="1">Workout A</option>' +
+        '<option value="2">Workout B</option>' +
+        '</select>' +
+      '</div>'
+  }
 
-  nameField: '' +
-  '<div class="form-group">' +
-    '<label for="program_name">Name</label><br>' +
-    '<input type="text" name="program_name" id="program_name"><br>' +
-  '</div>',
 
-  descriptionField: '' +
-  '<div class="form-group">' +
-    '<label for="program_description">Description</label><br>' +
-    '<textarea cols="23" rows="5" name="program_description" id="program_description"></textarea>' +
-  '</div>',
 
-  selectWorkout: '' +
-    '<div class="form-group">' +
-      '<select name="program[workout_templates_attributes][1][id]" id="program_workout_templates_attributes_1_id">' +
-      '<option selected="selected" value="1">Workout A</option>' +
-      '<option value="2">Workout B</option>' +
-      '</select>' +
-    '</div>'
 }
