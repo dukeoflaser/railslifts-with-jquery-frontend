@@ -52,6 +52,11 @@ function programsShow(){
   getProgramData();
 }
 
+
+
+
+
+
 function programsIndex(){
 
   function getProgramsData(){
@@ -83,4 +88,21 @@ function programsIndex(){
 function renderError(){
   $('.errorMessage').text('Sadly, there was an error. The information you are looking for is currently unavailable.');
   $('.errorHide').hide();
+}
+
+
+
+
+function programsNew(){
+  $('.newProgram').click(function(event){
+    $('#newProgram').html('<p>New Program Form Goes Here.</p>');
+    event.preventDefault();
+  });
+}
+
+function workoutTemplatesNew(){
+  $('.newWorkoutTemplate').click(function(event){
+    $('#newWorkoutTemplate').html('<p>New Workout Template Goes Here.</p>');
+    event.preventDefault();
+  });
 }

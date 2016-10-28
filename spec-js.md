@@ -3,8 +3,9 @@
 Specs:
 - [x] Use jQuery for implementing new requirements
 - [x] Include a show resource rendered using jQuery and an Active Model Serialization JSON backend. ***/programs/:id***
-- [ ] Include an index resource rendered using jQuery and an Active Model Serialization JSON backend.
-- [ ] Include at least one has_many relationship in information rendered via JSON and appended to the DOM.
+- [x] Include an index resource rendered using jQuery and an Active Model Serialization JSON backend. ***/programs***
+- [x] Include at least one has_many relationship in information rendered via JSON and appended to the DOM.
+    ***program has_many workout_templates. workout_templates has_many exercise_templates***
 - [ ] Include at least one link that loads or updates a resource without reloading the page.
 - [ ] Translate JSON responses into js model objects.
 - [ ] At least one of the js model objects must have at least one method added by your code to the prototype.
