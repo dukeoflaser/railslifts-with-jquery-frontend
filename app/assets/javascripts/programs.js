@@ -60,20 +60,49 @@ function programsShow(){
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function programsIndex(){
 
   function getProgramsData(){
     $.get('/programs.json', function(data){
-      renderData(data);
+      renderProgramsData(data);
     }).fail(function(){
       renderError();
     });
   }
 
-
-
-
-  function renderData(data){
+  function renderProgramsData(data){
     $('.programList').html('');
 
     if(data['programs'].length > 0){
@@ -87,101 +116,183 @@ function programsIndex(){
     }
   }
 
-  getProgramsData();
-}
-
-function renderError(){
-  $('.errorMessage').text('Sadly, there was an error. The information you are looking for is currently unavailable.');
-  $('.errorHide').hide();
-}
+    getProgramsData();
 
 
 
 
-function programsNew(){
-  $('.newProgram').click(function(event){
-    event.preventDefault();
+// below are the functions conerned with rendering the dynamic forms.
 
-    renderForm();
-    dynamicFields();
-  });
+  function programsNew(){
+    $('.newProgram').click(function(event){
+      event.preventDefault();
+
+      renderForm();
+    });
+  }
 
   function renderForm(){
-    var form = new renderedElements();
+    var form = new RenderedElements();
     var renderedForm = '' +
     '<form class="new_program" id="new_program">' +
-       form.elements.nameField +
-       form.elements.descriptionField +
+       form.nameField +
+       form.descriptionField +
       '<div class="dynamicZone">' +
-        form.elements.addWorkout +
+        form.addWorkout +
       '</div>' +
     '</form>'
 
     $('#newProgram').html(renderedForm);
+    addWorkout();
   }
 
-  function dynamicFields(){
+  function getWorkoutTemplatesData(){
+    $.get('/workout_templates.json', function(data){
+        wts = [];
 
+        data.workout_templates.forEach(function(wt, i){
+          var x = new WorkoutTemplate(
+            wt.description,
+            wt.exercise_templates,
+            wt.id,
+            wt.name,
+            wt.owner_id
+          );
+
+          wts.push(x);
+        });
+
+        // var workoutSelecter = new RenderedElements(wts);
+        renderDynamicFields(wts);
+    });
+  }
+
+  function addWorkout(){
     $('.addWorkout').click(function(event){
+        event.preventDefault();
+        getWorkoutTemplatesData();
+    });
+  }
+
+  function renderDynamicFields(wts){
+    var form = new RenderedElements();
+    $('.dynamicZone').append(form.selectWorkout);
+    $('.dynamicZone').append(form.addThisWorkout);
+    $('.dynamicZone').append(form.removeWorkout);
+    $('.addWorkout').hide();
+
+    wts.forEach(function(wt, i){
+      $('.selectWorkout').append(wt.asOption());
+    });
+  }
+
+
+
+  function workoutTemplatesNew(){
+    $('.newWorkoutTemplate').click(function(event){
+      $('#newWorkoutTemplate').html('<p>New Workout Template Goes Here.</p>');
       event.preventDefault();
+    });
+  }
 
-      var form = new renderedElements();
+  programsNew();
+}
 
-      $('.dynamicZone').append(form.elements.selectWorkout);
-      $('.dynamicZone').append(form.elements.addThisWorkout);
-      $('.dynamicZone').append(form.elements.removeWorkout);
-      $('.addWorkout').hide();
+
+
+
+
+
+
+
+
+
+
+function WorkoutTemplate(desc, et, id, name, owner_id){
+  this.desc = desc;
+  this.et = et;
+  this.id = id;
+  this.name = name;
+  this.owner_id = owner_id;
+  this.asOption = function(val, selected){
+    if(selected){
+      return `<option selected="selected" value="${val}">${this.name}</option>`;
+    } else {
+      return `<option value="${val}">${this.name}</option>`;
+    }
+  }
+}
+
+
+
+function RenderedElements(){
+  // this.workoutOptions = function(){
+  //   var options = '';
+  //
+  //   DATA['workout_template_data']['workout_templates'].forEach(function(wt, i){
+  //     console.log(wt['name']);
+  //     if(i = 0){
+  //       options += `<option selected="selected" value="1">${wt.name}</option>`
+  //     } else {
+  //       options += '<option value="' + (i + 1) + '">' + wt['name'] + '</option>'
+  //     }
+  //   });
+  //   console.log(options);
+  //   return options;
+  // }
+
+
+    this.addWorkout = ''+
+      '<div class="form-group">' +
+        '<input type="submit" name="select_workout" value="Add A Workout" class="addWorkout btn btn-primary btn-sm">' +
+      '</div>';
+
+    this.addThisWorkout = '' +
+      '<div class="form-group">' +
+        '<input type="submit" name="add_workout" value="Add This Workout" class="btn btn-primary btn-sm">' +
+      '</div>';
+
+    this.removeWorkout = '' +
+      '<div class="form-group">' +
+        '<input type="submit" name="remove_workout" value="Remove Workout" class="btn btn-primary btn-sm">' +
+      '</div>';
+
+    this.nameField = '' +
+      '<div class="form-group">' +
+        '<label for="program_name">Name</label><br>' +
+        '<input type="text" name="program_name" id="program_name"><br>' +
+      '</div>';
+
+    this.descriptionField = '' +
+      '<div class="form-group">' +
+        '<label for="program_description">Description</label><br>' +
+        '<textarea cols="23" rows="5" name="program_description" id="program_description"></textarea>' +
+      '</div>';
+
+    this.selectWorkout = '' +
+      '<div class="form-group">' +
+        '<select name="program_workout_templates" id="program_workout_templates" class="selectWorkout">' +
+        '</select>' +
+      '</div>';
+
+}
+
+function renderOptions(data) {
+  console.log('From renderOptions...');
+  console.log(data);
+  if(data){
+    data.forEach(function(wt, i){
+      if(i = 0){
+        wt.asOption((i + 1), true);
+      } else {
+        wt.asOption((i + 1), false);
+      }
     });
   }
 }
 
-function workoutTemplatesNew(){
-  $('.newWorkoutTemplate').click(function(event){
-    $('#newWorkoutTemplate').html('<p>New Workout Template Goes Here.</p>');
-    event.preventDefault();
-  });
-}
 
-function renderedElements(){
-
-
-  this.elements = {
-    addWorkout: ''+
-      '<div class="form-group">' +
-        '<input type="submit" name="select_workout" value="Add A Workout" class="addWorkout btn btn-primary btn-sm">' +
-      '</div>',
-
-    addThisWorkout: '' +
-      '<div class="form-group">' +
-        '<input type="submit" name="add_workout" value="Add This Workout" class="btn btn-primary btn-sm">' +
-      '</div>',
-
-    removeWorkout: '' +
-      '<div class="form-group">' +
-        '<input type="submit" name="remove_workout" value="Remove Workout" class="btn btn-primary btn-sm">' +
-      '</div>',
-
-    nameField: '' +
-    '<div class="form-group">' +
-      '<label for="program_name">Name</label><br>' +
-      '<input type="text" name="program_name" id="program_name"><br>' +
-    '</div>',
-
-    descriptionField: '' +
-    '<div class="form-group">' +
-      '<label for="program_description">Description</label><br>' +
-      '<textarea cols="23" rows="5" name="program_description" id="program_description"></textarea>' +
-    '</div>',
-
-    selectWorkout: '' +
-      '<div class="form-group">' +
-        '<select name="program[workout_templates_attributes][1][id]" id="program_workout_templates_attributes_1_id">' +
-        '<option selected="selected" value="1">Workout A</option>' +
-        '<option value="2">Workout B</option>' +
-        '</select>' +
-      '</div>'
-  }
-
-
-
+function renderError(){
+  $('.errorMessage').text('Sadly, there was an error. The information you are looking for is currently unavailable.');
+  $('.errorHide').hide();
 }
