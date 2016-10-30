@@ -196,18 +196,16 @@ function programsIndex(){
   }
 
   function removeWorkout(){
-
     $(document).on('click', '.removeWorkout', function(event){
       event.preventDefault();
 
-    $('.selectZone div:last').hide(200, function(){
-      $(this).remove();
+      if( $('.selectZone div').length > 1 ){
+        $('.selectZone div:last').hide(200, function(){
+          $(this).remove();
+        });
+      }
+      
     });
-    console.log('Removing....');
-    });
-
-    // showHideRemoveButton();
-
   }
 
   function getWorkoutTemplates(){
