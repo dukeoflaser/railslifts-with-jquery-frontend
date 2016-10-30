@@ -121,6 +121,10 @@ function programsIndex(){
 
 
 
+
+
+
+
 // below are the functions concerned with rendering the dynamic forms.
   var workout_templates = [];
 
@@ -133,19 +137,16 @@ function programsIndex(){
   }
 
   function addFormArea(){
-    // var form = new Elements();
+
     var formArea = '' +
     '<form class="new_program" id="new_program">' +
       '<div class="fieldZone"></div>' +
       '<div class="selectZone"></div>' +
       '<div class="buttonZone"></div>' +
-        // form.addWorkout +
       '</div>' +
     '</form>'
 
     $('#newProgram').html(formArea);
-
-    // addWorkout();
 
     populateForm();
   }
@@ -155,10 +156,6 @@ function programsIndex(){
     var elements = new Elements;
     $('div.fieldZone').append(elements.nameField);
     $('div.fieldZone').append(elements.descriptionField);
-
-    // $('div.selectZone').hide();
-    // getWorkoutTemplates();
-
     $('div.buttonZone').append(elements.addWorkoutButton);
     $('div.buttonZone').append(elements.addThisWorkoutButton);
     $('.addThisWorkout').hide();
@@ -185,8 +182,10 @@ function programsIndex(){
         $('.addThisWorkout').show();
         addThisWorkout();
 
-        $('.removeWorkout').show();
-        removeWorkout();
+        if($('.selectWorkout').length > 1){
+          $('.removeWorkout').show();
+          removeWorkout();
+        }
     });
   }
 
@@ -196,6 +195,12 @@ function programsIndex(){
 
       $('.addWorkout').text('Add Another Workout').show();
       $('.addThisWorkout').hide();
+
+      if($('.saveProgram').length == 0){
+        var elements = new Elements;
+        $('div.buttonZone').append(elements.saveProgramButton)
+      }
+
     });
   }
 
