@@ -205,6 +205,11 @@ function programsIndex(){
   }
 
   function removeWorkout(){
+    $(document).on('click', '.removeWorkout', function(event){
+      event.preventDefault();
+
+      $('.selectWorkout:last').remove();
+    });
 
   }
 
