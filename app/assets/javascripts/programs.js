@@ -122,31 +122,88 @@ function programsIndex(){
 
 
 // below are the functions concerned with rendering the dynamic forms.
+  var workout_templates = [];
 
-  function programsNew(){
+  function newProgram(){
     $('.newProgram').click(function(event){
       event.preventDefault();
 
-      renderForm();
+      addFormArea();
     });
   }
 
-  function renderForm(){
-    var form = new RenderedElements();
-    var renderedForm = '' +
+  function addFormArea(){
+    // var form = new Elements();
+    var formArea = '' +
     '<form class="new_program" id="new_program">' +
-       form.nameField +
-       form.descriptionField +
-      '<div class="dynamicZone">' +
-        form.addWorkout +
+      '<div class="fieldZone"></div>' +
+      '<div class="selectZone"></div>' +
+      '<div class="buttonZone"></div>' +
+        // form.addWorkout +
       '</div>' +
     '</form>'
 
-    $('#newProgram').html(renderedForm);
+    $('#newProgram').html(formArea);
+
+    // addWorkout();
+
+    populateForm();
+  }
+
+
+  function populateForm(){
+    var elements = new Elements;
+    $('div.fieldZone').append(elements.nameField);
+    $('div.fieldZone').append(elements.descriptionField);
+
+    // $('div.selectZone').hide();
+    // getWorkoutTemplates();
+
+    $('div.buttonZone').append(elements.addWorkoutButton);
+    $('div.buttonZone').append(elements.addThisWorkoutButton);
+    $('.addThisWorkout').hide();
+    $('div.buttonZone').append(elements.removeWorkoutButton);
+    $('.removeWorkout').hide();
+
     addWorkout();
   }
 
-  function getWorkoutTemplatesData(){
+
+
+  function addWorkout(){
+    $('.addWorkout').click(function(event){
+        event.preventDefault();
+
+        if(workout_templates.length == 0){
+          getWorkoutTemplates();
+        } else {
+          renderWTSelectMenu(workout_templates);
+        }
+
+        $('.addWorkout').hide();
+
+        $('.addThisWorkout').show();
+        addThisWorkout();
+
+        $('.removeWorkout').show();
+        removeWorkout();
+    });
+  }
+
+  function addThisWorkout(){
+    $(document).on('click', '.addThisWorkout', function(event){
+      event.preventDefault();
+
+      $('.addWorkout').text('Add Another Workout').show();
+      $('.addThisWorkout').hide();
+    });
+  }
+
+  function removeWorkout(){
+
+  }
+
+  function getWorkoutTemplates(){
     $.get('/workout_templates.json', function(data){
         wts = [];
 
@@ -160,57 +217,69 @@ function programsIndex(){
           );
 
           wts.push(x);
+          workout_templates.push(x); // use this array to reuse workout_templates list.
         });
 
-        renderDynamicFields(wts);
+        renderWTSelectMenu(wts);
     });
   }
 
-  function addWorkout(){
-    $('.addWorkout').click(function(event){
-        event.preventDefault();
-        addThisWorkout();
-        removeWorkout();
-        getWorkoutTemplatesData();
-    });
-  }
-
-  function addThisWorkout(){
-    $(document).on('click', '.addThisWorkout', function(event){
-      event.preventDefault();
-      $('.addWorkout').show();
-      $('.removeWorkout').hide();
-      $('.addThisWorkout').hide();
-    });
-  }
-
-  function removeWorkout(){
-
-  }
-
-  function renderDynamicFields(wts){
-    var form = new RenderedElements();
-    $('.dynamicZone').append(form.selectWorkout);
-    $('.dynamicZone').append(form.addThisWorkout);
-    $('.dynamicZone').append(form.removeWorkout);
-    $('.addWorkout').hide();
-
+  function renderWTSelectMenu(wts){
+    var form = new Elements();
+    $('div.selectZone').append(form.selectWorkout);
     wts.forEach(function(wt, i){
       $('.selectWorkout').append(wt.asOption());
     });
   }
 
+  // function renderDynamicFields(wts){
+  //   var form = new Elements();
+  //   // $('.dynamicZone').append(form.selectWorkout);
+  //   $('.dynamicZone').append(form.addThisWorkout);
+  //   $('.dynamicZone').append(form.removeWorkout);
+  //   $('.addWorkout').hide();
+
+    // wts.forEach(function(wt, i){
+    //   $('.selectWorkout').append(wt.asOption());
+    // });
+  // }
 
 
-  function workoutTemplatesNew(){
-    $('.newWorkoutTemplate').click(function(event){
-      $('#newWorkoutTemplate').html('<p>New Workout Template Goes Here.</p>');
-      event.preventDefault();
-    });
-  }
 
-  programsNew();
+  // function workoutTemplatesNew(){
+  //   $('.newWorkoutTemplate').click(function(event){
+  //     $('#newWorkoutTemplate').html('<p>New Workout Template Goes Here.</p>');
+  //     event.preventDefault();
+  //   });
+  // }
+
+  newProgram();
 }
+
+// end program form logic
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -237,20 +306,18 @@ function WorkoutTemplate(desc, et, id, name, owner_id){
   }
 }
 
-
-
-function RenderedElements(){
-    this.addWorkout = ''+
+function Elements(){
+    this.addWorkoutButton = ''+
       '<div class="form-group">' +
         '<a href="#" class="addWorkout btn btn-primary btn-sm">Add A Workout</a>' +
       '</div>';
 
-    this.addThisWorkout = '' +
+    this.addThisWorkoutButton = '' +
       '<div class="form-group">' +
         '<a href="#" class="addThisWorkout btn btn-primary btn-sm">Add This Workout</a>' +
       '</div>';
 
-    this.removeWorkout = '' +
+    this.removeWorkoutButton = '' +
       '<div class="form-group">' +
         '<a href="#" class="removeWorkout btn btn-primary btn-sm">Remove Workout</a>' +
       '</div>';
@@ -272,23 +339,12 @@ function RenderedElements(){
         '<select name="program_workout_templates" id="program_workout_templates" class="selectWorkout">' +
         '</select>' +
       '</div>';
+    this.saveProgramButton = '' +
+      '<div class="form-group">' +
+        '<a href="#" class="saveProgram btn btn-primary btn-sm">Save Program</a>' +
+      '</div>';
 
 }
-
-function renderOptions(data) {
-  console.log('From renderOptions...');
-  console.log(data);
-  if(data){
-    data.forEach(function(wt, i){
-      if(i = 0){
-        wt.asOption((i + 1), true);
-      } else {
-        wt.asOption((i + 1), false);
-      }
-    });
-  }
-}
-
 
 function renderError(){
   $('.errorMessage').text('Sadly, there was an error. The information you are looking for is currently unavailable.');
