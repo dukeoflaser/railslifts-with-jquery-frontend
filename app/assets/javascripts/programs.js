@@ -121,7 +121,7 @@ function programsIndex(){
 
 
 
-// below are the functions conerned with rendering the dynamic forms.
+// below are the functions concerned with rendering the dynamic forms.
 
   function programsNew(){
     $('.newProgram').click(function(event){
@@ -162,7 +162,6 @@ function programsIndex(){
           wts.push(x);
         });
 
-        // var workoutSelecter = new RenderedElements(wts);
         renderDynamicFields(wts);
     });
   }
@@ -170,8 +169,23 @@ function programsIndex(){
   function addWorkout(){
     $('.addWorkout').click(function(event){
         event.preventDefault();
+        addThisWorkout();
+        removeWorkout();
         getWorkoutTemplatesData();
     });
+  }
+
+  function addThisWorkout(){
+    $(document).on('click', '.addThisWorkout', function(event){
+      event.preventDefault();
+      $('.addWorkout').show();
+      $('.removeWorkout').hide();
+      $('.addThisWorkout').hide();
+    });
+  }
+
+  function removeWorkout(){
+
   }
 
   function renderDynamicFields(wts){
@@ -226,35 +240,19 @@ function WorkoutTemplate(desc, et, id, name, owner_id){
 
 
 function RenderedElements(){
-  // this.workoutOptions = function(){
-  //   var options = '';
-  //
-  //   DATA['workout_template_data']['workout_templates'].forEach(function(wt, i){
-  //     console.log(wt['name']);
-  //     if(i = 0){
-  //       options += `<option selected="selected" value="1">${wt.name}</option>`
-  //     } else {
-  //       options += '<option value="' + (i + 1) + '">' + wt['name'] + '</option>'
-  //     }
-  //   });
-  //   console.log(options);
-  //   return options;
-  // }
-
-
     this.addWorkout = ''+
       '<div class="form-group">' +
-        '<input type="submit" name="select_workout" value="Add A Workout" class="addWorkout btn btn-primary btn-sm">' +
+        '<a href="#" class="addWorkout btn btn-primary btn-sm">Add A Workout</a>' +
       '</div>';
 
     this.addThisWorkout = '' +
       '<div class="form-group">' +
-        '<input type="submit" name="add_workout" value="Add This Workout" class="btn btn-primary btn-sm">' +
+        '<a href="#" class="addThisWorkout btn btn-primary btn-sm">Add This Workout</a>' +
       '</div>';
 
     this.removeWorkout = '' +
       '<div class="form-group">' +
-        '<input type="submit" name="remove_workout" value="Remove Workout" class="btn btn-primary btn-sm">' +
+        '<a href="#" class="removeWorkout btn btn-primary btn-sm">Remove Workout</a>' +
       '</div>';
 
     this.nameField = '' +
