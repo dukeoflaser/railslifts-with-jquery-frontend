@@ -146,7 +146,7 @@ function programsIndex(){
       '</div>' +
     '</form>'
 
-    $('#newProgram').html(formArea);
+    $('#newProgram').html(formArea).hide().fadeIn(500);
 
     populateForm();
   }
@@ -163,15 +163,6 @@ function programsIndex(){
     addWorkout();
   }
 
-  function showHideRemoveButton(){
-    if($('.selectWorkout').length > 1){
-      $('.removeWorkout').show();
-      removeWorkout();
-    } else {
-      $('.removeWorkout').hide();
-    }
-  }
-
   function addWorkout(){
     $('.addWorkout').click(function(event){
         event.preventDefault();
@@ -184,9 +175,10 @@ function programsIndex(){
 
         $('.addWorkout').text('Add Another Workout');
 
-        // showHideRemoveButton();
-        $('.removeWorkout').show();
-        removeWorkout();
+        if( $('.selectZone div').length > 1 ){
+          $('.removeWorkout').show();
+          removeWorkout();
+        }
 
         if($('.saveProgram').length == 0){
           var elements = new Elements;
@@ -204,7 +196,7 @@ function programsIndex(){
           $(this).remove();
         });
       }
-      
+
     });
   }
 
@@ -231,10 +223,12 @@ function programsIndex(){
 
   function renderWTSelectMenu(wts){
     var form = new Elements();
-    $('div.selectZone').append(form.selectWorkout);
+    $('.selectZone').append(form.selectWorkout);
     wts.forEach(function(wt, i){
       $('.selectWorkout').append(wt.asOption());
     });
+
+    $('.selectZone div:last').hide().show(200);
   }
 
   // function renderDynamicFields(wts){
