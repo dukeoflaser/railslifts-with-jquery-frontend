@@ -163,7 +163,14 @@ function programsIndex(){
     addWorkout();
   }
 
-
+  function showHideRemoveButton(){
+    if($('.selectWorkout').length > 1){
+      $('.removeWorkout').show();
+      removeWorkout();
+    } else {
+      $('.removeWorkout').hide();
+    }
+  }
 
   function addWorkout(){
     $('.addWorkout').click(function(event){
@@ -177,12 +184,9 @@ function programsIndex(){
 
         $('.addWorkout').text('Add Another Workout');
 
-        if($('.selectWorkout').length > 1){
-          $('.removeWorkout').show();
-          removeWorkout();
-        } else {
-          $('.removeWorkout').hide();
-        }
+        // showHideRemoveButton();
+        $('.removeWorkout').show();
+        removeWorkout();
 
         if($('.saveProgram').length == 0){
           var elements = new Elements;
@@ -192,11 +196,17 @@ function programsIndex(){
   }
 
   function removeWorkout(){
+
     $(document).on('click', '.removeWorkout', function(event){
       event.preventDefault();
 
-      $('.selectWorkout:last').remove();
+    $('.selectZone div:last').hide(200, function(){
+      $(this).remove();
     });
+    console.log('Removing....');
+    });
+
+    // showHideRemoveButton();
 
   }
 
@@ -328,7 +338,7 @@ function Elements(){
 
     this.selectWorkout = '' +
       '<div class="form-group">' +
-        '<select name="program_workout_templates" id="program_workout_templates" class="selectWorkout">' +
+        '<select class="selectWorkout">' +
         '</select>' +
       '</div>';
     this.saveProgramButton = '' +
