@@ -157,8 +157,6 @@ function programsIndex(){
     $('div.fieldZone').append(elements.nameField);
     $('div.fieldZone').append(elements.descriptionField);
     $('div.buttonZone').append(elements.addWorkoutButton);
-    $('div.buttonZone').append(elements.addThisWorkoutButton);
-    $('.addThisWorkout').hide();
     $('div.buttonZone').append(elements.removeWorkoutButton);
     $('.removeWorkout').hide();
 
@@ -177,30 +175,19 @@ function programsIndex(){
           renderWTSelectMenu(workout_templates);
         }
 
-        $('.addWorkout').hide();
-
-        $('.addThisWorkout').show();
-        addThisWorkout();
+        $('.addWorkout').text('Add Another Workout');
 
         if($('.selectWorkout').length > 1){
           $('.removeWorkout').show();
           removeWorkout();
+        } else {
+          $('.removeWorkout').hide();
         }
-    });
-  }
 
-  function addThisWorkout(){
-    $(document).on('click', '.addThisWorkout', function(event){
-      event.preventDefault();
-
-      $('.addWorkout').text('Add Another Workout').show();
-      $('.addThisWorkout').hide();
-
-      if($('.saveProgram').length == 0){
-        var elements = new Elements;
-        $('div.buttonZone').append(elements.saveProgramButton)
-      }
-
+        if($('.saveProgram').length == 0){
+          var elements = new Elements;
+          $('div.buttonZone').append(elements.saveProgramButton)
+        }
     });
   }
 
@@ -320,11 +307,6 @@ function Elements(){
     this.addWorkoutButton = ''+
       '<div class="form-group">' +
         '<a href="#" class="addWorkout btn btn-primary btn-sm">Add A Workout</a>' +
-      '</div>';
-
-    this.addThisWorkoutButton = '' +
-      '<div class="form-group">' +
-        '<a href="#" class="addThisWorkout btn btn-primary btn-sm">Add This Workout</a>' +
       '</div>';
 
     this.removeWorkoutButton = '' +
