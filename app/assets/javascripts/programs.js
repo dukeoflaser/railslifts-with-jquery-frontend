@@ -146,8 +146,12 @@ function programsIndex(){
 
 
   function showWorkoutTemplates(){
-    $(document).on('click', '.displayWorkouts', function(){
+    $(document).on('click', '.displayWorkouts', function(event){
+      event.preventDefault();
       console.log($(this).data('id'));
+      var row_index = $(this).parent().parent().index();
+      $('tr.program' + row_index).after($('<tr class="workoutTemplates"></tr>'));
+      // getProgramsData($(this).data('id'));
     });
   }
 
