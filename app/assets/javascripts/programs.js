@@ -1,67 +1,78 @@
 function programsShow(){
-
-  function getId(){
-    return $('[data-id]').attr('data-id');
-  }
-
-  function getProgramData(){
-    var id = getId();
-
-    $.get('/programs/' + id + '.json', function(data){
-
-      var p = data['program'];
-      var program = new Program(
-        p['id'],
-        p['name'],
-        p['description'],
-        p['owner_name'],
-        p['workout_templates']
-      );
-      renderProgramData(program);
-    })
-    .fail(function(){
-      renderError();
-    });
-  }
-
-  function renderProgramData(program){
-    var tableTemplate = '' +
-      '<tr>' +
-        '<th>Exercise</th>' +
-        '<th>Sets</th>' +
-        '<th>Reps</th>' +
-        '<th>Weight (lbs)</th>' +
-        '<th>Rest (seconds)</th>' +
-      '</tr>';
-
-    $('.programName').text(program.name);
-    $('.programOwner').text('By ' + program.ownerName);
-    $('.programDescription').text(program.description);
-
-    program.workoutTemplates.forEach(function(wt, i){
-      $('.workoutTemplates').append(
-        '<h3 class="wt' + i + '"></h3>' +
-        '<p class="wt' + i + '"></p><br>' +
-        '<table class="table wt' + i + '"></table>'
-      );
-        $('h3.wt' + i).text(wt['name']);
-        $('p.wt' + i).text(wt['description']);
-        $('table.wt' + i).html(tableTemplate);
-
-        wt['exercise_templates'].forEach(function(et, ii){
-          $('table.wt' + i).append('<tr class="et' + ii + '"></tr>');
-          $('table.wt' + i + ' tr.et' + ii).append('<td>' + et['name'] + '</td>');
-          $('table.wt' + i + ' tr.et' + ii).append('<td>' + et['sets'] + '</td>');
-          $('table.wt' + i + ' tr.et' + ii).append('<td>' + et['reps'] + '</td>');
-          $('table.wt' + i + ' tr.et' + ii).append('<td>' + et['weight'] + '</td>');
-          $('table.wt' + i + ' tr.et' + ii).append('<td>' + et['rest'] + '</td>');
-        });
-    });
-  }
-
   getProgramData();
 }
 
+function getId(){
+  return $('[data-id]').attr('data-id');
+}
+
+function getProgramData(){
+  var id = getId();
+
+  $.get('/programs/' + id + '.json', function(data){
+
+    var p = data['program'];
+    var program = new Program(
+      p['id'],
+      p['name'],
+      p['description'],
+      p['owner_name'],
+      p['workout_templates']
+    );
+    renderProgramData(program);
+  })
+  .fail(function(){
+    renderError();
+  });
+}
+
+function renderProgramData(program){
+  renderProgramInfo(program);
+  renderWorkoutTemplates(program);
+}
+
+function tableTemplate(){
+  var tableTemplate = '' +
+    '<tr>' +
+      '<th>Exercise</th>' +
+      '<th>Sets</th>' +
+      '<th>Reps</th>' +
+      '<th>Weight (lbs)</th>' +
+      '<th>Rest (seconds)</th>' +
+    '</tr>';
+
+  return tableTemplate;
+}
+
+function renderProgramInfo(program){
+  $('.programName').text(program.name);
+  $('.programOwner').text('By ' + program.ownerName);
+  $('.programDescription').text(program.description);
+}
+
+function renderWorkoutTemplates(program){
+  var tT = tableTemplate();
+
+  program.workoutTemplates.forEach(function(wt, i){
+    $('.workoutTemplates').append(
+      '<h3 class="wt' + i + '"></h3>' +
+      '<p class="wt' + i + '"></p><br>' +
+      '<table class="table wt' + i + '"></table>'
+    );
+      $('h3.wt' + i).text(wt['name']);
+      $('p.wt' + i).text(wt['description']);
+      $('table.wt' + i).html(tT);
+
+      wt['exercise_templates'].forEach(function(et, ii){
+        $('table.wt' + i).append('<tr class="et' + ii + '"></tr>');
+        $('table.wt' + i + ' tr.et' + ii).append('<td>' + et['name'] + '</td>');
+        $('table.wt' + i + ' tr.et' + ii).append('<td>' + et['sets'] + '</td>');
+        $('table.wt' + i + ' tr.et' + ii).append('<td>' + et['reps'] + '</td>');
+        $('table.wt' + i + ' tr.et' + ii).append('<td>' + et['weight'] + '</td>');
+        $('table.wt' + i + ' tr.et' + ii).append('<td>' + et['rest'] + '</td>');
+      });
+  });
+}
 
 
 
