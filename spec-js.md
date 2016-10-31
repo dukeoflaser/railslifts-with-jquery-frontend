@@ -8,7 +8,7 @@ Specs:
     ***program has_many workout_templates. workout_templates has_many exercise_templates***
 - [x] Include at least one link that loads or updates a resource without reloading the page.
     ***Programs are created and loaded onto the 'programs' page without browser refresh***
-- [ ] Translate JSON responses into js model objects.
+- [x] Translate JSON responses into js model objects.
 - [x] At least one of the js model objects must have at least one method added by your code to the prototype.
     ***get request to workout_templates is turned into a model. A method to format the workout into <option> tags is added***
 
