@@ -104,6 +104,8 @@ function programsIndex(){
 
   function renderProgramsData(data){
     $('.programList').html('');
+    $('.programList').hide();
+
 
     if(data['programs'].length > 0){
       data['programs'].forEach(function(program, i){
@@ -114,9 +116,11 @@ function programsIndex(){
     } else {
       $('.programList').append('<tr><td>There are no programs to display.</td></tr>');
     }
+
+    $('.programList').fadeIn(200);
   }
 
-    getProgramsData();
+  getProgramsData();
 
 
 
@@ -200,21 +204,32 @@ function programsIndex(){
         workout_templates_attributes[index.toString()] = {"id": $(this).val()};
       });
 
-
-
       $.ajax({
         url: '/programs',
         method: 'POST',
+        dataType: 'json',
         data: {
           program: {
             'name': name,
             'description': description,
             'workout_templates_attributes': workout_templates_attributes
+            // "program"=>{"name"=>"", "description"=>"", "workout_templates_attributes"=>{"0"=>{"id"=>"1"}, "1"=>{"id"=>"1"}}}
           }
         }
-        // "program"=>{"name"=>"", "description"=>"", "workout_templates_attributes"=>{"0"=>{"id"=>"1"}, "1"=>{"id"=>"1"}}}
+      })
+      .complete(function(res){
+        console.log(res);
       });
+
+      resetProgramPage();
     });
+  }
+
+  function resetProgramPage(){
+    $('#newProgram').hide(200, function(){
+      $( this ).remove();
+    });
+    getProgramsData();
   }
 
   function removeWorkout(){

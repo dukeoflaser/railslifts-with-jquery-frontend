@@ -117,7 +117,8 @@ class ProgramsController < ApplicationController
       @program.update(owner_id: current_user.id)
 
       current_user.programs << @program
-      redirect_to program_path(@program)
+      # redirect_to program_path(@program)
+      render :nothing => true
     else
       @program.workout_templates.build
       render 'new'
