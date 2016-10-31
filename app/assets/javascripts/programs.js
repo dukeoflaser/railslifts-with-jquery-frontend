@@ -182,8 +182,38 @@ function programsIndex(){
 
         if($('.saveProgram').length == 0){
           var elements = new Elements;
-          $('div.buttonZone').append(elements.saveProgramButton)
+          $('div.buttonZone').append(elements.saveProgramButton);
+          saveProgram();
         }
+    });
+  }
+
+  function saveProgram(){
+    $(document).on('click', '.saveProgram', function(event){
+      event.preventDefault();
+
+      var name = $('#program_name').val();
+      var description = $('#program_description').val();
+      var workout_templates_attributes = {};
+
+      $('.selectWorkout').each(function(index){
+        workout_templates_attributes[index.toString()] = {"id": $(this).val()};
+      });
+
+
+
+      $.ajax({
+        url: '/programs',
+        method: 'POST',
+        data: {
+          program: {
+            'name': name,
+            'description': description,
+            'workout_templates_attributes': workout_templates_attributes
+          }
+        }
+        // "program"=>{"name"=>"", "description"=>"", "workout_templates_attributes"=>{"0"=>{"id"=>"1"}, "1"=>{"id"=>"1"}}}
+      });
     });
   }
 
@@ -225,7 +255,7 @@ function programsIndex(){
     var form = new Elements();
     $('.selectZone').append(form.selectWorkout);
     wts.forEach(function(wt, i){
-      $('.selectWorkout').append(wt.asOption());
+      $('.selectWorkout').append(wt.asOption(wt.id));
     });
 
     $('.selectZone div:last').hide().show(200);
