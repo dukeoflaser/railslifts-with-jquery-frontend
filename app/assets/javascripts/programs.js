@@ -52,7 +52,6 @@ function renderProgramInfo(program){
 
 function renderWorkoutTemplates(program){
   var tT = tableTemplate();
-
   program.workoutTemplates.forEach(function(wt, i){
     $('.workoutTemplates').append(
       '<h3 class="wt' + i + '"></h3>' +
@@ -132,7 +131,7 @@ function programsIndex(){
       programs.list.forEach(function(program, i){
         $('.programList').append('<tr class="program' + i + '"></tr>');
         $('tr.program' + i).append('<td><a href="/programs/' + program['id'] + '">' + program['name'] + '</a></td>');
-        $('tr.program' + i).append('<td><a href="#" class="displayWorkouts" data-id="' + program['id'] + '">' + program['workout_templates'].length + '</a></td>');
+        $('tr.program' + i).append('<td><a href="#" class="displayWorkouts btn btn-sm btn-info" data-id="' + program['id'] + '">' + program['workout_templates'].length + '</a></td>');
       });
     } else {
       $('.programList').append('<tr><td>There are no programs to display.</td></tr>');
@@ -149,16 +148,14 @@ function programsIndex(){
     $(document).on('click', '.displayWorkouts', function(event){
       event.preventDefault();
 
-      $('tr.workoutTemplates').hide(200,function(){
-        $(this).remove();
-      });
+      $('tr.workoutTemplates').remove();
 
       var row_index = $(this).parent().parent().index();
       $('tr.program' + row_index).after($('<tr class="workoutTemplates"></tr>'));
       $('tr.workoutTemplates').hide();
 
       getProgramData($(this).data('id'));
-      $('tr.workoutTemplates').show(500);
+      $('tr.workoutTemplates').show(200);
 
     });
   }
