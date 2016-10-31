@@ -96,19 +96,19 @@ function programsIndex(){
 
   function getProgramsData(){
     $.get('/programs.json', function(data){
-      renderProgramsData(data);
+      var programs = new ProgramList(data['programs']);
+      renderProgramsData(programs);
     }).fail(function(){
       renderError();
     });
   }
 
-  function renderProgramsData(data){
+  function renderProgramsData(programs){
     $('.programList').html('');
     $('.programList').hide();
 
-
-    if(data['programs'].length > 0){
-      data['programs'].forEach(function(program, i){
+    if(programs.list.length > 0){
+      programs.list.forEach(function(program, i){
         $('.programList').append('<tr class="program' + i + '"></tr>');
         $('tr.program' + i).append('<td><a href="/programs/' + program['id'] + '">' + program['name'] + '</a></td>');
         $('tr.program' + i).append('<td>' + program['workout_templates'].length + '</td>');
@@ -331,9 +331,9 @@ function programsIndex(){
 
 
 
-
-
-
+function ProgramList(programs){
+  this.list = programs;
+}
 
 function WorkoutTemplate(desc, et, id, name, owner_id){
   this.desc = desc;
