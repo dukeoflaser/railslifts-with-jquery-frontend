@@ -6,8 +6,8 @@ function getId(){
   return $('[data-id]').attr('data-id');
 }
 
-function getProgramData(){
-  var id = getId();
+function getProgramData(id){
+  if(id === undefined) var id = getId();
 
   $.get('/programs/' + id + '.json', function(data){
 
