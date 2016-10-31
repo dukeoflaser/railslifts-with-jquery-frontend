@@ -8,13 +8,23 @@ function programsShow(){
     var id = getId();
 
     $.get('/programs/' + id + '.json', function(data){
-      renderData(data);
-    }).fail(function(){
+
+      var p = data['program'];
+      var program = new Program(
+        p['id'],
+        p['name'],
+        p['description'],
+        p['owner_name'],
+        p['workout_templates']
+      );
+      renderProgramData(program);
+    })
+    .fail(function(){
       renderError();
     });
   }
 
-  function renderData(data){
+  function renderProgramData(program){
     var tableTemplate = '' +
       '<tr>' +
         '<th>Exercise</th>' +
@@ -24,11 +34,11 @@ function programsShow(){
         '<th>Rest (seconds)</th>' +
       '</tr>';
 
-    $('.programName').text(data['program']['name']);
-    $('.programOwner').text('By ' + data['program']['owner_name']);
-    $('.programDescription').text(data['program']['description']);
+    $('.programName').text(program.name);
+    $('.programOwner').text('By ' + program.ownerName);
+    $('.programDescription').text(program.description);
 
-    data['program']['workout_templates'].forEach(function(wt, i){
+    program.workoutTemplates.forEach(function(wt, i){
       $('.workoutTemplates').append(
         '<h3 class="wt' + i + '"></h3>' +
         '<p class="wt' + i + '"></p><br>' +
@@ -333,6 +343,14 @@ function programsIndex(){
 
 function ProgramList(programs){
   this.list = programs;
+}
+
+function Program(id, name, desc, owner, wts){
+  this.id = id;
+  this.name = name;
+  this.description = desc;
+  this.ownerName = owner;
+  this.workoutTemplates = wts;
 }
 
 function WorkoutTemplate(desc, et, id, name, owner_id){
