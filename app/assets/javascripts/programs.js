@@ -121,17 +121,24 @@ function programsIndex(){
       programs.list.forEach(function(program, i){
         $('.programList').append('<tr class="program' + i + '"></tr>');
         $('tr.program' + i).append('<td><a href="/programs/' + program['id'] + '">' + program['name'] + '</a></td>');
-        $('tr.program' + i).append('<td><a href="#" class="displayWorkouts">' + program['workout_templates'].length + '</a></td>');
+        $('tr.program' + i).append('<td><a href="#" class="displayWorkouts" data-id="' + program['id'] + '">' + program['workout_templates'].length + '</a></td>');
       });
     } else {
       $('.programList').append('<tr><td>There are no programs to display.</td></tr>');
     }
 
     $('.programList').fadeIn(200);
+    showWorkoutTemplates();
   }
 
   getProgramsData();
 
+
+  function showWorkoutTemplates(){
+    $(document).on('click', '.displayWorkouts', function(){
+      console.log($(this).data('id'));
+    });
+  }
 
 
 
