@@ -270,7 +270,7 @@ function programsIndex(){
     var form = new Elements();
     $('.selectZone').append(form.selectWorkout);
     wts.forEach(function(wt, i){
-      $('.selectWorkout').append(wt.asOption(wt.id));
+      $('.selectWorkout:last').append(wt.asOption(wt.id));
     });
 
     $('.selectZone div:last').hide().show(200);
