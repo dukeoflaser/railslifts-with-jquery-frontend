@@ -148,10 +148,18 @@ function programsIndex(){
   function showWorkoutTemplates(){
     $(document).on('click', '.displayWorkouts', function(event){
       event.preventDefault();
-      console.log($(this).data('id'));
+
+      $('tr.workoutTemplates').hide(200,function(){
+        $(this).remove();
+      });
+
       var row_index = $(this).parent().parent().index();
       $('tr.program' + row_index).after($('<tr class="workoutTemplates"></tr>'));
-      // getProgramsData($(this).data('id'));
+      $('tr.workoutTemplates').hide();
+
+      getProgramData($(this).data('id'));
+      $('tr.workoutTemplates').show(500);
+
     });
   }
 
