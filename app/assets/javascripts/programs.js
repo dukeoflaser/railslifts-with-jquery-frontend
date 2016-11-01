@@ -319,7 +319,6 @@ function saveProgram(){
       console.log(res);
     });
 
-    cachedPrograms = [];
     resetProgramPage();
   });
 }
