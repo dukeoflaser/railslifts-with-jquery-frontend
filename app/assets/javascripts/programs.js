@@ -117,16 +117,12 @@ function renderWorkoutTemplates(program){
 function programsIndex(){
   newProgram();
   getProgramsData();
-  cachedPrograms = [];
 }
 
-var cachedPrograms = [];
 
 //why does this get fired twice when switch between programs and my programs?
 function getProgramsData(){
-  console.log(cachedPrograms.length)
 
-  if(cachedPrograms.length === 0){
     $.get('/programs.json', function(data){
 
       if(window.location.pathname == '/my_programs'){
@@ -140,7 +136,6 @@ function getProgramsData(){
           });
 
           var programs = new ProgramList(my_programs);
-          cachedPrograms.push(programs);
 
           renderProgramsData(programs);
         }).fail(function(){
@@ -148,7 +143,6 @@ function getProgramsData(){
         });
       } else {
         var programs = new ProgramList(data['programs']);
-        cachedPrograms.push(programs);
 
         renderProgramsData(programs);
       }
@@ -157,9 +151,6 @@ function getProgramsData(){
     }).fail(function(){
       renderError();
     });
-  } else {
-    renderProgramsData(cachedPrograms[0]);
-  }
 }
 
 function renderProgramsData(programs){
