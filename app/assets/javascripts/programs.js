@@ -233,12 +233,33 @@ function addWorkout(){
         removeWorkout();
       }
 
-      if($('.saveProgram').length == 0){
-        var elements = new Elements;
-        $('div.buttonZone').append(elements.saveProgramButton);
-        saveProgram();
-      }
+      checkSaveProgram();
   });
+}
+
+function renderSaveButton(){
+  var elements = new Elements;
+  $('div.buttonZone').append(elements.saveProgramButton);
+}
+
+function removeSaveButton(){
+  $('a.saveProgram').remove();
+}
+
+function checkSaveProgram(){
+  var hasSaveButton = $('.saveProgram').length > 0;
+  var hasNoSaveButton = $('.saveProgram').length === 0;
+  var hasNameInput = $.trim($('#program_name').val());
+  var hasDescInput = $.trim($('#program_description').val());
+  var hasWT = $('.selectWorkout').length > 0;
+
+  if(hasNoSaveButton && hasNameInput && hasDescInput && hasWT){
+    renderSaveButton();
+  } else if(hasSaveButton && (!hasNameInput || !hasDescInput || !hasWT)){
+    removeSaveButton();
+  }
+
+  saveProgram();
 }
 
 function saveProgram(){
@@ -327,6 +348,7 @@ function renderWTSelectMenu(wts){
   });
 
   $('.selectZone div:last').hide().show(200);
+  checkSaveProgram();
 }
 
 // end program form logic
@@ -401,13 +423,13 @@ function Elements(){
     this.nameField = '' +
       '<div class="form-group">' +
         '<label for="program_name">Name</label><br>' +
-        '<input type="text" name="program_name" id="program_name"><br>' +
+        '<input type="text" name="program_name" id="program_name" onkeyup="checkSaveProgram()"><br>' +
       '</div>';
 
     this.descriptionField = '' +
       '<div class="form-group">' +
         '<label for="program_description">Description</label><br>' +
-        '<textarea cols="23" rows="5" name="program_description" id="program_description"></textarea>' +
+        '<textarea cols="23" rows="5" name="program_description" id="program_description" onkeyup="checkSaveProgram()"></textarea>' +
       '</div>';
 
     this.selectWorkout = '' +
