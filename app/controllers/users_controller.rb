@@ -12,9 +12,17 @@ class UsersController < ApplicationController
   end
 
   def data
-    @user = User.find(params[:id])
+    if params[:id]
+      @user = User.find(params[:id])
+    elsif
+      @user = User.find(current_user.id)
+    end
+
+
     respond_to do |format|
       format.json { render json: @user }
     end
   end
+
+
 end
