@@ -116,20 +116,55 @@ function renderWorkoutTemplates(program){
 
 function programsIndex(){
   newProgram();
+  getProgramsData();
+  cachedPrograms = [];
 }
 
+var cachedPrograms = [];
+
+//why does this get fired twice when switch between programs and my programs?
 function getProgramsData(){
-  $.get('/programs.json', function(data){
-    var programs = new ProgramList(data['programs']);
-    renderProgramsData(programs);
-  }).fail(function(){
-    renderError();
-  });
+  console.log(cachedPrograms.length)
+
+  if(cachedPrograms.length === 0){
+    $.get('/programs.json', function(data){
+
+      if(window.location.pathname == '/my_programs'){
+        $.get('/user-data.json', function(currentUser){
+          var my_programs = [];
+
+          data['programs'].forEach(function(p, i){
+            if(p.owner_id == currentUser.id ){
+              my_programs.push(p);
+            }
+          });
+
+          var programs = new ProgramList(my_programs);
+          cachedPrograms.push(programs);
+
+          renderProgramsData(programs);
+        }).fail(function(){
+          renderError();
+        });
+      } else {
+        var programs = new ProgramList(data['programs']);
+        cachedPrograms.push(programs);
+
+        renderProgramsData(programs);
+      }
+
+
+    }).fail(function(){
+      renderError();
+    });
+  } else {
+    renderProgramsData(cachedPrograms[0]);
+  }
 }
 
 function renderProgramsData(programs){
-  $('.programList').html('');
   $('.programList').hide();
+  $('.programList').html('');
 
   if(programs.list.length > 0){
     programs.list.forEach(function(program, i){
@@ -151,9 +186,6 @@ function renderProgramsData(programs){
   showWorkoutTemplates();
 }
 
-getProgramsData();
-
-
 function showWorkoutTemplates(){
   $(document).on('click', '.displayWorkouts', function(event){
     event.preventDefault();
@@ -166,7 +198,6 @@ function showWorkoutTemplates(){
     $('td.workoutTemplates').hide();
 
     getProgramData($(this).data('id'));
-    // $('td.workoutTemplates').fadeIn(200);
 
   });
 }
@@ -295,6 +326,7 @@ function saveProgram(){
       console.log(res);
     });
 
+    cachedPrograms = [];
     resetProgramPage();
   });
 }
