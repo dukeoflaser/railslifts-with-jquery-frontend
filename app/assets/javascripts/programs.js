@@ -135,7 +135,13 @@ function renderProgramsData(programs){
     programs.list.forEach(function(program, i){
       $('.programList').append('<tr class="program' + i + '"></tr>');
       $('tr.program' + i).append('<td><a href="/programs/' + program['id'] + '">' + program['name'] + '</a></td>');
-      $('tr.program' + i).append('<td><a href="#" class="displayWorkouts btn btn-sm btn-info" data-id="' + program['id'] + '">' + program['workout_templates'].length + '</a></td>');
+      $('tr.program' + i).append(
+        '<td><a href="#" class="displayWorkouts btn btn-sm btn-info" data-id="' +
+        program['id'] +
+        '">' +
+        'View (' + program["workout_templates"].length + ')' + 
+        '</a></td>'
+      );
     });
   } else {
     $('.programList').append('<tr><td>There are no programs to display.</td></tr>');
