@@ -153,7 +153,7 @@ function programsIndex(){
       $('td.workoutTemplates').remove();
 
       var row_index = $(this).parent().parent().index();
-      $('tr.program' + row_index).after($('<tr><td colspan="2" class="workoutTemplates"></td></tr>'));
+      $('tr.program' + row_index).after($('<tr><td colspan="2" class="workoutTemplates errorMessage"></td></tr>'));
       $('td.workoutTemplates').hide();
 
       getProgramData($(this).data('id'));
