@@ -116,21 +116,23 @@ function renderWorkoutTemplates(program){
 
 function programsIndex(){
   newProgram();
-  getProgramsData();
+  resetProgramPage();
 }
 
 
 //why does this get fired twice when switch between programs and my programs?
+//answer: Turbolinks. How to work with Turbolinks is the real question.
+
 function getProgramsData(){
 
     $.get('/programs.json', function(data){
 
       if(window.location.pathname == '/my_programs'){
-        $.get('/user-data.json', function(currentUser){
+        $.get('/user-data.json', function(res){
           var my_programs = [];
 
           data['programs'].forEach(function(p, i){
-            if(p.owner_id == currentUser.id ){
+            if(p.owner_id == res.user.id ){
               my_programs.push(p);
             }
           });
