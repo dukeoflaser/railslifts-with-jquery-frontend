@@ -115,52 +115,55 @@ function renderWorkoutTemplates(program){
 
 
 function programsIndex(){
+  newProgram();
+}
 
-  function getProgramsData(){
-    $.get('/programs.json', function(data){
-      var programs = new ProgramList(data['programs']);
-      renderProgramsData(programs);
-    }).fail(function(){
-      renderError();
+function getProgramsData(){
+  $.get('/programs.json', function(data){
+    var programs = new ProgramList(data['programs']);
+    renderProgramsData(programs);
+  }).fail(function(){
+    renderError();
+  });
+}
+
+function renderProgramsData(programs){
+  $('.programList').html('');
+  $('.programList').hide();
+
+  if(programs.list.length > 0){
+    programs.list.forEach(function(program, i){
+      $('.programList').append('<tr class="program' + i + '"></tr>');
+      $('tr.program' + i).append('<td><a href="/programs/' + program['id'] + '">' + program['name'] + '</a></td>');
+      $('tr.program' + i).append('<td><a href="#" class="displayWorkouts btn btn-sm btn-info" data-id="' + program['id'] + '">' + program['workout_templates'].length + '</a></td>');
     });
+  } else {
+    $('.programList').append('<tr><td>There are no programs to display.</td></tr>');
   }
 
-  function renderProgramsData(programs){
-    $('.programList').html('');
-    $('.programList').hide();
+  $('.programList').fadeIn(200);
+  showWorkoutTemplates();
+}
 
-    if(programs.list.length > 0){
-      programs.list.forEach(function(program, i){
-        $('.programList').append('<tr class="program' + i + '"></tr>');
-        $('tr.program' + i).append('<td><a href="/programs/' + program['id'] + '">' + program['name'] + '</a></td>');
-        $('tr.program' + i).append('<td><a href="#" class="displayWorkouts btn btn-sm btn-info" data-id="' + program['id'] + '">' + program['workout_templates'].length + '</a></td>');
-      });
-    } else {
-      $('.programList').append('<tr><td>There are no programs to display.</td></tr>');
-    }
-
-    $('.programList').fadeIn(200);
-    showWorkoutTemplates();
-  }
-
-  getProgramsData();
+getProgramsData();
 
 
-  function showWorkoutTemplates(){
-    $(document).on('click', '.displayWorkouts', function(event){
-      event.preventDefault();
+function showWorkoutTemplates(){
+  $(document).on('click', '.displayWorkouts', function(event){
+    event.preventDefault();
 
-      $('td.workoutTemplates').remove();
+    $('td.workoutTemplates').remove();
 
-      var row_index = $(this).parent().parent().index();
-      $('tr.program' + row_index).after($('<tr><td colspan="2" class="workoutTemplates errorMessage"></td></tr>'));
-      $('td.workoutTemplates').hide();
+    var row_class = $(this).parent().parent().attr('class');
 
-      getProgramData($(this).data('id'));
-      // $('td.workoutTemplates').fadeIn(200);
+    $('tr.' + row_class).after($('<tr><td colspan="2" class="workoutTemplates errorMessage"></td></tr>'));
+    $('td.workoutTemplates').hide();
 
-    });
-  }
+    getProgramData($(this).data('id'));
+    // $('td.workoutTemplates').fadeIn(200);
+
+  });
+}
 
 
 
@@ -169,174 +172,150 @@ function programsIndex(){
 
 
 // below are the functions concerned with rendering the dynamic forms.
-  var workout_templates = [];
+var workout_templates = [];
 
-  function newProgram(){
-    $('.newProgram').click(function(event){
+function newProgram(){
+  $('.newProgram').click(function(event){
+    event.preventDefault();
+
+    addFormArea();
+  });
+}
+
+function addFormArea(){
+
+  var formArea = '' +
+  '<form class="new_program" id="new_program">' +
+    '<div class="fieldZone"></div>' +
+    '<div class="selectZone"></div>' +
+    '<div class="buttonZone"></div>' +
+    '</div>' +
+  '</form>'
+
+  $('#newProgram').html(formArea).hide().fadeIn(500);
+
+  populateForm();
+}
+
+
+function populateForm(){
+  var elements = new Elements;
+  $('div.fieldZone').append(elements.nameField);
+  $('div.fieldZone').append(elements.descriptionField);
+  $('div.buttonZone').append(elements.addWorkoutButton);
+  $('div.buttonZone').append(elements.removeWorkoutButton);
+  $('.removeWorkout').hide();
+
+  addWorkout();
+}
+
+function addWorkout(){
+  $('.addWorkout').click(function(event){
       event.preventDefault();
 
-      addFormArea();
-    });
-  }
-
-  function addFormArea(){
-
-    var formArea = '' +
-    '<form class="new_program" id="new_program">' +
-      '<div class="fieldZone"></div>' +
-      '<div class="selectZone"></div>' +
-      '<div class="buttonZone"></div>' +
-      '</div>' +
-    '</form>'
-
-    $('#newProgram').html(formArea).hide().fadeIn(500);
-
-    populateForm();
-  }
-
-
-  function populateForm(){
-    var elements = new Elements;
-    $('div.fieldZone').append(elements.nameField);
-    $('div.fieldZone').append(elements.descriptionField);
-    $('div.buttonZone').append(elements.addWorkoutButton);
-    $('div.buttonZone').append(elements.removeWorkoutButton);
-    $('.removeWorkout').hide();
-
-    addWorkout();
-  }
-
-  function addWorkout(){
-    $('.addWorkout').click(function(event){
-        event.preventDefault();
-
-        if(workout_templates.length == 0){
-          getWorkoutTemplates();
-        } else {
-          renderWTSelectMenu(workout_templates);
-        }
-
-        $('.addWorkout').text('Add Another Workout');
-
-        if( $('.selectZone div').length > 1 ){
-          $('.removeWorkout').show();
-          removeWorkout();
-        }
-
-        if($('.saveProgram').length == 0){
-          var elements = new Elements;
-          $('div.buttonZone').append(elements.saveProgramButton);
-          saveProgram();
-        }
-    });
-  }
-
-  function saveProgram(){
-    $(document).on('click', '.saveProgram', function(event){
-      event.preventDefault();
-
-      var name = $('#program_name').val();
-      var description = $('#program_description').val();
-      var workout_templates_attributes = {};
-
-      $('.selectWorkout').each(function(index){
-        workout_templates_attributes[index.toString()] = {"id": $(this).val()};
-      });
-
-      $.ajax({
-        url: '/programs',
-        method: 'POST',
-        dataType: 'json',
-        data: {
-          program: {
-            'name': name,
-            'description': description,
-            'workout_templates_attributes': workout_templates_attributes
-            // "program"=>{"name"=>"", "description"=>"", "workout_templates_attributes"=>{"0"=>{"id"=>"1"}, "1"=>{"id"=>"1"}}}
-          }
-        }
-      })
-      .complete(function(res){
-        console.log(res);
-      });
-
-      resetProgramPage();
-    });
-  }
-
-  function resetProgramPage(){
-    $('#newProgram').hide(200, function(){
-      $( this ).remove();
-    });
-    getProgramsData();
-  }
-
-  function removeWorkout(){
-    $(document).on('click', '.removeWorkout', function(event){
-      event.preventDefault();
-
-      if( $('.selectZone div').length > 1 ){
-        $('.selectZone div:last').hide(200, function(){
-          $(this).remove();
-        });
+      if(workout_templates.length == 0){
+        getWorkoutTemplates();
+      } else {
+        renderWTSelectMenu(workout_templates);
       }
 
-    });
-  }
+      $('.addWorkout').text('Add Another Workout');
 
-  function getWorkoutTemplates(){
-    $.get('/workout_templates.json', function(data){
-        wts = [];
+      if( $('.selectZone div').length > 1 ){
+        $('.removeWorkout').show();
+        removeWorkout();
+      }
 
-        data.workout_templates.forEach(function(wt, i){
-          var x = new WorkoutTemplate(
-            wt.description,
-            wt.exercise_templates,
-            wt.id,
-            wt.name,
-            wt.owner_id
-          );
+      if($('.saveProgram').length == 0){
+        var elements = new Elements;
+        $('div.buttonZone').append(elements.saveProgramButton);
+        saveProgram();
+      }
+  });
+}
 
-          wts.push(x);
-          workout_templates.push(x); // use this array to reuse workout_templates list.
-        });
+function saveProgram(){
+  $(document).on('click', '.saveProgram', function(event){
+    event.preventDefault();
 
-        renderWTSelectMenu(wts);
-    });
-  }
+    var name = $('#program_name').val();
+    var description = $('#program_description').val();
+    var workout_templates_attributes = {};
 
-  function renderWTSelectMenu(wts){
-    var form = new Elements();
-    $('.selectZone').append(form.selectWorkout);
-    wts.forEach(function(wt, i){
-      $('.selectWorkout:last').append(wt.asOption(wt.id));
+    $('.selectWorkout').each(function(index){
+      workout_templates_attributes[index.toString()] = {"id": $(this).val()};
     });
 
-    $('.selectZone div:last').hide().show(200);
-  }
+    $.ajax({
+      url: '/programs',
+      method: 'POST',
+      dataType: 'json',
+      data: {
+        program: {
+          'name': name,
+          'description': description,
+          'workout_templates_attributes': workout_templates_attributes
+          // "program"=>{"name"=>"", "description"=>"", "workout_templates_attributes"=>{"0"=>{"id"=>"1"}, "1"=>{"id"=>"1"}}}
+        }
+      }
+    })
+    .complete(function(res){
+      console.log(res);
+    });
 
-  // function renderDynamicFields(wts){
-  //   var form = new Elements();
-  //   // $('.dynamicZone').append(form.selectWorkout);
-  //   $('.dynamicZone').append(form.addThisWorkout);
-  //   $('.dynamicZone').append(form.removeWorkout);
-  //   $('.addWorkout').hide();
+    resetProgramPage();
+  });
+}
 
-    // wts.forEach(function(wt, i){
-    //   $('.selectWorkout').append(wt.asOption());
-    // });
-  // }
+function resetProgramPage(){
+  $('#newProgram').hide(200, function(){
+    $( this ).remove();
+  });
+  getProgramsData();
+}
 
+function removeWorkout(){
+  $(document).on('click', '.removeWorkout', function(event){
+    event.preventDefault();
 
+    if( $('.selectZone div').length > 1 ){
+      $('.selectZone div:last').hide(200, function(){
+        $(this).remove();
+      });
+    }
 
-  // function workoutTemplatesNew(){
-  //   $('.newWorkoutTemplate').click(function(event){
-  //     $('#newWorkoutTemplate').html('<p>New Workout Template Goes Here.</p>');
-  //     event.preventDefault();
-  //   });
-  // }
+  });
+}
 
-  newProgram();
+function getWorkoutTemplates(){
+  $.get('/workout_templates.json', function(data){
+      wts = [];
+
+      data.workout_templates.forEach(function(wt, i){
+        var x = new WorkoutTemplate(
+          wt.description,
+          wt.exercise_templates,
+          wt.id,
+          wt.name,
+          wt.owner_id
+        );
+
+        wts.push(x);
+        workout_templates.push(x); // use this array to reuse workout_templates list.
+      });
+
+      renderWTSelectMenu(wts);
+  });
+}
+
+function renderWTSelectMenu(wts){
+  var form = new Elements();
+  $('.selectZone').append(form.selectWorkout);
+  wts.forEach(function(wt, i){
+    $('.selectWorkout:last').append(wt.asOption(wt.id));
+  });
+
+  $('.selectZone div:last').hide().show(200);
 }
 
 // end program form logic
