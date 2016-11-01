@@ -139,7 +139,7 @@ function renderProgramsData(programs){
         '<td><a href="#" class="displayWorkouts btn btn-sm btn-info" data-id="' +
         program['id'] +
         '">' +
-        'View (' + program["workout_templates"].length + ')' + 
+        'View (' + program["workout_templates"].length + ')' +
         '</a></td>'
       );
     });
@@ -189,6 +189,7 @@ function newProgram(){
 }
 
 function addFormArea(){
+  $('div#newWorkoutTemplate').before('<div id="newProgram"></div>');
 
   var formArea = '' +
   '<form class="new_program" id="new_program">' +
@@ -261,7 +262,11 @@ function saveProgram(){
           'name': name,
           'description': description,
           'workout_templates_attributes': workout_templates_attributes
-          // "program"=>{"name"=>"", "description"=>"", "workout_templates_attributes"=>{"0"=>{"id"=>"1"}, "1"=>{"id"=>"1"}}}
+          // "program"=>
+            //{"name"=>"",
+            // "description"=>"",
+            // "workout_templates_attributes"=>
+              // {"0"=>{"id"=>"1"}, "1"=>{"id"=>"1"}}}
         }
       }
     })
