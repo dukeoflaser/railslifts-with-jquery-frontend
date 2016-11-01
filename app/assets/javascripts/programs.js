@@ -71,6 +71,8 @@ function renderWorkoutTemplates(program){
         $('table.wt' + i + ' tr.et' + ii).append('<td>' + et['rest'] + '</td>');
       });
   });
+
+  $('td.workoutTemplates').fadeIn(200);
 }
 
 
@@ -148,14 +150,14 @@ function programsIndex(){
     $(document).on('click', '.displayWorkouts', function(event){
       event.preventDefault();
 
-      $('tr.workoutTemplates').remove();
+      $('td.workoutTemplates').remove();
 
       var row_index = $(this).parent().parent().index();
-      $('tr.program' + row_index).after($('<tr class="workoutTemplates"></tr>'));
-      $('tr.workoutTemplates').hide();
+      $('tr.program' + row_index).after($('<tr><td colspan="2" class="workoutTemplates"></td></tr>'));
+      $('td.workoutTemplates').hide();
 
       getProgramData($(this).data('id'));
-      $('tr.workoutTemplates').show(200);
+      // $('td.workoutTemplates').fadeIn(200);
 
     });
   }
