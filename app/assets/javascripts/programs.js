@@ -147,13 +147,17 @@ function addWorkout(){
 
       $('.addWorkout').text('Add Another Workout');
 
-      if( $('.selectZone div').length > 1 ){
-        $('.removeWorkout').show();
-        removeWorkout();
-      }
 
+      checkRemoveWorkout();
       checkSaveProgram();
   });
+}
+
+function checkRemoveWorkout(){
+  if( $('.selectZone div').length > 1 ){
+    $('.removeWorkout').show();
+    removeWorkout();
+  }
 }
 
 function checkSaveProgram(){
