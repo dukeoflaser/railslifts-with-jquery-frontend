@@ -287,40 +287,42 @@ function checkSaveProgram(){
 }
 
 function saveProgram(){
+
   $(document).on('click', '.saveProgram', function(event){
     event.preventDefault();
+    if (event.handled !== true){
 
-    var name = $('#program_name').val();
-    var description = $('#program_description').val();
-    var workout_templates_attributes = {};
+      var name = $('#program_name').val();
+      var description = $('#program_description').val();
+      var workout_templates_attributes = {};
 
-    $('.selectWorkout').each(function(index){
-      workout_templates_attributes[index.toString()] = {"id": $(this).val()};
-    });
+      $('.selectWorkout').each(function(index){
+        workout_templates_attributes[index.toString()] = {"id": $(this).val()};
+      });
 
-    $.ajax({
-      url: '/programs',
-      method: 'POST',
-      dataType: 'json',
-      data: {
-        program: {
-          'name': name,
-          'description': description,
-          'workout_templates_attributes': workout_templates_attributes
-          // "program"=>
-            //{"name"=>"",
-            // "description"=>"",
-            // "workout_templates_attributes"=>
-              // {"0"=>{"id"=>"1"}, "1"=>{"id"=>"1"}}}
+      $.ajax({
+        url: '/programs',
+        method: 'POST',
+        data: {
+          program: {
+            'name': name,
+            'description': description,
+            'workout_templates_attributes': workout_templates_attributes
+          }
         }
-      }
-    })
-    .complete(function(res){
-      console.log(res);
-    });
+      })
+      .success(function(res){
+        console.log('Done!');
+        console.log(res);
+        resetProgramPage();
+      });
 
-    resetProgramPage();
+      event.handled = true;
+    }
+
+      return false;
   });
+
 }
 
 function resetProgramPage(){
