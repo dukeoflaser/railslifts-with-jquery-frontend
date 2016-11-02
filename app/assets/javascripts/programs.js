@@ -81,141 +81,12 @@ function tableTemplate(){
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+var workout_templates = [];
 
 function programsIndex(){
   newProgram();
   resetProgramPage();
 }
-
-
-//why does this get fired twice when switch between programs and my programs?
-//answer: Turbolinks. How to work with Turbolinks is the real question.
-
-function getProgramsData(){
-
-    $.get('/programs.json', function(data){
-
-      if(window.location.pathname == '/my_programs'){
-        $.get('/user-data.json', function(res){
-          var my_programs = [];
-
-          data['programs'].forEach(function(p, i){
-            if(p.owner_id == res.user.id ){
-              my_programs.push(p);
-            }
-          });
-
-          var programs = new ProgramList(my_programs);
-
-          renderProgramsData(programs);
-        }).fail(function(){
-          renderError();
-        });
-      } else {
-        var programs = new ProgramList(data['programs']);
-
-        renderProgramsData(programs);
-      }
-
-
-    }).fail(function(){
-      renderError();
-    });
-}
-
-function renderProgramsData(programs){
-  $('.programList').hide();
-  $('.programList').html('');
-
-  if(programs.list.length > 0){
-    programs.list.forEach(function(program, i){
-      $('.programList').append('<tr class="program' + i + '"></tr>');
-      $('tr.program' + i).append('<td><a href="/programs/' + program['id'] + '">' + program['name'] + '</a></td>');
-      $('tr.program' + i).append(
-        '<td><a href="#" class="displayWorkouts btn btn-sm btn-info" data-id="' +
-        program['id'] +
-        '">' +
-        'View (' + program["workout_templates"].length + ')' +
-        '</a></td>'
-      );
-    });
-  } else {
-    $('.programList').append('<tr><td>There are no programs to display.</td></tr>');
-  }
-
-  $('.programList').fadeIn(200);
-  showWorkoutTemplates();
-}
-
-function showWorkoutTemplates(){
-  $(document).on('click', '.displayWorkouts', function(event){
-    event.preventDefault();
-    if(event.handled !== true){
-
-      $('td.workoutTemplates').remove();
-
-      var row_class = $(this).parent().parent().attr('class');
-
-      $('tr.' + row_class).after($('<tr><td colspan="2" class="workoutTemplates errorMessage"></td></tr>'));
-      $('td.workoutTemplates').hide();
-
-      getProgramData($(this).data('id'));
-
-
-      event.handled = true;
-    }
-
-    return false;
-
-
-
-  });
-}
-
-
-
-
-
-
-
-// below are the functions concerned with rendering the dynamic forms.
-var workout_templates = [];
 
 function newProgram(){
   $('.newProgram').click(function(event){
@@ -224,6 +95,18 @@ function newProgram(){
     addFormArea();
   });
 }
+
+function resetProgramPage(){
+  $('#newProgram').hide(200, function(){
+    $(this).remove();
+  });
+  getProgramsData();
+}
+
+
+
+
+
 
 function addFormArea(){
   $('div#newWorkoutTemplate').before('<div id="newProgram"></div>');
@@ -240,7 +123,6 @@ function addFormArea(){
 
   populateForm();
 }
-
 
 function populateForm(){
   var elements = new Elements;
@@ -272,15 +154,6 @@ function addWorkout(){
 
       checkSaveProgram();
   });
-}
-
-function renderSaveButton(){
-  var elements = new Elements;
-  $('div.buttonZone').append(elements.saveProgramButton);
-}
-
-function removeSaveButton(){
-  $('a.saveProgram').remove();
 }
 
 function checkSaveProgram(){
@@ -324,9 +197,7 @@ function saveProgram(){
           }
         }
       })
-      .success(function(res){
-        console.log('Done!');
-        console.log(res);
+      .success(function(){
         resetProgramPage();
       });
 
@@ -335,14 +206,106 @@ function saveProgram(){
 
       return false;
   });
-
 }
 
-function resetProgramPage(){
-  $('#newProgram').hide(200, function(){
-    $( this ).remove();
+
+
+
+
+//why does this get fired twice when switch between programs and my programs?
+//answer: Turbolinks. How to work with Turbolinks is the real question.
+
+function getProgramsData(){
+
+    $.get('/programs.json', function(data){
+
+      if(window.location.pathname == '/my_programs'){
+        $.get('/user-data.json', function(res){
+          var my_programs = [];
+
+          data['programs'].forEach(function(p, i){
+            if(p.owner_id == res.user.id ){
+              my_programs.push(p);
+            }
+          });
+
+          var programs = new ProgramList(my_programs);
+
+          renderProgramsData(programs);
+        }).fail(function(){
+          renderError();
+        });
+      } else {
+        var programs = new ProgramList(data['programs']);
+
+        renderProgramsData(programs);
+      }
+    }).fail(function(){
+      renderError();
+    });
+}
+
+function renderProgramsData(programs){
+  $('.programList').hide();
+  $('.programList').html('');
+
+  if(programs.list.length > 0){
+    programs.list.forEach(function(program, i){
+      $('.programList').append('<tr class="program' + i + '"></tr>');
+      $('tr.program' + i).append('<td><a href="/programs/' + program['id'] + '">' + program['name'] + '</a></td>');
+      $('tr.program' + i).append(
+        '<td><a href="#" class="displayWorkouts btn btn-sm btn-info" data-id="' +
+        program['id'] +
+        '">' +
+        'View (' + program["workout_templates"].length + ')' +
+        '</a></td>'
+      );
+    });
+  } else {
+    $('.programList').append('<tr><td>There are no programs to display.</td></tr>');
+  }
+
+  $('.programList').fadeIn(200);
+  showWorkoutTemplates();
+}
+
+function showWorkoutTemplates(){
+  $(document).on('click', '.displayWorkouts', function(event){
+    event.preventDefault();
+    if(event.handled !== true){
+
+      $('td.workoutTemplates').remove();
+
+      var row_class = $(this).parent().parent().attr('class');
+
+      $('tr.' + row_class).after($('<tr><td colspan="2" class="workoutTemplates errorMessage"></td></tr>'));
+      $('td.workoutTemplates').hide();
+
+      getProgramData($(this).data('id'));
+      event.handled = true;
+    }
+
+    return false;
   });
-  getProgramsData();
+}
+
+
+
+
+
+
+
+
+
+
+
+function renderSaveButton(){
+  var elements = new Elements;
+  $('div.buttonZone').append(elements.saveProgramButton);
+}
+
+function removeSaveButton(){
+  $('a.saveProgram').remove();
 }
 
 function removeWorkout(){
@@ -389,29 +352,6 @@ function renderWTSelectMenu(wts){
   $('.selectZone div:last').hide().show(200);
   checkSaveProgram();
 }
-
-// end program form logic
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
