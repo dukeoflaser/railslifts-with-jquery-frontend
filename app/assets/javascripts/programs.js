@@ -182,15 +182,24 @@ function renderProgramsData(programs){
 function showWorkoutTemplates(){
   $(document).on('click', '.displayWorkouts', function(event){
     event.preventDefault();
+    if(event.handled !== true){
 
-    $('td.workoutTemplates').remove();
+      $('td.workoutTemplates').remove();
 
-    var row_class = $(this).parent().parent().attr('class');
+      var row_class = $(this).parent().parent().attr('class');
 
-    $('tr.' + row_class).after($('<tr><td colspan="2" class="workoutTemplates errorMessage"></td></tr>'));
-    $('td.workoutTemplates').hide();
+      $('tr.' + row_class).after($('<tr><td colspan="2" class="workoutTemplates errorMessage"></td></tr>'));
+      $('td.workoutTemplates').hide();
 
-    getProgramData($(this).data('id'));
+      getProgramData($(this).data('id'));
+
+
+      event.handled = true;
+    }
+
+    return false;
+
+
 
   });
 }
