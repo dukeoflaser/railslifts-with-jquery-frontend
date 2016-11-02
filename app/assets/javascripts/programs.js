@@ -2,10 +2,6 @@ function programsShow(){
   getProgramData();
 }
 
-function getId(){
-  return $('[data-id]').attr('data-id');
-}
-
 function getProgramData(id){
   if(id === undefined) var id = getId();
 
@@ -26,22 +22,13 @@ function getProgramData(id){
   });
 }
 
+function getId(){
+  return $('[data-id]').attr('data-id');
+}
+
 function renderProgramData(program){
   renderProgramInfo(program);
   renderWorkoutTemplates(program);
-}
-
-function tableTemplate(){
-  var tableTemplate = '' +
-    '<tr>' +
-      '<th>Exercise</th>' +
-      '<th>Sets</th>' +
-      '<th>Reps</th>' +
-      '<th>Weight (lbs)</th>' +
-      '<th>Rest (seconds)</th>' +
-    '</tr>';
-
-  return tableTemplate;
 }
 
 function renderProgramInfo(program){
@@ -74,6 +61,23 @@ function renderWorkoutTemplates(program){
 
   $('td.workoutTemplates').fadeIn(200);
 }
+
+function tableTemplate(){
+  var tableTemplate = '' +
+    '<tr>' +
+      '<th>Exercise</th>' +
+      '<th>Sets</th>' +
+      '<th>Reps</th>' +
+      '<th>Weight (lbs)</th>' +
+      '<th>Rest (seconds)</th>' +
+    '</tr>';
+
+  return tableTemplate;
+}
+
+
+
+
 
 
 
