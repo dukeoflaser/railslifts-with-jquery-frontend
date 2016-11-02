@@ -42,8 +42,8 @@ class ProgramsController < ApplicationController
     @program = Program.find(params[:id])
     redirect_to program_path(@program) if @program.owner_id != current_user.id
 
-    # @templates = get_workout_template_ids
-    # @program.workout_templates.clear.build
+    @templates = get_workout_template_ids
+    @program.workout_templates.clear.build
   end
 
   def update
