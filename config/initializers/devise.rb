@@ -267,4 +267,6 @@ Devise.setup do |config|
   # config.omniauth_path_prefix = '/my_engine/users/auth'
   # config.omniauth :facebook, ENV['FACEBOOK_KEY'], ENV['FACEBOOK_SECRET']
   config.omniauth :facebook, "1727731910823949", "57e597a172e447f961a240f3ad049811"
+
+  config.secret_key = 'b9ec3528ee401f8c22e24cddce4c90ee6970452e4b11f0f422f11e0cbe5906800f1d790228f57f818dac2b5df831578e572a5325e4025f4cdaa5726f469bc927'
 end
