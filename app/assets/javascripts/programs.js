@@ -385,9 +385,9 @@ function WorkoutTemplate(desc, et, id, name, owner_id){
   this.owner_id = owner_id;
   this.asOption = function(val, selected){
     if(selected){
-      return `<option selected="selected" value="${val}">${this.name}</option>`;
+      return '<option selected="selected" value="' + val + '">' + this.name + '</option>';
     } else {
-      return `<option value="${val}">${this.name}</option>`;
+      return '<option value="' + val + '">' + this.name + '</option>';
     }
   }
 }
