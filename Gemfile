@@ -22,7 +22,7 @@ gem 'jquery-rails'
 gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
-
+  gem 'pg'
 gem 'devise'
 gem 'omniauth'
 gem 'omniauth-facebook'
@@ -40,12 +40,10 @@ group :development do
   gem 'web-console', '~> 2.0'
   gem 'pry'
   gem 'pry-nav'
-  gem 'sqlite3'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
 end
 
 group :production do
-  gem 'pg'
   gem 'rails_12factor'
 end

@@ -3,7 +3,7 @@ class CreateExercises < ActiveRecord::Migration
     create_table :exercises do |t|
       t.string :name
       t.string :reps
-      t.string :weight
+      t.integer :weight
       t.integer :rest
 
       t.timestamps null: false
