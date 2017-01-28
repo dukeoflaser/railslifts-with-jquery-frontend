@@ -21,7 +21,7 @@ class WorkoutTemplatesController < ApplicationController
     @text = values[2]
 
     respond_to do |format|
-      format.html { render :html }
+      format.html { render :index }
       format.json { render json: @workout_templates }
     end
   end
