@@ -78,14 +78,6 @@ class WorkoutTemplatesController < ApplicationController
     redirect_to workout_templates_path
   end
 
-
-
-
-
-
-
-
-
   def workout_template_params
     params.require(:workout_template).permit(
       :name,
