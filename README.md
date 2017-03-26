@@ -12,7 +12,7 @@ This project is part of <a href="http://learn.co">FlatIron's Learn-Verified</a> 
 # Installation
 
 Assuming `git` is installed:<br />
-1.) Fork or clone this repo: `git clone https://github.com/dukeoflaser/railslifts-with-jquery-frontend`<br />
+1.) Fork or clone this repo: `git clone https://github.com/nathaniel-miller/railslifts-with-jquery-frontend`<br />
 2.) From your command line, navigate to the `railslifts-with-jquery-frontend` directory.<br />
 3.) run `bundle install`. If bundler is not already installed, install it with `gem install bundler -v 1.12`. (As of the time of this writing, the current version of bundler is 1.13 and has had some issues). Version 1.12 is currently more stable.<br />
 4.) Run the migrations to create the database/schema. `rake db:migrate`<br />
